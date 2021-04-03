@@ -16,9 +16,9 @@ import frc.robot.commands.defaultCommands.MagIntakeDefault;
 
 public class MagIntake extends SubsytemBaseEnhanced {
 
-    //private final TalonFX lowMag = new TalonFX(Constants.BOTTOM_MAG_ID);
-    // private final TalonFX middleMag = new TalonFX(Constants.MIDDLE_MAG_ID);
-    // private final TalonFX highMag = new TalonFX(Constants.HIGH_MAG_ID);
+    private final TalonFX lowMag = new TalonFX(Constants.BOTTOM_MAG_ID);
+    private final TalonFX middleMag = new TalonFX(Constants.MIDDLE_MAG_ID);
+    private final TalonFX highMag = new TalonFX(Constants.HIGH_MAG_ID);
 
     public MagIntake() {}
 
