@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.defaultCommands.DriveDefault;
@@ -16,9 +18,25 @@ import frc.robot.commands.defaultCommands.MagIntakeDefault;
 
 public class MagIntake extends SubsytemBaseEnhanced {
 
+    public enum BeamBreakID {
+        ONE,
+        TWO,
+        THREE,
+        FOUR,
+        FIVE,
+        SIX
+    }
+
     private final TalonFX lowMag = new TalonFX(Constants.BOTTOM_MAG_ID);
     private final TalonFX middleMag = new TalonFX(Constants.MIDDLE_MAG_ID);
     private final TalonFX highMag = new TalonFX(Constants.HIGH_MAG_ID);
+
+    private final DigitalInput beamBreak1 = new DigitalInput(Constants.BEAM_BREAK_1_ID);
+    private final DigitalInput beamBreak2 = new DigitalInput(Constants.BEAM_BREAK_2_ID);
+    private final DigitalInput beamBreak3 = new DigitalInput(Constants.BEAM_BREAK_3_ID);
+    private final DigitalInput beamBreak4 = new DigitalInput(Constants.BEAM_BREAK_4_ID);
+    private final DigitalInput beamBreak5 = new DigitalInput(Constants.BEAM_BREAK_5_ID);
+    private final DigitalInput beamBreak6 = new DigitalInput(Constants.BEAM_BREAK_6_ID);
 
     public MagIntake() {}
 
@@ -34,18 +52,44 @@ public class MagIntake extends SubsytemBaseEnhanced {
     public void teleopInit() {
     }
 
+    public boolean getBeamBreak(BeamBreakID id) {
+        switch (id) {
+            case ONE:
+                return beamBreak1.get();
+            case TWO:
+                return beamBreak2.get();
+            case THREE:
+                return beamBreak3.get();
+            case FOUR:
+                return beamBreak4.get();
+            case FIVE:
+                return beamBreak5.get();
+            case SIX:
+                return beamBreak6.get();
+        }
+        return false;
+    }
+
     public void setLowMagPercent(double percent) {
-        //lowMag.set(ControlMode.PercentOutput, percent);
+        lowMag.set(ControlMode.PercentOutput, percent);
     }
 
     public void setMidMagPercent(double percent) {
-        //middleMag.set(ControlMode.PercentOutput, percent);
+        middleMag.set(ControlMode.PercentOutput, percent);
     }
 
     public void setHighMagPercent(double percent) {
-        //highMag.set(ControlMode.PercentOutput, percent);
+        highMag.set(ControlMode.PercentOutput, percent);
     }
 
+    public void putBeamBreaksSmartDashboard() {
+        SmartDashboard.putBoolean("Beam Break 1", this.getBeamBreak(BeamBreakID.ONE));
+        SmartDashboard.putBoolean("Beam Break 2", this.getBeamBreak(BeamBreakID.TWO));
+        SmartDashboard.putBoolean("Beam Break 3", this.getBeamBreak(BeamBreakID.THREE));
+        SmartDashboard.putBoolean("Beam Break 4", this.getBeamBreak(BeamBreakID.FOUR));
+        SmartDashboard.putBoolean("Beam Break 5", this.getBeamBreak(BeamBreakID.FIVE));
+        SmartDashboard.putBoolean("Beam Break 6", this.getBeamBreak(BeamBreakID.SIX));
+    }
 
     public void setMagPercent(double lowPercent, double midPercent, double highPercent) {
         setLowMagPercent(lowPercent);

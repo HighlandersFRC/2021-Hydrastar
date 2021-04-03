@@ -24,6 +24,12 @@ public final class Constants {
     public static final int BOTTOM_MAG_ID = 5;
     public static final int MIDDLE_MAG_ID = 6;
     public static final int HIGH_MAG_ID = 7;
+    public static final int BEAM_BREAK_1_ID = 1;
+    public static final int BEAM_BREAK_2_ID = 2;
+    public static final int BEAM_BREAK_3_ID = 3;
+    public static final int BEAM_BREAK_4_ID = 4;
+    public static final int BEAM_BREAK_5_ID = 5;
+    public static final int BEAM_BREAK_6_ID = 6;
 
     // Drive constants
     public static final double DRIVE_MAX_VOLTAGE = 11.7;
