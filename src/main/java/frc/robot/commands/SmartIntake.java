@@ -10,6 +10,10 @@ import frc.robot.subsystems.MagIntake.BeamBreakID;
 public class SmartIntake extends CommandBase {
     private MagIntake magIntake;
 
+    private enum MagIntakeStates {
+        
+    }
+
     // private static final double INTAKING_POWER = 1;
     // private static final double MIDDLE_BREAK_3_POWER = 0.3;
     // private static final double LOW_MAG_BREAK_1_POWER = 0.5;
@@ -42,18 +46,29 @@ public class SmartIntake extends CommandBase {
 
     @Override
     public void execute() {
+        //System.out.println("Inside SmartIntake Execute");
         // if (magIntake.getBeamBreak(BeamBreakID.ONE)
         //         & magIntake.getBeamBreak(BeamBreakID.FOUR)
-        //         & magIntake.getBeamBreak(BeamBreakID.SIX)) {
+        //         & magIntake.getBeamBreak(BeamBreakID.FIVE)) {
         //     magIntake.setMagPercent(0, 0, 0);
-        // } else if (!magIntake.getBeamBreak(BeamBreakID.SIX)) {
+        // } else if (!magIntake.getBeamBreak(BeamBreakID.FIVE)) {
         //     magIntake.setMagPercent(0, 0, 0);
+        // } else if(!magIntake.getBeamBreak(BeamBreakID.ONE)) {
+        //     magIntake.setMagPercent(0.4, 0, 0.4);
+        // } else if(!magIntake.getBeamBreak(BeamBreakID.ONE) && !magIntake.getBeamBreak(BeamBreakID.TWO)) {
+        //     magIntake.setMagPercent(0.4, 0, 0.4);
+        // } else if(!magIntake.getBeamBreak(BeamBreakID.TWO) && !magIntake.getBeamBreak(BeamBreakID.THREE)) {
+        //     magIntake.setMagPercent(0.2, 0.4, 0.3);
+        // } else if(!magIntake.getBeamBreak(BeamBreakID.THREE) && !magIntake.getBeamBreak(BeamBreakID.FOUR)) {
+        //     magIntake.setMagPercent(0.1, 0.3, 0.3);
         // }
-        magIntake.setMagPercent(0.2, 0.2, 0.2);
+        magIntake.setMagPercent(0, 0.4, 0);
     }
 
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        magIntake.setMagPercent(0, 0, 0);
+    }
 
     @Override
     public boolean isFinished() {
