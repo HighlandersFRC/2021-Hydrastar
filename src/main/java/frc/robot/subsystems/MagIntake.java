@@ -13,6 +13,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -33,6 +35,8 @@ public class MagIntake extends SubsytemBaseEnhanced {
     private final CANSparkMax lowMag = new CANSparkMax(Constants.BOTTOM_MAG_ID, MotorType.kBrushless);
     private final WPI_VictorSPX middleMag = new WPI_VictorSPX(Constants.MIDDLE_MAG_ID);
     private final CANSparkMax highMag = new CANSparkMax(Constants.HIGH_MAG_ID, MotorType.kBrushless);
+
+    private final DoubleSolenoid intakePiston = new DoubleSolenoid(0,1);
 
     private final DigitalInput beamBreak1 = new DigitalInput(Constants.BEAM_BREAK_1_ID);
     private final DigitalInput beamBreak2 = new DigitalInput(Constants.BEAM_BREAK_2_ID);
@@ -85,6 +89,14 @@ public class MagIntake extends SubsytemBaseEnhanced {
 
     public void setHighMagPercent(double percent) {
         highMag.set(percent);
+    }
+
+    public void setIntakePistonDown() {
+        intakePiston.set(Value.kReverse);
+    }
+
+    public void setIntakePistonUp() {
+        intakePiston.set(Value.kForward);
     }
 
     public void putBeamBreaksSmartDashboard() {

@@ -62,12 +62,19 @@ public class SmartIntake extends CommandBase {
         // } else if(!magIntake.getBeamBreak(BeamBreakID.THREE) && !magIntake.getBeamBreak(BeamBreakID.FOUR)) {
         //     magIntake.setMagPercent(0.1, 0.3, 0.3);
         // }
-        magIntake.setMagPercent(0, 0.4, 0);
+        magIntake.setIntakePistonDown();
+        if(!magIntake.getBeamBreak(BeamBreakID.ONE)) {
+            magIntake.setMagPercent(0.5, 0.5, 0.5);
+        }
+        else {
+            magIntake.setMagPercent(0, 0, 0);
+        }
     }
 
     @Override
     public void end(boolean interrupted) {
         magIntake.setMagPercent(0, 0, 0);
+        magIntake.setIntakePistonUp();
     }
 
     @Override
