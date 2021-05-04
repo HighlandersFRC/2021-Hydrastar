@@ -24,6 +24,7 @@ public final class Constants {
     public static final int BOTTOM_MAG_ID = 5;
     public static final int MIDDLE_MAG_ID = 7;
     public static final int HIGH_MAG_ID = 6;
+    public static final int INTAKE_MOTOR_ID = 8;
     public static final int BEAM_BREAK_1_ID = 0;
     public static final int BEAM_BREAK_2_ID = 3;
     public static final int BEAM_BREAK_3_ID = 2;

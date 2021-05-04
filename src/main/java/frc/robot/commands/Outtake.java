@@ -19,11 +19,15 @@ public class Outtake extends CommandBase {
 
     @Override
     public void execute() {
-        magIntake.setMagPercent(0.2, 0, 0);
+        magIntake.setIntakePercent(0.4);
+        magIntake.setMagPercent(-0.5, 0.5, -0.5);
     }
 
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        magIntake.setIntakePercent(0);
+        magIntake.setMagPercent(0, 0, 0);
+    }
 
     @Override
     public boolean isFinished() {

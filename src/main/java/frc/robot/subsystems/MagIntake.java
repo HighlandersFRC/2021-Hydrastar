@@ -2,6 +2,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.ResourceBundle.Control;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -35,6 +37,8 @@ public class MagIntake extends SubsytemBaseEnhanced {
     private final CANSparkMax lowMag = new CANSparkMax(Constants.BOTTOM_MAG_ID, MotorType.kBrushless);
     private final WPI_VictorSPX middleMag = new WPI_VictorSPX(Constants.MIDDLE_MAG_ID);
     private final CANSparkMax highMag = new CANSparkMax(Constants.HIGH_MAG_ID, MotorType.kBrushless);
+
+    private final WPI_TalonFX intakeMotor = new WPI_TalonFX(Constants.INTAKE_MOTOR_ID);
 
     private final DoubleSolenoid intakePiston = new DoubleSolenoid(0,1);
 
@@ -79,6 +83,10 @@ public class MagIntake extends SubsytemBaseEnhanced {
         return false;
     }
 
+    public void setIntakePercent(double percent) {
+        intakeMotor.set(ControlMode.PercentOutput, percent);
+    }
+
     public void setLowMagPercent(double percent) {
         lowMag.set(percent);
     }
@@ -92,11 +100,11 @@ public class MagIntake extends SubsytemBaseEnhanced {
     }
 
     public void setIntakePistonDown() {
-        intakePiston.set(Value.kReverse);
+        intakePiston.set(Value.kForward);
     }
 
     public void setIntakePistonUp() {
-        intakePiston.set(Value.kForward);
+        intakePiston.set(Value.kReverse);
     }
 
     public void putBeamBreaksSmartDashboard() {

@@ -14,21 +14,6 @@ public class SmartIntake extends CommandBase {
         
     }
 
-    // private static final double INTAKING_POWER = 1;
-    // private static final double MIDDLE_BREAK_3_POWER = 0.3;
-    // private static final double LOW_MAG_BREAK_1_POWER = 0.5;
-    // private static final double HIGH_MAG_BREAK_1_POWER = 0.2;
-    // private static final double MIDDLE_WHEEL_BREAK_1_POWER = 0.6;
-    // private static final double LOW_MAG_BREAK_2_NO_1_POWER = -0.2;
-    // private static final double HIGH_MAG_BREAK_2_NO_1_POWER = 0.4;
-    // private static final double LOW_MAG_BREAK_2_AND_1_POWER = 0.25;
-    // private static final double HIGH_MAG_BREAK_2_AND_1_POWER = 0.35;
-    // private static final double LOW_MAG_BREAK_2_AND_3_POWER = 0.2;
-    // private static final double LOW_MAG_BREAK_2_NO_3_POWER = 0.3;
-    // private static final double HIGH_MAG_BREAK_2_NO_3_POWER = -0.4;
-    // private static final double LOW_MAG_ELSE_POWER = -0.3;
-    // private static final double HIGH_MAG_ELSE_POWER = 0.2;
-
     public SmartIntake(MagIntake magIntake) {
         this.magIntake = magIntake;
         addRequirements(magIntake);
@@ -41,32 +26,18 @@ public class SmartIntake extends CommandBase {
 
     @Override
     public void initialize() {
-        //magIntake.intakePistonDown();
+        //magIntake.setIntakePistonDown();
     }
 
     @Override
     public void execute() {
-        //System.out.println("Inside SmartIntake Execute");
-        // if (magIntake.getBeamBreak(BeamBreakID.ONE)
-        //         & magIntake.getBeamBreak(BeamBreakID.FOUR)
-        //         & magIntake.getBeamBreak(BeamBreakID.FIVE)) {
-        //     magIntake.setMagPercent(0, 0, 0);
-        // } else if (!magIntake.getBeamBreak(BeamBreakID.FIVE)) {
-        //     magIntake.setMagPercent(0, 0, 0);
-        // } else if(!magIntake.getBeamBreak(BeamBreakID.ONE)) {
-        //     magIntake.setMagPercent(0.4, 0, 0.4);
-        // } else if(!magIntake.getBeamBreak(BeamBreakID.ONE) && !magIntake.getBeamBreak(BeamBreakID.TWO)) {
-        //     magIntake.setMagPercent(0.4, 0, 0.4);
-        // } else if(!magIntake.getBeamBreak(BeamBreakID.TWO) && !magIntake.getBeamBreak(BeamBreakID.THREE)) {
-        //     magIntake.setMagPercent(0.2, 0.4, 0.3);
-        // } else if(!magIntake.getBeamBreak(BeamBreakID.THREE) && !magIntake.getBeamBreak(BeamBreakID.FOUR)) {
-        //     magIntake.setMagPercent(0.1, 0.3, 0.3);
-        // }
-        magIntake.setIntakePistonDown();
+        
         if(!magIntake.getBeamBreak(BeamBreakID.ONE)) {
             magIntake.setMagPercent(0.5, 0.5, 0.5);
+            magIntake.setIntakePercent(-0.15);
         }
         else {
+            magIntake.setIntakePercent(-0.65);
             magIntake.setMagPercent(0, 0, 0);
         }
     }
@@ -74,7 +45,8 @@ public class SmartIntake extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         magIntake.setMagPercent(0, 0, 0);
-        magIntake.setIntakePistonUp();
+        magIntake.setIntakePercent(0);
+        //magIntake.setIntakePistonUp();
     }
 
     @Override
