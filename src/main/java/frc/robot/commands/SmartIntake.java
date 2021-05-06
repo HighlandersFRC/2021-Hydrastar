@@ -26,7 +26,7 @@ public class SmartIntake extends CommandBase {
 
     @Override
     public void initialize() {
-        //magIntake.setIntakePistonDown();
+        magIntake.setIntakePistonDown();
     }
 
     @Override
@@ -46,7 +46,7 @@ public class SmartIntake extends CommandBase {
     public void end(boolean interrupted) {
         magIntake.setMagPercent(0, 0, 0);
         magIntake.setIntakePercent(0);
-        //magIntake.setIntakePistonUp();
+        magIntake.setIntakePistonUp();
     }
 
     @Override

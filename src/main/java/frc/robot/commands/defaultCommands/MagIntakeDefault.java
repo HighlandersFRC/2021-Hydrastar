@@ -23,7 +23,7 @@ public class MagIntakeDefault extends CommandBase {
     public void execute() {
         //System.out.println("Hola om");
         magIntake.setMagPercent(0, 0, 0);
-        //magIntake.setIntakePistonUp();
+        magIntake.setIntakePistonUp();
         magIntake.putBeamBreaksSmartDashboard();
     }
 
