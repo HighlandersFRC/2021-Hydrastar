@@ -54,7 +54,7 @@ public class MagIntake extends SubsytemBaseEnhanced {
     public void init() {
         setDefaultCommand(new MagIntakeDefault(this));
         lowMag.setSmartCurrentLimit(10);
-        highMag.setSmartCurrentLimit(2);
+        highMag.setSmartCurrentLimit(10);
     }
 
     @Override
