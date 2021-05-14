@@ -4,13 +4,22 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Outtake;
 import frc.robot.commands.SmartIntake;
+import frc.robot.commands.PurePursuit;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.MagIntake;
+import frc.robot.subsystems.Peripherals;
+import frc.robot.tools.pathing.Odometry;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,7 +30,14 @@ import frc.robot.subsystems.MagIntake;
 public class Robot extends TimedRobot {
   private final Drive drive = new Drive();
   private final MagIntake magIntake = new MagIntake();
+  private final Peripherals peripherals = new Peripherals();
+  private SequentialCommandGroup straightLineAuto;
+  private final Odometry odometry = new Odometry(drive, peripherals);
   private Command m_autonomousCommand;
+
+  private Trajectory straightLineTrajectory;
+
+  private PurePursuit straightLine;
 
   private RobotContainer m_robotContainer;
 
@@ -31,7 +47,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    odometry.zero();
     drive.init();
+    try {
+      straightLineTrajectory = TrajectoryUtil.fromPathweaverJson(
+        Paths.get("/home/lvuser/deploy/StraightLine.json"));
+    }
+    catch (IOException e) {
+      System.out.println("didn't get trajectory");
+      e.printStackTrace();
+  }
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -64,12 +89,23 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    odometry.zero();
+    try {
+      straightLine = new PurePursuit(drive, odometry, straightLineTrajectory, 2.5, 5.0, false);
+      straightLineAuto = new SequentialCommandGroup(straightLine);
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    straightLineAuto.schedule();
+    } catch (Exception e) {
+      System.out.println("Inside Catch");
     }
+    
+
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    // // schedule the autonomous command (example)
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.schedule();
+    // }
   }
 
   /** This function is called periodically during autonomous. */
