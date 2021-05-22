@@ -38,10 +38,10 @@ public class PurePursuit extends CommandBase {
     private Vector distToEndVector;
     private double curveAdjustedVelocity;
     private double k;
-    public double endThetaError;
     private Odometry odometry;
     private boolean inverted;
     private Drive drive;
+    private double initialAngle;
 
     public PurePursuit(
             Drive drive,
@@ -56,6 +56,25 @@ public class PurePursuit extends CommandBase {
         this.k = kValue;
         this.odometry = odometry;
         this.inverted = direction;
+        initialAngle = trajectory.getStates().get(0).poseMeters.getRotation().getDegrees();
+        addRequirements(this.drive);
+    }
+
+    public PurePursuit(
+            Drive drive,
+            Odometry odometry,
+            Trajectory trajectory,
+            double lookAhead,
+            double kValue,
+            boolean direction,
+            double initialAngle) {
+        this.drive = drive;
+        this.trajectory = trajectory;
+        this.lookaheadDistance = lookAhead;
+        this.k = kValue;
+        this.odometry = odometry;
+        this.inverted = direction;
+        this.initialAngle = initialAngle;
         addRequirements(this.drive);
     }
 
@@ -63,7 +82,7 @@ public class PurePursuit extends CommandBase {
     public void initialize() {
         odometry.setX(trajectory.getStates().get(0).poseMeters.getTranslation().getX());
         odometry.setY(trajectory.getStates().get(0).poseMeters.getTranslation().getY());
-        odometry.setTheta(trajectory.getStates().get(0).poseMeters.getRotation().getDegrees());
+        odometry.setTheta(initialAngle);
         odometry.setInverted(inverted);
         distToEndVector = new Vector(12, 12);
         lookaheadPoint = new Point(0, 0);

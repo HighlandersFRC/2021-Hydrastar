@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.commands.defaultCommands.DriveDefault;
 
@@ -99,6 +100,10 @@ public class Drive extends SubsytemBaseEnhanced {
         }
     }
 
+    public void getDriveEncoderTics() {
+        SmartDashboard.putNumber("Drive tics", Constants.driveUnitsToMeters(leftDriveLead.getSelectedSensorPosition() + rightDriveLead.getSelectedSensorPosition())/2);
+    }
+
     public void setLeftPercent(double percent) {
         leftDriveLead.set(ControlMode.PercentOutput, percent);
     }
@@ -116,11 +121,11 @@ public class Drive extends SubsytemBaseEnhanced {
     }
 
     public double getLeftPosition() {
-        return Constants.driveUnitsToFeet(leftDriveLead.getSelectedSensorPosition());
+        return Constants.driveUnitsToMeters(leftDriveLead.getSelectedSensorPosition());
     }
 
     public double getRightPosition() {
-        return Constants.driveUnitsToFeet(rightDriveLead.getSelectedSensorPosition());
+        return Constants.driveUnitsToMeters(rightDriveLead.getSelectedSensorPosition());
     }
 
     public double getLeftSpeed() {

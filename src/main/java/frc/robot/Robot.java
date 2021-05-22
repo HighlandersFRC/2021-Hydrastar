@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
     drive.init();
     try {
       straightLineTrajectory = TrajectoryUtil.fromPathweaverJson(
-        Paths.get("/home/lvuser/deploy/StraightLine.json"));
+        Paths.get("/home/lvuser/deploy/CurvedPath.json"));
     }
     catch (IOException e) {
       System.out.println("didn't get trajectory");
@@ -71,6 +71,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    drive.getDriveEncoderTics();
     magIntake.putBeamBreaksSmartDashboard();
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
