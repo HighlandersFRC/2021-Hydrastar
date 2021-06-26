@@ -74,6 +74,10 @@ public class Drive extends SubsytemBaseEnhanced {
         setDriveCoast();
         leftDriveLead.setSelectedSensorPosition(0);
         rightDriveLead.setSelectedSensorPosition(0);
+        rightDriveLead.setInverted(true);
+        rightDriveFollower.setInverted(InvertType.FollowMaster);
+        leftDriveLead.setInverted(false);
+        leftDriveFollower.setInverted(InvertType.FollowMaster);
     }
 
     public void setVoltageCompensation(double volts) {
@@ -94,6 +98,13 @@ public class Drive extends SubsytemBaseEnhanced {
         }
     }
 
+    public void inverseDriveMotors(boolean inverted) {
+        leftDriveLead.setInverted(inverted);
+        rightDriveLead.setInverted(inverted);
+        rightDriveFollower.setInverted(InvertType.FollowMaster);
+        leftDriveFollower.setInverted(InvertType.FollowMaster);
+    }
+
     public void setDriveCoast() {
         for (WPI_TalonFX t : driveMotors) {
             t.setNeutralMode(NeutralMode.Coast);
@@ -102,6 +113,11 @@ public class Drive extends SubsytemBaseEnhanced {
 
     public void getDriveEncoderTics() {
         SmartDashboard.putNumber("Drive tics", Constants.driveUnitsToMeters(leftDriveLead.getSelectedSensorPosition() + rightDriveLead.getSelectedSensorPosition())/2);
+    }
+
+    public void zeroDriveEncoderTics() {
+        leftDriveLead.setSelectedSensorPosition(0);
+        rightDriveLead.setSelectedSensorPosition(0);
     }
 
     public void setLeftPercent(double percent) {

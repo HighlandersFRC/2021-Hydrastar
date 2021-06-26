@@ -8,11 +8,13 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.FlipMotors;
 import frc.robot.commands.Outtake;
 import frc.robot.commands.SmartIntake;
 import frc.robot.commands.PurePursuit;
@@ -31,13 +33,15 @@ public class Robot extends TimedRobot {
   private final Drive drive = new Drive();
   private final MagIntake magIntake = new MagIntake();
   private final Peripherals peripherals = new Peripherals();
-  private SequentialCommandGroup straightLineAuto;
+  private SequentialCommandGroup autoCommand;
   private final Odometry odometry = new Odometry(drive, peripherals);
   private Command m_autonomousCommand;
 
-  private Trajectory straightLineTrajectory;
+  private Trajectory autoPart1;
+  private Trajectory autoPart2;
 
-  private PurePursuit straightLine;
+  private PurePursuit autoPathPart1;
+  private PurePursuit autoPathPart2;
 
   private RobotContainer m_robotContainer;
 
@@ -50,13 +54,15 @@ public class Robot extends TimedRobot {
     odometry.zero();
     drive.init();
     try {
-      straightLineTrajectory = TrajectoryUtil.fromPathweaverJson(
-        Paths.get("/home/lvuser/deploy/CurvedPath.json"));
+      autoPart1 = TrajectoryUtil.fromPathweaverJson(
+        Paths.get("/home/lvuser/deploy/AutoPath1.json"));
+      autoPart2 = TrajectoryUtil.fromPathweaverJson(
+        Paths.get("/home/lvuser/deploy/AutoPath2.json"));
     }
     catch (IOException e) {
       System.out.println("didn't get trajectory");
       e.printStackTrace();
-  }
+    }
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -73,6 +79,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     drive.getDriveEncoderTics();
     magIntake.putBeamBreaksSmartDashboard();
+    SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -91,11 +98,15 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     odometry.zero();
+    drive.zeroDriveEncoderTics();
+    SmartDashboard.putNumber("Position X", odometry.getX());
+    SmartDashboard.putNumber("Position Y", odometry.getY());
+    SmartDashboard.putNumber("Position Theta", odometry.getTheta());
     try {
-      straightLine = new PurePursuit(drive, odometry, straightLineTrajectory, 2.5, 5.0, false);
-      straightLineAuto = new SequentialCommandGroup(straightLine);
-
-    straightLineAuto.schedule();
+      autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 15, 5.0, false);
+      autoPathPart2 = new PurePursuit(drive, odometry, autoPart2, 2.5, 1.0, false);
+      autoCommand = new SequentialCommandGroup(autoPathPart1, autoPathPart2);
+      autoCommand.schedule();
     } catch (Exception e) {
       System.out.println("Inside Catch");
     }
@@ -115,6 +126,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    // flipUninverted.schedule();
+    drive.teleopInit();
     OI.driverRT.whileHeld(new SmartIntake(magIntake));
     OI.driverLT.whileHeld(new Outtake(magIntake));
     // This makes sure that the autonomous stops running when

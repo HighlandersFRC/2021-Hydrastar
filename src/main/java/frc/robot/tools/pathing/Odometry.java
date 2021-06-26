@@ -49,6 +49,7 @@ public class Odometry {
         dLeft = 0;
         dRight = 0;
         dCentre = 0;
+        peripherals.zeroNavx();
     }
 
     public void setLeft(double left) {
