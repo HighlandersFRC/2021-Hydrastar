@@ -112,8 +112,8 @@ public class Odometry {
             dLeft = currentLeft - left;
             dRight = currentRight - right;
             dCentre = (dLeft + dRight) / 2;
-            currentX = x - dCentre * Math.cos(Math.toRadians(currentTheta));
-            currentY = y -  dCentre * Math.sin(Math.toRadians(currentTheta));
+            currentX = x + dCentre * Math.cos(Math.toRadians(currentTheta));
+            currentY = y +  dCentre * Math.sin(Math.toRadians(currentTheta));
         }
         x = currentX;
         y = currentY;

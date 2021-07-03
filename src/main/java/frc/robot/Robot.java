@@ -103,9 +103,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Position Y", odometry.getY());
     SmartDashboard.putNumber("Position Theta", odometry.getTheta());
     try {
-      autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 14, 5.0, false);
-      autoPathPart2 = new PurePursuit(drive, odometry, autoPart2, 2.5, 1.0, false);
-      autoCommand = new SequentialCommandGroup(new ParallelRaceGroup(autoPathPart1, new SmartIntake(magIntake)), autoPathPart2);
+      autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 75, 1.0, true);
+      autoPathPart2 = new PurePursuit(drive, odometry, autoPart2, 18, 5.0, false);
+      autoCommand = new SequentialCommandGroup(new ParallelRaceGroup(autoPathPart1, new SmartIntake(magIntake)));
       autoCommand.schedule();
     } catch (Exception e) {
       System.out.println("Inside Catch");
