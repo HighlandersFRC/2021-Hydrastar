@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.FlipMotors;
 import frc.robot.commands.Outtake;
@@ -55,9 +56,9 @@ public class Robot extends TimedRobot {
     drive.init();
     try {
       autoPart1 = TrajectoryUtil.fromPathweaverJson(
-        Paths.get("/home/lvuser/deploy/AutoPath1.json"));
+        Paths.get("/home/lvuser/deploy/AutoPart1.json"));
       autoPart2 = TrajectoryUtil.fromPathweaverJson(
-        Paths.get("/home/lvuser/deploy/AutoPath2.json"));
+        Paths.get("/home/lvuser/deploy/AutoPart2.json"));
     }
     catch (IOException e) {
       System.out.println("didn't get trajectory");
@@ -99,13 +100,12 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     odometry.zero();
     drive.zeroDriveEncoderTics();
-    SmartDashboard.putNumber("Position X", odometry.getX());
     SmartDashboard.putNumber("Position Y", odometry.getY());
     SmartDashboard.putNumber("Position Theta", odometry.getTheta());
     try {
-      autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 15, 5.0, false);
+      autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 14, 5.0, false);
       autoPathPart2 = new PurePursuit(drive, odometry, autoPart2, 2.5, 1.0, false);
-      autoCommand = new SequentialCommandGroup(autoPathPart1, autoPathPart2);
+      autoCommand = new SequentialCommandGroup(new ParallelRaceGroup(autoPathPart1, new SmartIntake(magIntake)), autoPathPart2);
       autoCommand.schedule();
     } catch (Exception e) {
       System.out.println("Inside Catch");
@@ -122,7 +122,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    SmartDashboard.putNumber("Position X", odometry.getX());
+  }
 
   @Override
   public void teleopInit() {

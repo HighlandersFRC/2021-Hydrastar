@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -197,7 +198,8 @@ public class PurePursuit extends CommandBase {
     }
 
     @Override
-    public void execute() {}
+    public void execute() {
+    }
 
     @Override
     public boolean isFinished() {
