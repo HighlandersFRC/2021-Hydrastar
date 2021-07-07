@@ -132,10 +132,6 @@ public class Robot extends TimedRobot {
     drive.teleopInit();
     OI.driverRT.whileHeld(new SmartIntake(magIntake));
     OI.driverLT.whileHeld(new Outtake(magIntake));
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
