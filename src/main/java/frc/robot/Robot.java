@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
@@ -15,14 +12,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.FlipMotors;
+
 import frc.robot.commands.Outtake;
-import frc.robot.commands.SmartIntake;
 import frc.robot.commands.PurePursuit;
+import frc.robot.commands.SmartIntake;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
+import frc.robot.subsystems.Shooter;
 import frc.robot.tools.pathing.Odometry;
+
+import java.io.IOException;
+import java.nio.file.Paths;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -31,124 +32,129 @@ import frc.robot.tools.pathing.Odometry;
  * project.
  */
 public class Robot extends TimedRobot {
-  private final Drive drive = new Drive();
-  private final MagIntake magIntake = new MagIntake();
-  private final Peripherals peripherals = new Peripherals();
-  private SequentialCommandGroup autoCommand;
-  private final Odometry odometry = new Odometry(drive, peripherals);
-  private Command m_autonomousCommand;
+    private final Drive drive = new Drive();
+    private final MagIntake magIntake = new MagIntake();
+    private final Peripherals peripherals = new Peripherals();
+    private final Shooter shooter = new Shooter();
+    private SequentialCommandGroup autoCommand;
+    private final Odometry odometry = new Odometry(drive, peripherals);
+    private Command m_autonomousCommand;
 
-  private Trajectory autoPart1;
-  private Trajectory autoPart2;
+    private Trajectory autoPart1;
+    private Trajectory autoPart2;
 
-  private PurePursuit autoPathPart1;
-  private PurePursuit autoPathPart2;
+    private PurePursuit autoPathPart1;
+    private PurePursuit autoPathPart2;
 
-  private RobotContainer m_robotContainer;
+    private RobotContainer m_robotContainer;
 
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
-  @Override
-  public void robotInit() {
-    odometry.zero();
-    drive.init();
-    try {
-      autoPart1 = TrajectoryUtil.fromPathweaverJson(
-        Paths.get("/home/lvuser/deploy/AutoPart1.json"));
-      autoPart2 = TrajectoryUtil.fromPathweaverJson(
-        Paths.get("/home/lvuser/deploy/AutoPart2.json"));
+    /**
+     * This function is run when the robot is first started up and should be used for any
+     * initialization code.
+     */
+    @Override
+    public void robotInit() {
+        odometry.zero();
+        drive.init();
+        shooter.init();
+        try {
+            autoPart1 =
+                    TrajectoryUtil.fromPathweaverJson(
+                            Paths.get("/home/lvuser/deploy/AutoPart1.json"));
+            autoPart2 =
+                    TrajectoryUtil.fromPathweaverJson(
+                            Paths.get("/home/lvuser/deploy/AutoPart2.json"));
+        } catch (IOException e) {
+            System.out.println("didn't get trajectory");
+            e.printStackTrace();
+        }
+        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+        // autonomous chooser on the dashboard.
+        m_robotContainer = new RobotContainer();
     }
-    catch (IOException e) {
-      System.out.println("didn't get trajectory");
-      e.printStackTrace();
+
+    /**
+     * This function is called every robot packet, no matter the mode. Use this for items like
+     * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
+     *
+     * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+     * SmartDashboard integrated updating.
+     */
+    @Override
+    public void robotPeriodic() {
+        drive.getDriveEncoderTics();
+        magIntake.putBeamBreaksSmartDashboard();
+        SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
+        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+        // commands, running already-scheduled commands, removing finished or interrupted commands,
+        // and running subsystem periodic() methods.  This must be called from the robot's periodic
+        // block in order for anything in the Command-based framework to work.
+        CommandScheduler.getInstance().run();
     }
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
-  }
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use this for items like
-   * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-   * SmartDashboard integrated updating.
-   */
-  @Override
-  public void robotPeriodic() {
-    drive.getDriveEncoderTics();
-    magIntake.putBeamBreaksSmartDashboard();
-    SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
-    CommandScheduler.getInstance().run();
-  }
+    /** This function is called once each time the robot enters Disabled mode. */
+    @Override
+    public void disabledInit() {}
 
-  /** This function is called once each time the robot enters Disabled mode. */
-  @Override
-  public void disabledInit() {}
+    @Override
+    public void disabledPeriodic() {}
 
-  @Override
-  public void disabledPeriodic() {}
+    /**
+     * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
+     */
+    @Override
+    public void autonomousInit() {
+        odometry.zero();
+        drive.zeroDriveEncoderTics();
+        SmartDashboard.putNumber("Position Y", odometry.getY());
+        SmartDashboard.putNumber("Position Theta", odometry.getTheta());
+        try {
+            autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 75, 1.0, true);
+            autoPathPart2 = new PurePursuit(drive, odometry, autoPart2, 18, 5.0, false);
+            autoCommand =
+                    new SequentialCommandGroup(
+                            new ParallelRaceGroup(autoPathPart1, new SmartIntake(magIntake)));
+            autoCommand.schedule();
+        } catch (Exception e) {
+            System.out.println("Inside Catch");
+        }
 
-  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
-  @Override
-  public void autonomousInit() {
-    odometry.zero();
-    drive.zeroDriveEncoderTics();
-    SmartDashboard.putNumber("Position Y", odometry.getY());
-    SmartDashboard.putNumber("Position Theta", odometry.getTheta());
-    try {
-      autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 75, 1.0, true);
-      autoPathPart2 = new PurePursuit(drive, odometry, autoPart2, 18, 5.0, false);
-      autoCommand = new SequentialCommandGroup(new ParallelRaceGroup(autoPathPart1, new SmartIntake(magIntake)));
-      autoCommand.schedule();
-    } catch (Exception e) {
-      System.out.println("Inside Catch");
+        // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+        // // schedule the autonomous command (example)
+        // if (m_autonomousCommand != null) {
+        //   m_autonomousCommand.schedule();
+        // }
     }
-    
 
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    // // schedule the autonomous command (example)
-    // if (m_autonomousCommand != null) {
-    //   m_autonomousCommand.schedule();
-    // }
-  }
-
-  /** This function is called periodically during autonomous. */
-  @Override
-  public void autonomousPeriodic() {
-    SmartDashboard.putNumber("Position X", odometry.getX());
-  }
-
-  @Override
-  public void teleopInit() {
-    // flipUninverted.schedule();
-    drive.teleopInit();
-    OI.driverRT.whileHeld(new SmartIntake(magIntake));
-    OI.driverLT.whileHeld(new Outtake(magIntake));
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    /** This function is called periodically during autonomous. */
+    @Override
+    public void autonomousPeriodic() {
+        SmartDashboard.putNumber("Position X", odometry.getX());
     }
-  }
 
-  /** This function is called periodically during operator control. */
-  @Override
-  public void teleopPeriodic() {
-  }
+    @Override
+    public void teleopInit() {
+        // flipUninverted.schedule();
+        drive.teleopInit();
+        OI.driverRT.whileHeld(new SmartIntake(magIntake));
+        OI.driverLT.whileHeld(new Outtake(magIntake));
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+        }
+    }
 
-  @Override
-  public void testInit() {
-    // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
-  }
+    /** This function is called periodically during operator control. */
+    @Override
+    public void teleopPeriodic() {}
 
-  /** This function is called periodically during test mode. */
-  @Override
-  public void testPeriodic() {}
+    @Override
+    public void testInit() {
+        // Cancels all running commands at the start of test mode.
+        CommandScheduler.getInstance().cancelAll();
+    }
+
+    /** This function is called periodically during test mode. */
+    @Override
+    public void testPeriodic() {}
 }

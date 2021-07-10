@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import frc.robot.Constants;
 import frc.robot.commands.defaultCommands.DriveDefault;
 
@@ -17,11 +18,10 @@ public class Drive extends SubsytemBaseEnhanced {
     private final WPI_TalonFX leftDriveLead = new WPI_TalonFX(Constants.LEFT_DRIVE_LEAD_ID);
     private final WPI_TalonFX rightDriveLead = new WPI_TalonFX(Constants.RIGHT_DRIVE_LEAD_ID);
     private final WPI_TalonFX leftDriveFollower = new WPI_TalonFX(Constants.LEFT_DRIVE_FOLLOWER_ID);
-    private final WPI_TalonFX rightDriveFollower = new WPI_TalonFX(Constants.RIGHT_DRIVE_FOLLOWER_ID);
+    private final WPI_TalonFX rightDriveFollower =
+            new WPI_TalonFX(Constants.RIGHT_DRIVE_FOLLOWER_ID);
 
-    private final WPI_TalonFX[] driveMotors = {
-        rightDriveLead, rightDriveFollower
-    };
+    private final WPI_TalonFX[] driveMotors = {rightDriveLead, rightDriveFollower};
 
     private final double deadzone = 0.01;
     private final double vkF = 0.0455925;
@@ -112,7 +112,12 @@ public class Drive extends SubsytemBaseEnhanced {
     }
 
     public void getDriveEncoderTics() {
-        SmartDashboard.putNumber("Drive tics", Constants.driveUnitsToMeters(leftDriveLead.getSelectedSensorPosition() + rightDriveLead.getSelectedSensorPosition())/2);
+        SmartDashboard.putNumber(
+                "Drive tics",
+                Constants.driveUnitsToMeters(
+                                leftDriveLead.getSelectedSensorPosition()
+                                        + rightDriveLead.getSelectedSensorPosition())
+                        / 2);
     }
 
     public void zeroDriveEncoderTics() {
@@ -163,7 +168,7 @@ public class Drive extends SubsytemBaseEnhanced {
         double left, right;
         double differential;
         if (Math.abs(throttle) > deadzone) {
-            
+
         } else throttle = 0;
         if (Math.abs(turn) < deadzone) {
             turn = 0;

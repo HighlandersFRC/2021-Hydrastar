@@ -10,9 +10,7 @@ import frc.robot.subsystems.MagIntake.BeamBreakID;
 public class SmartIntake extends CommandBase {
     private MagIntake magIntake;
 
-    private enum MagIntakeStates {
-        
-    }
+    private enum MagIntakeStates {}
 
     public SmartIntake(MagIntake magIntake) {
         this.magIntake = magIntake;
@@ -31,13 +29,12 @@ public class SmartIntake extends CommandBase {
 
     @Override
     public void execute() {
-        //magIntake.setMagPercent(0.5, 0.5, 0.5);
+        // magIntake.setMagPercent(0.5, 0.5, 0.5);
         // magIntake.setIntakePercent(-0.65);
-        if(!magIntake.getBeamBreak(BeamBreakID.ONE)) {
+        if (!magIntake.getBeamBreak(BeamBreakID.ONE)) {
             magIntake.setMagPercent(0.5, 0.5, 0.5);
             magIntake.setIntakePercent(-0.15);
-        }
-        else {
+        } else {
             magIntake.setIntakePercent(-0.65);
             magIntake.setMagPercent(0, 0, 0);
         }
