@@ -31,6 +31,7 @@ public final class Constants {
     public static final double DRIVE_WHEEL_DIAMETER = 0.15875;
     public static final double DRIVE_WHEEL_CIRCUMFERENCE = DRIVE_WHEEL_DIAMETER * Math.PI;
     public static final double DRIVE_WHEEL_BASE = 0.6604;
+    public static final double SHOOTER_TICKS_PER_ROTATION = 1250;
 
     public static final SupplyCurrentLimitConfiguration currentLimitEnabled =
             new SupplyCurrentLimitConfiguration(
@@ -50,5 +51,13 @@ public final class Constants {
 
     public static double driveFPSToUnitsPer100MS(double fps) {
         return driveMetersToUnits(fps) / 10;
+    }
+
+    public static int shooterRPMToUnitsPer100MS(double rpm) {
+        return (int) Math.round((rpm / 600) * Constants.SHOOTER_TICKS_PER_ROTATION);
+    }
+
+    public static double unitsPer100MsToRPM(double units) {
+        return (units * 600) / Constants.SHOOTER_TICKS_PER_ROTATION;
     }
 }

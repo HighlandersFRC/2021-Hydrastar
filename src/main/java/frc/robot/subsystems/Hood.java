@@ -17,7 +17,7 @@ public class Hood extends SubsytemBaseEnhanced {
     private double kd = 0;
     private float maxpoint = 22;
     private float minpoint = 0;
-    private final CANSparkMax hoodMotor = new CANSparkMax(0, MotorType.kBrushless);
+    private final CANSparkMax hoodMotor = new CANSparkMax(13, MotorType.kBrushless);
     private final CANPIDController pidController;
     private final CANEncoder hoodEncoder;
 

@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import frc.robot.commands.Outtake;
+import frc.robot.commands.CancelMagazine;
+import frc.robot.commands.EjectMagazine;
 import frc.robot.commands.PurePursuit;
 import frc.robot.commands.SmartIntake;
 import frc.robot.subsystems.Drive;
@@ -59,6 +60,7 @@ public class Robot extends TimedRobot {
         odometry.zero();
         drive.init();
         shooter.init();
+        shooter.zeroShooterEncoder();
         try {
             autoPart1 =
                     TrajectoryUtil.fromPathweaverJson(
@@ -87,6 +89,8 @@ public class Robot extends TimedRobot {
         drive.getDriveEncoderTics();
         magIntake.putBeamBreaksSmartDashboard();
         SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
+        SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
+        SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -140,7 +144,15 @@ public class Robot extends TimedRobot {
         // flipUninverted.schedule();
         drive.teleopInit();
         OI.driverRT.whileHeld(new SmartIntake(magIntake));
-        OI.driverLT.whileHeld(new Outtake(magIntake));
+        OI.driverLT.whileHeld(new EjectMagazine(magIntake));
+        //  OI.driverLT.whileHeld(new Fire(magIntake, shooter));
+        //  OI.driverLT.whenReleased(new SpinShooter(shooter, 0));
+        //  OI.driverLT.whenReleased(new CancelMagazine(magIntake));
+        OI.driverLT.whenReleased(new CancelMagazine(magIntake));
+
+        // OI.driverA.whileHeld(new Fire(magIntake, shooter));
+
+        // OI.driverA.whenPressed(new SpinShooter(shooter, 1500));
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
