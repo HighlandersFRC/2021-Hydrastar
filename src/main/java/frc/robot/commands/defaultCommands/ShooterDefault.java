@@ -28,7 +28,7 @@ public class ShooterDefault extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        shooter.setShooterPercent(0.65);
+        shooter.setShooterPercent(0.0);
     }
 
     // Called once the command ends or is interrupted.

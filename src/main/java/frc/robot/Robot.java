@@ -17,6 +17,7 @@ import frc.robot.commands.Outtake;
 import frc.robot.commands.PurePursuit;
 import frc.robot.commands.SmartIntake;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
     private final MagIntake magIntake = new MagIntake();
     private final Peripherals peripherals = new Peripherals();
     private final Shooter shooter = new Shooter();
+    private final Hood hood = new Hood();
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
     private Command m_autonomousCommand;

@@ -31,24 +31,24 @@ public final class Constants {
     public static final double DRIVE_WHEEL_DIAMETER = 0.15875;
     public static final double DRIVE_WHEEL_CIRCUMFERENCE = DRIVE_WHEEL_DIAMETER * Math.PI;
     public static final double DRIVE_WHEEL_BASE = 0.6604;
- 
+
     public static final SupplyCurrentLimitConfiguration currentLimitEnabled =
             new SupplyCurrentLimitConfiguration(
                     true, DRIVE_MAX_CURRENT, DRIVE_CURRENT_PEAK_THRESHOLD, DRIVE_CURRENT_PEAK_TIME);
 
-                    public static double driveUnitsToMeters(double ticks) {
-                        return ticks / DRIVE_TICKS_PER_ROTATION * DRIVE_WHEEL_CIRCUMFERENCE;
-                    }
-                
-                    public static double driveMetersToUnits(double feet) {
-                        return feet * DRIVE_TICKS_PER_ROTATION / DRIVE_WHEEL_CIRCUMFERENCE;
-                    }
-                
-                    public static double driveUnitsPer100MSToFPS(double velocity) {
-                        return driveUnitsToMeters(velocity) * 10;
-                    }
-                
-                    public static double driveFPSToUnitsPer100MS(double fps) {
-                        return driveMetersToUnits(fps) / 10;
-                    }
+    public static double driveUnitsToMeters(double ticks) {
+        return ticks / DRIVE_TICKS_PER_ROTATION * DRIVE_WHEEL_CIRCUMFERENCE;
+    }
+
+    public static double driveMetersToUnits(double feet) {
+        return feet * DRIVE_TICKS_PER_ROTATION / DRIVE_WHEEL_CIRCUMFERENCE;
+    }
+
+    public static double driveUnitsPer100MSToFPS(double velocity) {
+        return driveUnitsToMeters(velocity) * 10;
+    }
+
+    public static double driveFPSToUnitsPer100MS(double fps) {
+        return driveMetersToUnits(fps) / 10;
+    }
 }
