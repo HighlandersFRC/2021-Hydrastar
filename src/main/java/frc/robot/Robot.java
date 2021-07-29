@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.CancelMagazine;
-import frc.robot.commands.EjectMagazine;
+import frc.robot.commands.Fire;
 import frc.robot.commands.PurePursuit;
 import frc.robot.commands.SmartIntake;
 import frc.robot.subsystems.Drive;
@@ -60,6 +60,7 @@ public class Robot extends TimedRobot {
         odometry.zero();
         drive.init();
         shooter.init();
+        hood.init();
         shooter.zeroShooterEncoder();
         try {
             autoPart1 =
@@ -86,11 +87,15 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+        SmartDashboard.putBoolean("Top Switch", hood.getTopLimitSwitch());
+        SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveEncoderTics();
         magIntake.putBeamBreaksSmartDashboard();
         SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
         SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
+        SmartDashboard.putNumber("hood position", hood.getHoodPosition());
+
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -144,7 +149,7 @@ public class Robot extends TimedRobot {
         // flipUninverted.schedule();
         drive.teleopInit();
         OI.driverRT.whileHeld(new SmartIntake(magIntake));
-        OI.driverLT.whileHeld(new EjectMagazine(magIntake));
+        OI.driverLT.whileHeld(new Fire(magIntake, shooter, hood, 3500, 23));
         //  OI.driverLT.whileHeld(new Fire(magIntake, shooter));
         //  OI.driverLT.whenReleased(new SpinShooter(shooter, 0));
         //  OI.driverLT.whenReleased(new CancelMagazine(magIntake));

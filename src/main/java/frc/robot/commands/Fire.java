@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Shooter;
 
@@ -15,11 +16,17 @@ import frc.robot.subsystems.Shooter;
 public class Fire extends SequentialCommandGroup {
     private MagIntake magIntake;
     private Shooter shooter;
+    private Hood hood;
+    private double rpm;
+    private double hoodPosition;
     /** Creates a new Fire. */
-    public Fire(MagIntake magIntake, Shooter shooter) {
-        addRequirements(magIntake, shooter);
+    public Fire(MagIntake magIntake, Shooter shooter, Hood hood, double rpm, double hoodPosition) {
+        addRequirements(magIntake, shooter, hood);
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
-        addCommands(new SpinShooter(shooter, 5000), new EjectMagazine(magIntake));
+        addCommands(
+                new SpinShooter(shooter, rpm),
+                new SetHoodPosition(hood, hoodPosition),
+                new EjectMagazine(magIntake));
     }
 }

@@ -20,9 +20,11 @@ public class HoodDefault extends CommandBase {
 
     @Override
     public void execute() {
-        if (OI.driverController.getAButton()) {
+        if (OI.driverController.getXButton()) {
             SmartDashboard.putNumber("hood position", hood.getHoodPosition());
-            hood.setHoodTarget(3);
+            hood.setHoodTarget(15);
+        } else {
+            hood.setHoodTarget(0);
         }
     }
 

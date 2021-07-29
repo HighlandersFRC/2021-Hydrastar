@@ -22,7 +22,7 @@ public class Shooter extends SubsytemBaseEnhanced {
         shooterMaster.setSensorPhase(true);
         shooterMaster.selectProfileSlot(0, 0);
         shooterMaster.config_kF(0, 0.05);
-        shooterMaster.config_kP(0, 0.95);
+        shooterMaster.config_kP(0, 1.75);
         shooterMaster.config_kI(0, 0.000008);
         shooterMaster.config_kD(0, 0);
         setDefaultCommand(new ShooterDefault(this));
