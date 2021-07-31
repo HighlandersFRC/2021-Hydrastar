@@ -80,5 +80,11 @@ public class Hood extends SubsytemBaseEnhanced {
 
     public void teleopInit() {}
 
-    public void periodic() {}
+    public void periodic() {
+        if (bottomSwitch.get()) {
+            hoodEncoder.setPosition(0);
+        } else if (topSwitch.get()) {
+            hoodEncoder.setPosition(32);
+        }
+    }
 }

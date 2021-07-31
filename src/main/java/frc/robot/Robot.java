@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.CancelMagazine;
 import frc.robot.commands.Fire;
+import frc.robot.commands.Outtake;
 import frc.robot.commands.PurePursuit;
+import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
@@ -149,11 +151,14 @@ public class Robot extends TimedRobot {
         // flipUninverted.schedule();
         drive.teleopInit();
         OI.driverRT.whileHeld(new SmartIntake(magIntake));
-        OI.driverLT.whileHeld(new Fire(magIntake, shooter, hood, 3500, 23));
+        OI.driverLT.whileHeld(new Outtake(magIntake));
         //  OI.driverLT.whileHeld(new Fire(magIntake, shooter));
         //  OI.driverLT.whenReleased(new SpinShooter(shooter, 0));
         //  OI.driverLT.whenReleased(new CancelMagazine(magIntake));
         OI.driverLT.whenReleased(new CancelMagazine(magIntake));
+        OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 23));
+        OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
+        OI.driverA.whenReleased(new CancelMagazine(magIntake));
 
         // OI.driverA.whileHeld(new Fire(magIntake, shooter));
 
@@ -169,6 +174,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testInit() {
+
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
     }

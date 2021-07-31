@@ -4,42 +4,48 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Shooter;
 
-public class SpinShooter extends CommandBase {
+public class JumpStartShooter extends CommandBase {
     private Shooter shooter;
-    private double rpm;
-    /** Creates a new SpinShooter. */
-    public SpinShooter(Shooter shooter, double rpm) {
+    private double shooterCount = 0;
+    /** Creates a new JumpStartShooter. */
+    public JumpStartShooter(Shooter shooter) {
         this.shooter = shooter;
-        this.rpm = rpm;
         addRequirements(shooter);
-
         // Use addRequirements() here to declare subsystem dependencies.
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        // shooter.setShooterRPM(rpm);
+        shooterCount = 0;
+        shooter.setShooterRPM(200);
+        SmartDashboard.putBoolean("Jumpstart", true);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        shooter.setShooterRPM(rpm);
+        shooterCount++;
     }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        SmartDashboard.putBoolean("Jumpstart", false);
+    }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        // return Math.abs(shooter.getShooterRPM() - rpm) < 500;
-        return true;
+        if (shooter.getShooterRPM() > 200) {
+            return true;
+        }
+
+        return false;
     }
 }

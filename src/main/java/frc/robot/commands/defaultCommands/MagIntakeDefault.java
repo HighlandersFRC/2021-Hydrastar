@@ -1,9 +1,7 @@
 package frc.robot.commands.defaultCommands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.OI;
 import frc.robot.subsystems.MagIntake;
 
 public class MagIntakeDefault extends CommandBase {
@@ -20,15 +18,10 @@ public class MagIntakeDefault extends CommandBase {
     @Override
     public void execute() {
         // System.out.println("Hola om");
-        if (OI.driverController.getTriggerAxis(Hand.kLeft) > 0.25) {
-            System.out.println("got lt button");
-            magIntake.setMagPercent(0.5, 0.5, 0.5);
-        } else {
-            magIntake.setIntakePercent(0);
-            magIntake.setMagPercent(0, 0, 0);
-            magIntake.setIntakePistonUp();
-            magIntake.putBeamBreaksSmartDashboard();
-        }
+        magIntake.setIntakePercent(0);
+        magIntake.setMagPercent(0, 0, 0);
+        magIntake.setIntakePistonUp();
+        magIntake.putBeamBreaksSmartDashboard();
     }
 
     @Override
