@@ -11,6 +11,7 @@ import frc.robot.subsystems.Shooter;
 public class SpinShooter extends CommandBase {
     private Shooter shooter;
     private double rpm;
+    private double counter = 0;
     /** Creates a new SpinShooter. */
     public SpinShooter(Shooter shooter, double rpm) {
         this.shooter = shooter;
@@ -23,13 +24,15 @@ public class SpinShooter extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        // shooter.setShooterRPM(rpm);
+        shooter.setShooterRPM(rpm);
+        counter = 0;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        shooter.setShooterRPM(rpm);
+        // shooter.setShooterRPM(rpm);
+        counter++;
     }
 
     // Called once the command ends or is interrupted.
@@ -39,7 +42,7 @@ public class SpinShooter extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        //   return Math.abs(shooter.getShooterRPM() - rpm) < 50;
-        return true;
+        return Math.abs(shooter.getShooterRPM() - rpm) < 50 || (counter > 100);
+        // return true;
     }
 }

@@ -47,6 +47,7 @@ public class MagIntake extends SubsytemBaseEnhanced {
     private final DigitalInput beamBreak3 = new DigitalInput(Constants.BEAM_BREAK_3_ID);
     private final DigitalInput beamBreak4 = new DigitalInput(Constants.BEAM_BREAK_4_ID);
     private final DigitalInput beamBreak5 = new DigitalInput(Constants.BEAM_BREAK_5_ID);
+    private final DigitalInput beamBreak6 = new DigitalInput(6);
     // private final DigitalInput beamBreak6 = new DigitalInput(Constants.BEAM_BREAK_6_ID);
 
     public MagIntake() {}
@@ -78,7 +79,7 @@ public class MagIntake extends SubsytemBaseEnhanced {
             case FIVE:
                  return beamBreak5.get();
             case SIX:
-            //     return beamBreak6.get();
+                return beamBreak6.get();
         }
         return false;
     }
@@ -113,6 +114,7 @@ public class MagIntake extends SubsytemBaseEnhanced {
         SmartDashboard.putBoolean("Beam Break 3", this.getBeamBreak(BeamBreakID.THREE));
         SmartDashboard.putBoolean("Beam Break 4", this.getBeamBreak(BeamBreakID.FOUR));
         SmartDashboard.putBoolean("Beam Break 5", this.getBeamBreak(BeamBreakID.FIVE));
+        SmartDashboard.putBoolean("Bream Break 6", this.getBeamBreak(BeamBreakID.SIX));
         // SmartDashboard.putBoolean("Beam Break 6", this.getBeamBreak(BeamBreakID.SIX));
     }
 
