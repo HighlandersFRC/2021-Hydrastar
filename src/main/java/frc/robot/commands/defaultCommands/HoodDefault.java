@@ -1,9 +1,7 @@
 package frc.robot.commands.defaultCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.OI;
 import frc.robot.subsystems.Hood;
 
 public class HoodDefault extends CommandBase {
@@ -20,12 +18,8 @@ public class HoodDefault extends CommandBase {
 
     @Override
     public void execute() {
-        if (OI.driverController.getXButton()) {
-            SmartDashboard.putNumber("hood position", hood.getHoodPosition());
-            hood.setHoodTarget(15);
-        } else {
-            hood.setHoodTarget(0);
-        }
+
+        hood.setHoodTarget(0);
     }
 
     @Override

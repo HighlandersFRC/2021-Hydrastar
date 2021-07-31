@@ -39,7 +39,7 @@ public class SpinShooter extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        // return Math.abs(shooter.getShooterRPM() - rpm) < 500;
+        //   return Math.abs(shooter.getShooterRPM() - rpm) < 50;
         return true;
     }
 }

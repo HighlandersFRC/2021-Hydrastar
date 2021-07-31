@@ -156,7 +156,13 @@ public class Robot extends TimedRobot {
         //  OI.driverLT.whenReleased(new SpinShooter(shooter, 0));
         //  OI.driverLT.whenReleased(new CancelMagazine(magIntake));
         OI.driverLT.whenReleased(new CancelMagazine(magIntake));
-        OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 23));
+        OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
+        OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 5000, 25));
+        OI.driverB.whenPressed(new Fire(magIntake, shooter, hood, 3000, 2));
+        OI.driverB.whenReleased(new SetHoodPosition(hood, 0));
+        OI.driverB.whenReleased(new CancelMagazine(magIntake));
+        OI.driverX.whenReleased(new SetHoodPosition(hood, 0));
+        OI.driverX.whenReleased(new CancelMagazine(magIntake));
         OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));
 
