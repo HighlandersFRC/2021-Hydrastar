@@ -21,6 +21,7 @@ import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.LightRing;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
@@ -41,6 +42,7 @@ public class Robot extends TimedRobot {
     private final Peripherals peripherals = new Peripherals();
     private final Shooter shooter = new Shooter();
     private final Hood hood = new Hood();
+    private final LightRing lightRing = new LightRing();
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
     private Command m_autonomousCommand;
@@ -64,6 +66,8 @@ public class Robot extends TimedRobot {
         shooter.init();
         hood.init();
         shooter.zeroShooterEncoder();
+        peripherals.init();
+        lightRing.init();
         try {
             autoPart1 =
                     TrajectoryUtil.fromPathweaverJson(
@@ -97,6 +101,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
         SmartDashboard.putNumber("hood position", hood.getHoodPosition());
+
+        SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
 
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,
@@ -157,14 +163,19 @@ public class Robot extends TimedRobot {
         //  OI.driverLT.whenReleased(new CancelMagazine(magIntake));
         OI.driverLT.whenReleased(new CancelMagazine(magIntake));
         OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
-        OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 5000, 25));
-        OI.driverB.whenPressed(new Fire(magIntake, shooter, hood, 3000, 2));
-        OI.driverB.whenReleased(new SetHoodPosition(hood, 0));
-        OI.driverB.whenReleased(new CancelMagazine(magIntake));
+        OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 5500, 25));
         OI.driverX.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
         OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));
+
+        if(OI.driverController.getYButton()) {
+            lightRing.turnVisionOn();
+        }
+
+        if(OI.driverController.getBButton()) {
+            lightRing.turnVisionOff();
+        }
 
         // OI.driverA.whileHeld(new Fire(magIntake, shooter));
 
