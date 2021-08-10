@@ -19,6 +19,7 @@ import frc.robot.commands.Outtake;
 import frc.robot.commands.PurePursuit;
 import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
+import frc.robot.commands.VisionAlignment;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
@@ -154,28 +155,21 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        // flipUninverted.schedule();
         drive.teleopInit();
         OI.driverRT.whileHeld(new SmartIntake(magIntake));
         OI.driverLT.whileHeld(new Outtake(magIntake));
-        //  OI.driverLT.whileHeld(new Fire(magIntake, shooter));
-        //  OI.driverLT.whenReleased(new SpinShooter(shooter, 0));
-        //  OI.driverLT.whenReleased(new CancelMagazine(magIntake));
         OI.driverLT.whenReleased(new CancelMagazine(magIntake));
-        OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
-        OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 5500, 25));
+        // OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
+
+        OI.driverA.whenPressed(new VisionAlignment(lightRing, drive, peripherals, 0.0));
+
+        // OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
+        // OI.driverA.whenReleased(new CancelMagazine(magIntake));
+
+        OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 5000, 13));
+
         OI.driverX.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
-        OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
-        OI.driverA.whenReleased(new CancelMagazine(magIntake));
-
-        if(OI.driverController.getYButton()) {
-            lightRing.turnVisionOn();
-        }
-
-        if(OI.driverController.getBButton()) {
-            lightRing.turnVisionOff();
-        }
 
         // OI.driverA.whileHeld(new Fire(magIntake, shooter));
 

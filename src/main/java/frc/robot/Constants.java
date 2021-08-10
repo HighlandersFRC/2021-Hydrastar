@@ -31,7 +31,7 @@ public final class Constants {
     public static final double DRIVE_WHEEL_DIAMETER = 0.15875;
     public static final double DRIVE_WHEEL_CIRCUMFERENCE = DRIVE_WHEEL_DIAMETER * Math.PI;
     public static final double DRIVE_WHEEL_BASE = 0.6604;
-    public static final double SHOOTER_TICKS_PER_ROTATION = 1250;
+    public static final double SHOOTER_TICKS_PER_ROTATION = 2048;
 
     public static final SupplyCurrentLimitConfiguration currentLimitEnabled =
             new SupplyCurrentLimitConfiguration(

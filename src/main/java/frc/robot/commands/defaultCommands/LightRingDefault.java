@@ -3,7 +3,7 @@
 package frc.robot.commands.defaultCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.OI;
 import frc.robot.subsystems.LightRing;
 
 public class LightRingDefault extends CommandBase {
@@ -20,7 +20,14 @@ public class LightRingDefault extends CommandBase {
 
     @Override
     public void execute() {
-        lightRing.turnVisionOff();
+        // lightRing.turnVisionOff();
+
+        if(OI.driverController.getBButton()) {
+            lightRing.turnVisionOn();
+        }
+        else{
+            lightRing.turnVisionOff();
+        }
     }
 
     @Override

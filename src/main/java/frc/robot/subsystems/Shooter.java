@@ -47,7 +47,8 @@ public class Shooter extends SubsytemBaseEnhanced {
     }
 
     public void setShooterRPM(double rpm) {
-        shooterMaster.set(ControlMode.Velocity, Constants.shooterRPMToUnitsPer100MS(rpm));
+        double adjustedRPM = rpm/1.66;
+        shooterMaster.set(ControlMode.Velocity, Constants.shooterRPMToUnitsPer100MS(adjustedRPM));
     }
 
     public double getShooterRPM() {

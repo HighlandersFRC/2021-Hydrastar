@@ -28,6 +28,7 @@ public class ShooterDefault extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
         shooter.setShooterRPM(0);
     }
 
