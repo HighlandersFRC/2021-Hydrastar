@@ -96,12 +96,13 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         SmartDashboard.putBoolean("Top Switch", hood.getTopLimitSwitch());
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
-        drive.getDriveEncoderTics();
+        drive.getDriveMeters();
         magIntake.putBeamBreaksSmartDashboard();
         SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
         SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
         SmartDashboard.putNumber("hood position", hood.getHoodPosition());
+        SmartDashboard.putNumber("Drive Encoder Tics", drive.getDriveMeters());
 
         SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
 
@@ -129,10 +130,11 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Position Y", odometry.getY());
         SmartDashboard.putNumber("Position Theta", odometry.getTheta());
         try {
-            autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 75, 1.0, true);
+            autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 1, 5.0, true);
             autoPathPart2 = new PurePursuit(drive, odometry, autoPart2, 18, 5.0, false);
             autoCommand =
                     new SequentialCommandGroup(
+                        
                             new ParallelRaceGroup(autoPathPart1, new SmartIntake(magIntake)));
             autoCommand.schedule();
         } catch (Exception e) {
@@ -166,7 +168,7 @@ public class Robot extends TimedRobot {
         // OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
         // OI.driverA.whenReleased(new CancelMagazine(magIntake));
 
-        OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 5000, 13));
+        OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 2000, 13));
 
         OI.driverX.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));

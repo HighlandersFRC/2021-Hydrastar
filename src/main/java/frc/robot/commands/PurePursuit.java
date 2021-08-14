@@ -81,6 +81,7 @@ public class PurePursuit extends CommandBase {
         rightVelocity = v * (2 - (c * Constants.DRIVE_WHEEL_BASE)) / 2;
         drive.setLeftSpeed(leftVelocity);
         drive.setRightSpeed(rightVelocity);
+        // System.out.println(leftVelocity);
     }
 
     private void findRobotCurvature() {
@@ -115,6 +116,7 @@ public class PurePursuit extends CommandBase {
             dx = trajectory.getStates().get(i).poseMeters.getTranslation().getX() - odometry.getX();
             dy = trajectory.getStates().get(i).poseMeters.getTranslation().getY() - odometry.getY();
             distToPoint = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+            // System.out.println(distToPoint);
             if (distToPoint < minDistToPoint) {
                 minDistToPoint = distToPoint;
                 closestSegment = i;
@@ -160,6 +162,7 @@ public class PurePursuit extends CommandBase {
         startingNumberLA = (int) partialPointIndex;
         lastLookaheadPoint = lookaheadPoint;
         findRobotCurvature();
+        // System.out.println(trajectory.getStates().get(closestSegment).velocityMetersPerSecond);
         curveAdjustedVelocity = Math.min(Math.abs(k/trajectory.getStates().get(closestSegment).curvatureRadPerMeter), trajectory.getStates().get(closestSegment).velocityMetersPerSecond);
         setWheelVelocities(curveAdjustedVelocity, desiredRobotCurvature);
     }

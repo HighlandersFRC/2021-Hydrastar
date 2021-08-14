@@ -111,13 +111,15 @@ public class Drive extends SubsytemBaseEnhanced {
         }
     }
 
-    public void getDriveEncoderTics() {
-        SmartDashboard.putNumber(
-                "Drive tics",
-                Constants.driveUnitsToMeters(
-                                leftDriveLead.getSelectedSensorPosition()
+    public double getDriveMeters() {
+               return Constants.driveUnitsToMeters(
+                                (leftDriveLead.getSelectedSensorPosition()
                                         + rightDriveLead.getSelectedSensorPosition())
                         / 2);
+    }
+
+    public double getDriveTics(){
+        return (((leftDriveLead.getSelectedSensorPosition() + rightDriveLead.getSelectedSensorPosition()))/2);
     }
 
     public void zeroDriveEncoderTics() {

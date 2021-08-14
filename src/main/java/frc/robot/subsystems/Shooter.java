@@ -11,7 +11,7 @@ public class Shooter extends SubsytemBaseEnhanced {
     private final WPI_TalonFX shooterMaster = new WPI_TalonFX(10);
     private final WPI_TalonFX shooterFollower = new WPI_TalonFX(9);
 
-    private final WPI_TalonFX[] shooterMotors = {shooterMaster, shooterFollower};
+    // private final WPI_TalonFX[] shooterMotors = {shooterMaster, shooterFollower};
 
     public void init() {
         shooterMaster.configPeakOutputForward(0.7);
@@ -21,10 +21,10 @@ public class Shooter extends SubsytemBaseEnhanced {
         shooterMaster.enableVoltageCompensation(true);
         shooterMaster.setSensorPhase(true);
         shooterMaster.selectProfileSlot(0, 0);
-        shooterMaster.config_kF(0, 0.08);
-        shooterMaster.config_kP(0, 2.1);
-        shooterMaster.config_kI(0, 0.00001);
-        shooterMaster.config_kD(0, 0);
+        shooterMaster.config_kF(0, 0.002);
+        shooterMaster.config_kP(0, 0.065);
+        shooterMaster.config_kI(0, 0.000001);
+        shooterMaster.config_kD(0, 0.09);
         setDefaultCommand(new ShooterDefault(this));
         shooterFollower.set(ControlMode.Follower, 10);
     }
@@ -47,7 +47,7 @@ public class Shooter extends SubsytemBaseEnhanced {
     }
 
     public void setShooterRPM(double rpm) {
-        double adjustedRPM = rpm/1.66;
+        double adjustedRPM = rpm * 1.66;
         shooterMaster.set(ControlMode.Velocity, Constants.shooterRPMToUnitsPer100MS(adjustedRPM));
     }
 

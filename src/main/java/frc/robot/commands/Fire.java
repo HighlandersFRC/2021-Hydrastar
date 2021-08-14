@@ -22,7 +22,6 @@ public class Fire extends SequentialCommandGroup {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new JumpStartShooter(shooter),
                 new ParallelCommandGroup(
                         new SpinShooter(shooter, rpm), new SetHoodPosition(hood, hoodPosition)),
                 new EjectMagazine(magIntake));
