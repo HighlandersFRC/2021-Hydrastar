@@ -4,12 +4,10 @@
 
 package frc.robot.commands.composite;
 
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 import frc.robot.commands.DriveBackwards1;
-import frc.robot.commands.Fire;
 import frc.robot.commands.NavxTurn;
-import frc.robot.commands.SmartIntake;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.MagIntake;
@@ -20,15 +18,13 @@ import frc.robot.subsystems.Shooter;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Autonomous extends SequentialCommandGroup {
-  /** Creates a new Autonomous. */
-  public Autonomous(Drive drive, Peripherals peripherals, MagIntake magIntake, Hood hood, Shooter shooter) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-      new Fire(magIntake, shooter, hood, 2000, 18),
-      new DriveBackwards1(drive, 7),
-      new NavxTurn(peripherals, drive, 15)
-      
-    );
-  }
+    /** Creates a new Autonomous. */
+    public Autonomous(
+            Drive drive, Peripherals peripherals, MagIntake magIntake, Hood hood, Shooter shooter) {
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
+        addCommands(
+                // new Fire(magIntake, shooter, hood, 2000, 18),
+                new DriveBackwards1(drive, 7), new NavxTurn(peripherals, drive, 15));
+    }
 }

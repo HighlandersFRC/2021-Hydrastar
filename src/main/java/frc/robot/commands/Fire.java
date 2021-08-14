@@ -7,8 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.LightRing;
 import frc.robot.subsystems.MagIntake;
+import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -17,11 +20,20 @@ import frc.robot.subsystems.Shooter;
 public class Fire extends SequentialCommandGroup {
 
     /** Creates a new Fire. */
-    public Fire(MagIntake magIntake, Shooter shooter, Hood hood, double rpm, double hoodPosition) {
+    public Fire(
+            MagIntake magIntake,
+            Peripherals peripherals,
+            Shooter shooter,
+            Hood hood,
+            LightRing lightRing,
+            Drive drive,
+            double rpm,
+            double hoodPosition) {
         addRequirements(magIntake, shooter, hood);
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
+                new VisionAlignment(lightRing, drive, peripherals, 5.0),
                 new ParallelCommandGroup(
                         new SpinShooter(shooter, rpm), new SetHoodPosition(hood, hoodPosition)),
                 new EjectMagazine(magIntake));

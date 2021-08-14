@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.CancelMagazine;
@@ -21,7 +20,6 @@ import frc.robot.commands.Outtake;
 import frc.robot.commands.PurePursuit;
 import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
-import frc.robot.commands.VisionAlignment;
 import frc.robot.commands.composite.Autonomous;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
@@ -135,13 +133,13 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Position Y", odometry.getY());
         SmartDashboard.putNumber("Position Theta", odometry.getTheta());
         autonomous.schedule();
-        
+
         // try {
         //     autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 1, 5.0, true);
         //     autoPathPart2 = new PurePursuit(drive, odometry, autoPart2, 18, 5.0, false);
         //     autoCommand =
         //             new SequentialCommandGroup(
-                        
+
         //                     new ParallelRaceGroup(autoPathPart1, new SmartIntake(magIntake)));
         //     //autoCommand.schedule();
         // } catch (Exception e) {
@@ -168,16 +166,20 @@ public class Robot extends TimedRobot {
         OI.driverRT.whileHeld(new SmartIntake(magIntake));
         OI.driverLT.whileHeld(new Outtake(magIntake));
         OI.driverLT.whenReleased(new CancelMagazine(magIntake));
+        OI.driverA.whenPressed(
+                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 18));
+
         // OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
 
-        //OI.driverA.whenPressed(new ParallelRaceGroup(new DriveBackwards1(drive, 10), new SmartIntake(magIntake)));
+        // OI.driverA.whenPressed(new ParallelRaceGroup(new DriveBackwards1(drive, 10), new
+        // SmartIntake(magIntake)));
         OI.driverB.whenPressed(new NavxTurn(peripherals, drive, 10));
-        OI.driverY.whenPressed(new DriveBackwards1(drive,7));
+        OI.driverY.whenPressed(new DriveBackwards1(drive, 7));
 
-        // OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
-        // OI.driverA.whenReleased(new CancelMagazine(magIntake));
+        OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
+        OI.driverA.whenReleased(new CancelMagazine(magIntake));
 
-        OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 2000, 18));
+        // OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 2000, 18));
         OI.driverB.whenReleased(new SetHoodPosition(hood, 0));
 
         OI.driverX.whenReleased(new SetHoodPosition(hood, 0));
