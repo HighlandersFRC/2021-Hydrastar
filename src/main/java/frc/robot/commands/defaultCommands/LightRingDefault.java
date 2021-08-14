@@ -22,12 +22,7 @@ public class LightRingDefault extends CommandBase {
     public void execute() {
         // lightRing.turnVisionOff();
 
-        if(OI.driverController.getBButton()) {
-            lightRing.turnVisionOn();
-        }
-        else{
-            lightRing.turnVisionOff();
-        }
+        lightRing.turnVisionOff();
     }
 
     @Override

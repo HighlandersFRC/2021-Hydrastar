@@ -27,6 +27,8 @@ public class Hood extends SubsytemBaseEnhanced {
     private final CANPIDController pidController;
     private final CANEncoder hoodEncoder;
 
+    //hood gear ratio is 24:52
+
     public Hood() {
         pidController = hoodMotor.getPIDController();
         hoodEncoder = hoodMotor.getEncoder();
@@ -44,7 +46,7 @@ public class Hood extends SubsytemBaseEnhanced {
         pidController.setI(ki);
         pidController.setD(kd);
         pidController.setIZone(.2);
-        pidController.setOutputRange(-0.5, 0.5);
+        pidController.setOutputRange(-0.3, 0.3);
         pidController.setSmartMotionMaxVelocity(200, 0);
         pidController.setSmartMotionMinOutputVelocity(-200, 0);
         pidController.setSmartMotionMaxAccel(200, 0);
