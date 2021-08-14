@@ -45,6 +45,7 @@ public final class Constants {
         return feet * DRIVE_TICKS_PER_ROTATION / DRIVE_WHEEL_CIRCUMFERENCE;
     }
 
+
     public static double driveUnitsPer100MSToFPS(double velocity) {
         return driveUnitsToMeters(velocity) * 10;
     }

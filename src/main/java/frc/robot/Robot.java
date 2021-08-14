@@ -14,12 +14,15 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.CancelMagazine;
+import frc.robot.commands.DriveBackwards1;
 import frc.robot.commands.Fire;
+import frc.robot.commands.NavxTurn;
 import frc.robot.commands.Outtake;
 import frc.robot.commands.PurePursuit;
 import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
 import frc.robot.commands.VisionAlignment;
+import frc.robot.commands.composite.Autonomous;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
@@ -46,6 +49,7 @@ public class Robot extends TimedRobot {
     private final LightRing lightRing = new LightRing();
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
+    Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter);
     private Command m_autonomousCommand;
 
     private Trajectory autoPart1;
@@ -103,6 +107,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
         SmartDashboard.putNumber("hood position", hood.getHoodPosition());
         SmartDashboard.putNumber("Drive Encoder Tics", drive.getDriveMeters());
+        SmartDashboard.putNumber("navx angle", peripherals.getNavxAngle());
 
         SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
 
@@ -129,17 +134,19 @@ public class Robot extends TimedRobot {
         drive.zeroDriveEncoderTics();
         SmartDashboard.putNumber("Position Y", odometry.getY());
         SmartDashboard.putNumber("Position Theta", odometry.getTheta());
-        try {
-            autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 1, 5.0, true);
-            autoPathPart2 = new PurePursuit(drive, odometry, autoPart2, 18, 5.0, false);
-            autoCommand =
-                    new SequentialCommandGroup(
+        autonomous.schedule();
+        
+        // try {
+        //     autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 1, 5.0, true);
+        //     autoPathPart2 = new PurePursuit(drive, odometry, autoPart2, 18, 5.0, false);
+        //     autoCommand =
+        //             new SequentialCommandGroup(
                         
-                            new ParallelRaceGroup(autoPathPart1, new SmartIntake(magIntake)));
-            autoCommand.schedule();
-        } catch (Exception e) {
-            System.out.println("Inside Catch");
-        }
+        //                     new ParallelRaceGroup(autoPathPart1, new SmartIntake(magIntake)));
+        //     //autoCommand.schedule();
+        // } catch (Exception e) {
+        //     System.out.println("Inside Catch");
+        // }
 
         // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -163,8 +170,9 @@ public class Robot extends TimedRobot {
         OI.driverLT.whenReleased(new CancelMagazine(magIntake));
         // OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
 
-        OI.driverA.whenPressed(new VisionAlignment(lightRing, drive, peripherals, 0.0));
-        OI.driverB.whileHeld(new SetHoodPosition(hood, 11));
+        //OI.driverA.whenPressed(new ParallelRaceGroup(new DriveBackwards1(drive, 10), new SmartIntake(magIntake)));
+        OI.driverB.whenPressed(new NavxTurn(peripherals, drive, 10));
+        OI.driverY.whenPressed(new DriveBackwards1(drive,7));
 
         // OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
         // OI.driverA.whenReleased(new CancelMagazine(magIntake));
