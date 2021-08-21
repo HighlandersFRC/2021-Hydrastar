@@ -28,6 +28,7 @@ public class Autonomous extends SequentialCommandGroup {
             LightRing lightRing) {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
-        addCommands(new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 19));
+        addCommands(
+                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 19, -2.0));
     }
 }

@@ -166,7 +166,7 @@ public class Robot extends TimedRobot {
         OI.driverLT.whileHeld(new Outtake(magIntake));
         OI.driverLT.whenReleased(new CancelMagazine(magIntake));
         OI.driverA.whenPressed(
-                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 21, -7.0));
+                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 24, -9.0));
 
         // OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
 
