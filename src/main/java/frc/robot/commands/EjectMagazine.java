@@ -4,14 +4,13 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Hood;
+
 import frc.robot.subsystems.MagIntake;
-import frc.robot.subsystems.Shooter;
 
 public class EjectMagazine extends CommandBase {
     private MagIntake magIntake;
+    private double counter = 0.0;
 
     /** Creates a new EjectMagazine. */
     public EjectMagazine(MagIntake magIntake) {
@@ -22,12 +21,15 @@ public class EjectMagazine extends CommandBase {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+        counter = 0.0;
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         magIntake.setMagPercent(1, 0.75, 1);
+        counter++;
     }
 
     // Called once the command ends or is interrupted.

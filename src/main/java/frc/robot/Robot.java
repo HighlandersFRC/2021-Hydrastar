@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.CancelMagazine;
 import frc.robot.commands.DriveBackwards1;
 import frc.robot.commands.Fire;
-import frc.robot.commands.NavxTurn;
 import frc.robot.commands.Outtake;
 import frc.robot.commands.PurePursuit;
 import frc.robot.commands.SetHoodPosition;
@@ -47,7 +46,7 @@ public class Robot extends TimedRobot {
     private final LightRing lightRing = new LightRing();
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
-    Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter);
+    Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing);
     private Command m_autonomousCommand;
 
     private Trajectory autoPart1;
@@ -167,13 +166,14 @@ public class Robot extends TimedRobot {
         OI.driverLT.whileHeld(new Outtake(magIntake));
         OI.driverLT.whenReleased(new CancelMagazine(magIntake));
         OI.driverA.whenPressed(
-                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 18));
+                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 21, -7.0));
 
         // OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
 
         // OI.driverA.whenPressed(new ParallelRaceGroup(new DriveBackwards1(drive, 10), new
         // SmartIntake(magIntake)));
-        OI.driverB.whenPressed(new NavxTurn(peripherals, drive, 10));
+        OI.driverB.whenPressed(
+                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 3000, 27, -2.0));
         OI.driverY.whenPressed(new DriveBackwards1(drive, 7));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
@@ -181,6 +181,7 @@ public class Robot extends TimedRobot {
 
         // OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 2000, 18));
         OI.driverB.whenReleased(new SetHoodPosition(hood, 0));
+        OI.driverB.whenReleased(new CancelMagazine(magIntake));
 
         OI.driverX.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
