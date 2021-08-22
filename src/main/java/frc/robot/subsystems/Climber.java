@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.defaultCommands.ClimberDefault;
 
 public class Climber extends SubsystemBase {
-    private final WPI_TalonFX leftClimberMotor = new WPI_TalonFX(0);
-    private final WPI_TalonFX rightClimberMotor = new WPI_TalonFX(0);
+    private final WPI_TalonFX leftClimberMotor = new WPI_TalonFX(5);
+    private final WPI_TalonFX rightClimberMotor = new WPI_TalonFX(6);
     /** Creates a new Climber. */
     public Climber() {}
 

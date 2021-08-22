@@ -19,7 +19,7 @@ import frc.robot.commands.Outtake;
 import frc.robot.commands.PurePursuit;
 import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
-import frc.robot.commands.composite.Autonomous;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
@@ -44,9 +44,9 @@ public class Robot extends TimedRobot {
     private final Shooter shooter = new Shooter();
     private final Hood hood = new Hood();
     private final LightRing lightRing = new LightRing();
+    private final Climber climber = new Climber();
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
-    Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing);
     private Command m_autonomousCommand;
 
     private Trajectory autoPart1;
@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
         shooter.zeroShooterEncoder();
         peripherals.init();
         lightRing.init();
+        climber.init();
         try {
             autoPart1 =
                     TrajectoryUtil.fromPathweaverJson(
@@ -131,7 +132,6 @@ public class Robot extends TimedRobot {
         drive.zeroDriveEncoderTics();
         SmartDashboard.putNumber("Position Y", odometry.getY());
         SmartDashboard.putNumber("Position Theta", odometry.getTheta());
-        autonomous.schedule();
 
         // try {
         //     autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 1, 5.0, true);
@@ -166,14 +166,34 @@ public class Robot extends TimedRobot {
         OI.driverLT.whileHeld(new Outtake(magIntake));
         OI.driverLT.whenReleased(new CancelMagazine(magIntake));
         OI.driverA.whenPressed(
-                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 24, -9.0));
+                new Fire(
+                        magIntake,
+                        peripherals,
+                        shooter,
+                        hood,
+                        lightRing,
+                        drive,
+                        2000,
+                        24,
+                        -9.0,
+                        false));
 
         // OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
 
         // OI.driverA.whenPressed(new ParallelRaceGroup(new DriveBackwards1(drive, 10), new
         // SmartIntake(magIntake)));
         OI.driverB.whenPressed(
-                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 3100, 30, 2.0));
+                new Fire(
+                        magIntake,
+                        peripherals,
+                        shooter,
+                        hood,
+                        lightRing,
+                        drive,
+                        2900,
+                        31,
+                        4.0,
+                        true));
         OI.driverY.whenPressed(new DriveBackwards1(drive, 7));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, 0));

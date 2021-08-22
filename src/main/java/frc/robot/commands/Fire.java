@@ -29,12 +29,13 @@ public class Fire extends SequentialCommandGroup {
             Drive drive,
             double rpm,
             double hoodPosition,
-            double visionOffset) {
+            double visionOffset,
+            boolean isBack) {
         addRequirements(magIntake, shooter, hood);
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new VisionAlignment(lightRing, drive, peripherals, visionOffset),
+                new VisionAlignment(lightRing, drive, peripherals, visionOffset, isBack),
                 new ParallelCommandGroup(
                         new SpinShooter(shooter, rpm), new SetHoodPosition(hood, hoodPosition)),
                 new EjectMagazine(magIntake));
