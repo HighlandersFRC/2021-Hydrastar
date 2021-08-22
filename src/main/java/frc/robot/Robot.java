@@ -173,7 +173,7 @@ public class Robot extends TimedRobot {
         // OI.driverA.whenPressed(new ParallelRaceGroup(new DriveBackwards1(drive, 10), new
         // SmartIntake(magIntake)));
         OI.driverB.whenPressed(
-                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 3000, 27, -2.0));
+                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 3100, 30, 2.0));
         OI.driverY.whenPressed(new DriveBackwards1(drive, 7));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, 0));

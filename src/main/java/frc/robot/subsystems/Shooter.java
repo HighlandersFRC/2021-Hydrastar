@@ -13,12 +13,10 @@ public class Shooter extends SubsytemBaseEnhanced {
 
     // private final WPI_TalonFX[] shooterMotors = {shooterMaster, shooterFollower};
 
-    
-
     public void init() {
         shooterMaster.configPeakOutputForward(0.7);
         shooterMaster.configClosedLoopPeakOutput(0, 0.7);
-        shooterMaster.configPeakOutputReverse(0);
+        shooterMaster.configPeakOutputReverse(-0.7);
         shooterMaster.configVoltageCompSaturation(11.7);
         shooterMaster.enableVoltageCompensation(true);
         shooterMaster.setSensorPhase(true);
