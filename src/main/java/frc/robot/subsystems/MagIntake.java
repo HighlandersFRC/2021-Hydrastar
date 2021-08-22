@@ -23,7 +23,7 @@ import frc.robot.Constants;
 import frc.robot.commands.defaultCommands.DriveDefault;
 import frc.robot.commands.defaultCommands.MagIntakeDefault;
 
-public class MagIntake extends SubsytemBaseEnhanced {
+public class MagIntake extends SubsystemBaseEnhanced {
 
     public enum BeamBreakID {
         ONE,

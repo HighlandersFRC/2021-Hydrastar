@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.sensors.Navx;
 import frc.robot.sensors.VisionCamera;
 
-public class Peripherals extends SubsytemBaseEnhanced {
+public class Peripherals extends SubsystemBaseEnhanced {
     private final AHRS ahrs = new AHRS(Port.kMXP);
 
     private final Navx navx = new Navx(ahrs);
@@ -43,8 +43,11 @@ public class Peripherals extends SubsytemBaseEnhanced {
     public Peripherals() {}
 
     public double getCamAngle() {
+        
         visionCam.updateVision();
         return visionCam.getAngle();
+        
+        //return 50.0;
     }
 
     public double getCamDistance() {

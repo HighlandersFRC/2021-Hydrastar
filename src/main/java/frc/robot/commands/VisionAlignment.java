@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.LightRing;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Peripherals;
+import frc.robot.subsystems.Lights.LEDMode;
 import frc.robot.tools.controlloops.PID;
 
 public class VisionAlignment extends CommandBase {
@@ -15,6 +17,7 @@ public class VisionAlignment extends CommandBase {
     private LightRing lightRing;
     private Drive drive;
     private Peripherals peripherals;
+    private Lights lights;
 
     private PID pid;
     private double kP = 0.0075;
@@ -24,13 +27,14 @@ public class VisionAlignment extends CommandBase {
     private double angleOffset = 0;
 
     public VisionAlignment(
-            LightRing lightRing, Drive drive, Peripherals peripherals, Double offset) {
+            LightRing lightRing, Drive drive, Peripherals peripherals, Lights lights, Double offset) {
         this.drive = drive;
         this.lightRing = lightRing;
         this.peripherals = peripherals;
+        this.lights = lights;
         angleOffset = offset;
 
-        addRequirements(this.drive, this.lightRing);
+        addRequirements(this.drive, this.lightRing, this.lights);
     }
 
     @Override
@@ -41,6 +45,7 @@ public class VisionAlignment extends CommandBase {
         pid.setSetPoint(0);
         pid.setMinOutput(-0.5);
         pid.setMaxOutput(0.5);
+        System.out.println("vision just started");
     }
 
     @Override
@@ -54,6 +59,13 @@ public class VisionAlignment extends CommandBase {
         SmartDashboard.putNumber("Counter", counter);
         drive.setRightPercent(pid.getResult());
         drive.setLeftPercent(-pid.getResult());
+        System.out.println("Cam angle: " + peripherals.getCamAngle());
+        System.out.println("Inside vision alignment execute");
+        if (peripherals.getCamAngle() == 0.0) {
+            lights.setMode(LEDMode.ORANGE);
+        } else {
+            lights.setMode(LEDMode.GREEN);
+        }
     }
 
     @Override
@@ -62,6 +74,8 @@ public class VisionAlignment extends CommandBase {
         drive.setLeftPercent(0);
         SmartDashboard.putBoolean("finished vision", true);
         // lightRing.turnOff();
+        System.out.println("vision is finished");
+        lights.setMode(LEDMode.BLUE);
     }
 
     @Override
@@ -69,6 +83,7 @@ public class VisionAlignment extends CommandBase {
         return Math.abs(peripherals.getCamAngle()) <= 0.5
                         && Math.abs(pid.getResult()) < 0.05
                         && peripherals.getCamAngle() != angleOffset
+                        && peripherals.getCamAngle() != 0.0
                 || counter > 45;
     }
 }

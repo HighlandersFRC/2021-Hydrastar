@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import frc.robot.Constants;
 import frc.robot.commands.defaultCommands.ShooterDefault;
 
-public class Shooter extends SubsytemBaseEnhanced {
+public class Shooter extends SubsystemBaseEnhanced {
 
     private final WPI_TalonFX shooterMaster = new WPI_TalonFX(10);
     private final WPI_TalonFX shooterFollower = new WPI_TalonFX(9);

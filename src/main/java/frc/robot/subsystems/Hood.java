@@ -10,7 +10,7 @@ import com.revrobotics.ControlType;
 
 import frc.robot.commands.defaultCommands.HoodDefault;
 
-public class Hood extends SubsytemBaseEnhanced {
+public class Hood extends SubsystemBaseEnhanced {
 
     private double hoodTarget = 0.0;
     private double kf = 0.0;

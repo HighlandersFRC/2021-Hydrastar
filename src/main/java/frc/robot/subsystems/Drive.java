@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.commands.defaultCommands.DriveDefault;
 
-public class Drive extends SubsytemBaseEnhanced {
+public class Drive extends SubsystemBaseEnhanced {
 
     private final WPI_TalonFX leftDriveLead = new WPI_TalonFX(Constants.LEFT_DRIVE_LEAD_ID);
     private final WPI_TalonFX rightDriveLead = new WPI_TalonFX(Constants.RIGHT_DRIVE_LEAD_ID);

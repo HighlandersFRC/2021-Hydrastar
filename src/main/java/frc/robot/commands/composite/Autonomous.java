@@ -10,6 +10,7 @@ import frc.robot.commands.Fire;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
@@ -23,12 +24,13 @@ public class Autonomous extends SequentialCommandGroup {
             Drive drive,
             Peripherals peripherals,
             MagIntake magIntake,
+            Lights lights,
             Hood hood,
             Shooter shooter,
             LightRing lightRing) {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 19, -2.0));
+                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, lights, 2000, 19, -2.0));
     }
 }

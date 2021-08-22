@@ -4,7 +4,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public abstract class SubsytemBaseEnhanced extends SubsystemBase {
+public abstract class SubsystemBaseEnhanced extends SubsystemBase {
 
     public abstract void init();
 

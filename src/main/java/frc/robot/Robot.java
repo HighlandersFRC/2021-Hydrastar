@@ -23,6 +23,7 @@ import frc.robot.commands.composite.Autonomous;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
@@ -44,9 +45,10 @@ public class Robot extends TimedRobot {
     private final Shooter shooter = new Shooter();
     private final Hood hood = new Hood();
     private final LightRing lightRing = new LightRing();
+    private final Lights lights = new Lights();
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
-    Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing);
+    Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, lights, hood, shooter, lightRing);
     private Command m_autonomousCommand;
 
     private Trajectory autoPart1;
@@ -166,14 +168,14 @@ public class Robot extends TimedRobot {
         OI.driverLT.whileHeld(new Outtake(magIntake));
         OI.driverLT.whenReleased(new CancelMagazine(magIntake));
         OI.driverA.whenPressed(
-                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 24, -9.0));
+                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, lights, 2000, 24, -9.0));
 
         // OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
 
         // OI.driverA.whenPressed(new ParallelRaceGroup(new DriveBackwards1(drive, 10), new
         // SmartIntake(magIntake)));
         OI.driverB.whenPressed(
-                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 3000, 27, -2.0));
+                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, lights, 3000, 27, -2.0));
         OI.driverY.whenPressed(new DriveBackwards1(drive, 7));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
