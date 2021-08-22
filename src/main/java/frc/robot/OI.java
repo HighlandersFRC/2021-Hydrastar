@@ -34,4 +34,20 @@ public class OI {
     public static double getDriverRightY() {
         return driverController.getY(Hand.kRight);
     }
+
+    public static double getOperatorLeftX() {
+        return operatorController.getX(Hand.kLeft);
+    }
+
+    public static double getOperatorLeftY() {
+        return operatorController.getY(Hand.kLeft);
+    }
+
+    public static double getOperatorRightX() {
+        return operatorController.getX(Hand.kRight);
+    }
+
+    public static double getOperatorRightY() {
+        return operatorController.getY(Hand.kRight);
+    }
 }
