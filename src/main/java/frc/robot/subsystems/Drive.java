@@ -93,9 +93,11 @@ public class Drive extends SubsytemBaseEnhanced {
     }
 
     public void setDriveBrake() {
-        for (WPI_TalonFX t : driveMotors) {
-            t.setNeutralMode(NeutralMode.Brake);
-        }
+        // for (WPI_TalonFX t : driveMotors) {
+        //     t.setNeutralMode(NeutralMode.Brake);
+        // }
+        leftDriveLead.setNeutralMode(NeutralMode.Brake);
+        rightDriveLead.setNeutralMode(NeutralMode.Brake);
     }
 
     public void inverseDriveMotors(boolean inverted) {
@@ -106,9 +108,11 @@ public class Drive extends SubsytemBaseEnhanced {
     }
 
     public void setDriveCoast() {
-        for (WPI_TalonFX t : driveMotors) {
-            t.setNeutralMode(NeutralMode.Coast);
-        }
+        // for (WPI_TalonFX t : driveMotors) {
+        //     t.setNeutralMode(NeutralMode.Coast);
+        // }
+        leftDriveLead.setNeutralMode(NeutralMode.Brake);
+        rightDriveLead.setNeutralMode(NeutralMode.Brake);
     }
 
     public double getDriveMeters() {

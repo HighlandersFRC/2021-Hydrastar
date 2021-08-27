@@ -5,8 +5,9 @@
 package frc.robot.commands.composite;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import frc.robot.commands.DriveBackwards1;
 import frc.robot.commands.Fire;
+import frc.robot.commands.NavxTurn;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
@@ -29,6 +30,9 @@ public class Autonomous extends SequentialCommandGroup {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 19, -2.0));
+                // new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 19, -2.0));
+                new DriveBackwards1(drive, 48),
+                new NavxTurn(peripherals, drive, 12),
+                new DriveBackwards1(drive, 120));
     }
 }

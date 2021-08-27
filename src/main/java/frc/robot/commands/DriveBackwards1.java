@@ -12,7 +12,7 @@ import frc.robot.tools.controlloops.PID;
 public class DriveBackwards1 extends CommandBase {
   private Drive drive;
   private PID pid;
-  private double kP = 0.05;
+  private double kP = 0.2;
   private double kI = 0.0;
   private double kD = 0.01;
   private double target;
@@ -20,7 +20,7 @@ public class DriveBackwards1 extends CommandBase {
   /** Creates a new DriveBackwards1. */
   public DriveBackwards1(Drive drive, double target) {
     this.drive = drive;
-    this.target = target;
+    this.target = target * 0.0254;
     addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -34,6 +34,7 @@ public class DriveBackwards1 extends CommandBase {
     pid.setSetPoint(target);
     pid.setMinOutput(-0.5);
     pid.setMaxOutput(0.5);
+    drive.setDriveBrake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,6 +44,7 @@ public class DriveBackwards1 extends CommandBase {
     drive.setLeftPercent(-pid.getResult());
     drive.setRightPercent(-pid.getResult());
     SmartDashboard.putNumber("drivebackwards 1 output", pid.getResult());
+    SmartDashboard.putNumber("Distance", drive.getDriveMeters() + target);
   }
 
   // Called once the command ends or is interrupted.
@@ -56,7 +58,7 @@ public class DriveBackwards1 extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Math.abs(drive.getDriveMeters() + 1) < 0.5){
+    if(Math.abs(drive.getDriveMeters() + target) < 0.2){
       return true;
     }
       

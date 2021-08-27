@@ -4,6 +4,7 @@
 
 package frc.robot.commands.defaultCommands;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.OI;
@@ -26,7 +27,24 @@ public class ClimberDefault extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        climber.setClimber(OI.getOperatorLeftY(), OI.getOperatorRightY());
+        // if(OI.operatorController.getYButton()) {
+        //     climber.setClimber(0.5, 0.5);
+        // }
+        // else if(OI.operatorController.getAButton()) {
+        //     climber.setClimber(-0.5, -0.5);
+        // }
+        // else {
+        //     climber.setClimber(0, 0);
+        // }
+        if(OI.operatorController.getBButton()) {
+            climber.setLeftClimberPiston(Value.kForward);
+        }
+        else if(OI.operatorController.getAButton()) {
+            climber.setRightClimberPiston(Value.kReverse);
+        }
+        else {
+            // climber.setClimber(-OI.getOperatorLeftY(), -OI.getOperatorRightY());
+        }
     }
 
     // Called once the command ends or is interrupted.

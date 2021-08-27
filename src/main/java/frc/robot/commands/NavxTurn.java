@@ -14,9 +14,9 @@ public class NavxTurn extends CommandBase {
   private Peripherals peripherals;
   private Drive drive;
   private PID pid;
-  private double kP = 0.02;
+  private double kP = 0.015;
   private double kI = 0.001;
-  private double kD = 0.0;
+  private double kD = 0.15;
   private double target;
   
   /** Creates a new NavxTurn. */
@@ -31,18 +31,19 @@ public class NavxTurn extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    // peripherals.zeroNavx();
     SmartDashboard.putBoolean("finished navxturn", false);
     pid = new PID(kP, kI, kD);
     pid.setSetPoint(target);
-    pid.setMinOutput(-0.3);
-    pid.setMaxOutput(0.3);
+    pid.setMinOutput(-0.5);
+    pid.setMaxOutput(0.5);
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("Inside navx turn");
     pid.updatePID(peripherals.getNavxAngle());
     SmartDashboard.putNumber("navx pid output", pid.getResult());
     drive.setLeftPercent(pid.getResult());

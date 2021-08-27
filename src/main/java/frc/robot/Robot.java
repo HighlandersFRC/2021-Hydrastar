@@ -20,6 +20,7 @@ import frc.robot.commands.PurePursuit;
 import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
 import frc.robot.commands.composite.Autonomous;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
@@ -44,6 +45,7 @@ public class Robot extends TimedRobot {
     private final Shooter shooter = new Shooter();
     private final Hood hood = new Hood();
     private final LightRing lightRing = new LightRing();
+    private final Climber climber = new Climber();
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
     Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing);
@@ -70,6 +72,7 @@ public class Robot extends TimedRobot {
         shooter.zeroShooterEncoder();
         peripherals.init();
         lightRing.init();
+        climber.init();
         try {
             autoPart1 =
                     TrajectoryUtil.fromPathweaverJson(
