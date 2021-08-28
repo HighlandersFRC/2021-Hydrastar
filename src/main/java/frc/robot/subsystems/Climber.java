@@ -7,17 +7,23 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.commands.defaultCommands.ClimberDefault;
 
 public class Climber extends SubsystemBase {
-    private final WPI_TalonFX leftClimberMotor = new WPI_TalonFX(5);
-    private final WPI_TalonFX rightClimberMotor = new WPI_TalonFX(6);
+    private final WPI_TalonFX leftClimberMotor = new WPI_TalonFX(6);
+    private final WPI_TalonFX rightClimberMotor = new WPI_TalonFX(5);
+    private final DoubleSolenoid leftClimberRatchet = new DoubleSolenoid(2, 3);
+    // private final DoubleSolenoid rightClimberRatchet = new DoubleSolenoid(4, 5);
+
     /** Creates a new Climber. */
     public Climber() {}
 
     public void init() {
+        // leftClimberMotor.set(Conr, demand0, demand1Type, demand1);
         setDefaultCommand(new ClimberDefault(this));
     }
 
@@ -33,6 +39,14 @@ public class Climber extends SubsystemBase {
         leftClimberMotor.set(ControlMode.PercentOutput, leftPercent);
         rightClimberMotor.set(ControlMode.PercentOutput, rightPercent);
     }
+
+    public void setClimberPiston(Value value) {
+        leftClimberRatchet.set(value);
+    }
+
+    // public void setRightClimberPiston(Value value) {
+    //     rightClimberRatchet.set(value);
+    // }
 
     @Override
     public void periodic() {

@@ -40,7 +40,7 @@ public class OI {
     }
 
     public static double getOperatorLeftY() {
-        return operatorController.getY(Hand.kLeft);
+        return operatorController.getY(Hand.kLeft) * 0.4;
     }
 
     public static double getOperatorRightX() {
@@ -48,6 +48,6 @@ public class OI {
     }
 
     public static double getOperatorRightY() {
-        return operatorController.getY(Hand.kRight);
+        return operatorController.getY(Hand.kRight) * 0.4;
     }
 }

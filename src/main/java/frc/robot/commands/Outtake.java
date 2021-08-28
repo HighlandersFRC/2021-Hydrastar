@@ -20,7 +20,7 @@ public class Outtake extends CommandBase {
     @Override
     public void execute() {
         magIntake.setIntakePercent(0.5);
-        magIntake.setMagPercent(-0.5, -0.3, -0.5);
+        magIntake.setMagPercent(-0.7, -0.5, -0.7);
     }
 
     @Override

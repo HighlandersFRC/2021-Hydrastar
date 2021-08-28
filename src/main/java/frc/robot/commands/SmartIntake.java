@@ -33,7 +33,7 @@ public class SmartIntake extends CommandBase {
         // magIntake.setIntakePercent(-0.65);
         if (!magIntake.getBeamBreak(BeamBreakID.ONE)) {
             magIntake.setMagPercent(0.5, 0.15, 0.5);
-            magIntake.setIntakePercent(-0.35);
+            magIntake.setIntakePercent(-0.45);
         } else {
             magIntake.setIntakePercent(-0.65);
             magIntake.setMagPercent(0, 0, 0);

@@ -4,6 +4,8 @@
 
 package frc.robot.commands.defaultCommands;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.OI;
@@ -11,6 +13,7 @@ import frc.robot.subsystems.Climber;
 
 public class ClimberDefault extends CommandBase {
     private Climber climber;
+    private WaitCommand wait = new WaitCommand("Wait", 0.1);
     /** Creates a new ClimberDefault. */
     public ClimberDefault(Climber climber) {
         this.climber = climber;
@@ -27,6 +30,38 @@ public class ClimberDefault extends CommandBase {
     @Override
     public void execute() {
         climber.setClimber(OI.getOperatorLeftY(), OI.getOperatorRightY());
+        // if(OI.operatorController.getYButton()) {
+        //     climber.setClimber(0.5, 0.5);
+        // }
+        // else if(OI.operatorController.getAButton()) {
+        //     climber.setClimber(-0.5, -0.5);
+        // }
+        // else {
+        //     climber.setClimber(0, 0);
+        // }
+        if (OI.operatorController.getBButton()) {
+            climber.setClimberPiston(Value.kReverse);
+        } else if (OI.operatorController.getAButton()) {
+            // climber.setRightClimberPiston(Value.kReverse);
+            climber.setClimberPiston(Value.kForward);
+        }
+        // if(OI.operatorController.getYButton()) {
+        //     climber.setClimberPiston(Value.kReverse);
+        //     climber.setClimber(0.2, 0.2);
+        // }
+        // else if(OI.operatorController.getBButton()) {
+        //     climber.setClimber(0, -0.4);
+        // }
+        // else if(OI.operatorController.getXButton()) {
+        //     climber.setClimber(-0.4, 0);
+        // }
+        // else if(OI.operatorController.getAButton()) {
+        //     climber.setClimber(-0.4, -0.4);
+        // }
+        // else {
+        //     climber.setClimberPiston(Value.kForward);
+        //     climber.setClimber(0, 0);
+        // }
     }
 
     // Called once the command ends or is interrupted.

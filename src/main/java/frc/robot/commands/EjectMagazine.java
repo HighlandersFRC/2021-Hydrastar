@@ -10,19 +10,26 @@ import frc.robot.subsystems.MagIntake;
 
 public class EjectMagazine extends CommandBase {
     private MagIntake magIntake;
-    private double counter = 0.0;
+    private int counter = 0;
+    private int countsToEnd;
 
     /** Creates a new EjectMagazine. */
-    public EjectMagazine(MagIntake magIntake) {
+    public EjectMagazine(MagIntake magIntake, int timeToEnd) {
         this.magIntake = magIntake;
         addRequirements(magIntake);
+        if(timeToEnd > 0) {
+            countsToEnd = timeToEnd;
+        }
+        else {
+            countsToEnd = 50;
+        }
         // Use addRequirements() here to declare subsystem dependencies.
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        counter = 0.0;
+        counter = 0;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -39,6 +46,9 @@ public class EjectMagazine extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        if(counter > countsToEnd) {
+            return true;
+        }
         return false;
     }
 }

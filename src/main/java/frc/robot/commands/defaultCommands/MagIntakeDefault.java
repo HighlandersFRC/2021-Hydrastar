@@ -21,7 +21,7 @@ public class MagIntakeDefault extends CommandBase {
         magIntake.setIntakePercent(0);
         magIntake.setMagPercent(0, 0, 0);
         magIntake.setIntakePistonUp();
-        magIntake.putBeamBreaksSmartDashboard();
+        // magIntake.putBeamBreaksSmartDashboard();
     }
 
     @Override
