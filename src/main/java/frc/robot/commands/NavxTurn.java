@@ -16,7 +16,7 @@ public class NavxTurn extends CommandBase {
   private PID pid;
   private double kP = 0.015;
   private double kI = 0.001;
-  private double kD = 0.15;
+  private double kD = 0.16;
   private double target;
   
   /** Creates a new NavxTurn. */

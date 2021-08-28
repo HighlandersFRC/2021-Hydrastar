@@ -169,15 +169,14 @@ public class Robot extends TimedRobot {
         OI.driverLT.whileHeld(new Outtake(magIntake));
         OI.driverLT.whenReleased(new CancelMagazine(magIntake));
         OI.driverA.whenPressed(
-                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 24, -9.0));
+                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 2000, 24, -9.0, -1));
 
         // OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
 
         // OI.driverA.whenPressed(new ParallelRaceGroup(new DriveBackwards1(drive, 10), new
         // SmartIntake(magIntake)));
         OI.driverB.whenPressed(
-                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 3100, 30, 2.0));
-        OI.driverY.whenPressed(new DriveBackwards1(drive, 7));
+                new Fire(magIntake, peripherals, shooter, hood, lightRing, drive, 3100, 30, 2.0, -1));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));

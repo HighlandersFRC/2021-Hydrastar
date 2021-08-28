@@ -12,16 +12,22 @@ import frc.robot.tools.controlloops.PID;
 public class DriveBackwards1 extends CommandBase {
   private Drive drive;
   private PID pid;
-  private double kP = 0.2;
+  private double kP = 0.4;
   private double kI = 0.0;
   private double kD = 0.01;
   private double target;
+  private double minOutput;
+  private double maxOutput;
+  private boolean isForwards;
   
   /** Creates a new DriveBackwards1. */
-  public DriveBackwards1(Drive drive, double target) {
+  public DriveBackwards1(Drive drive, double target, double minMaxOutput, boolean trueForwards) {
     this.drive = drive;
     this.target = target * 0.0254;
     addRequirements(drive);
+    minOutput = -minMaxOutput;
+    maxOutput = minMaxOutput;
+    isForwards = trueForwards;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -32,8 +38,8 @@ public class DriveBackwards1 extends CommandBase {
     SmartDashboard.putBoolean("finished drivebackwards 1", false);
     pid = new PID(kP, kI, kD);
     pid.setSetPoint(target);
-    pid.setMinOutput(-0.5);
-    pid.setMaxOutput(0.5);
+    pid.setMinOutput(minOutput);
+    pid.setMaxOutput(maxOutput);
     drive.setDriveBrake();
   }
 
@@ -41,10 +47,17 @@ public class DriveBackwards1 extends CommandBase {
   @Override
   public void execute() {
     pid.updatePID(drive.getDriveMeters());
-    drive.setLeftPercent(-pid.getResult());
-    drive.setRightPercent(-pid.getResult());
+    if(isForwards) {
+      drive.setLeftPercent(pid.getResult());
+      drive.setRightPercent(pid.getResult());
+      SmartDashboard.putNumber("Distance", drive.getDriveMeters() - target);
+    }
+    else {
+      drive.setLeftPercent(-pid.getResult());
+      drive.setRightPercent(-pid.getResult());
+      SmartDashboard.putNumber("Distance", drive.getDriveMeters() + target);
+    }
     SmartDashboard.putNumber("drivebackwards 1 output", pid.getResult());
-    SmartDashboard.putNumber("Distance", drive.getDriveMeters() + target);
   }
 
   // Called once the command ends or is interrupted.
@@ -58,10 +71,16 @@ public class DriveBackwards1 extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Math.abs(drive.getDriveMeters() + target) < 0.2){
-      return true;
+    if(isForwards) {
+      if(Math.abs(drive.getDriveMeters() - target) < 0.5){
+        return true;
+      }  
     }
-      
+    else {
+      if(Math.abs(drive.getDriveMeters() + target) < 0.2){
+        return true;
+      }
+    }     
     
     return false;
   }

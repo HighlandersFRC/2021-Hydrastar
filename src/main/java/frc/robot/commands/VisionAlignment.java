@@ -61,7 +61,7 @@ public class VisionAlignment extends CommandBase {
         drive.setRightPercent(0);
         drive.setLeftPercent(0);
         SmartDashboard.putBoolean("finished vision", true);
-        // lightRing.turnOff();
+        lightRing.turnVisionOff();
     }
 
     @Override

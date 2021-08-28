@@ -17,7 +17,7 @@ public class Climber extends SubsystemBase {
     private final WPI_TalonFX leftClimberMotor = new WPI_TalonFX(6);
     private final WPI_TalonFX rightClimberMotor = new WPI_TalonFX(5);
     private final DoubleSolenoid leftClimberRatchet = new DoubleSolenoid(2, 3);
-    private final DoubleSolenoid rightClimberRatchet = new DoubleSolenoid(4, 5);
+    // private final DoubleSolenoid rightClimberRatchet = new DoubleSolenoid(4, 5);
 
     /** Creates a new Climber. */
     public Climber() {}
@@ -40,13 +40,13 @@ public class Climber extends SubsystemBase {
         rightClimberMotor.set(ControlMode.PercentOutput, rightPercent);
     }
 
-    public void setLeftClimberPiston(Value value) {
+    public void setClimberPiston(Value value) {
         leftClimberRatchet.set(value);
     }
 
-    public void setRightClimberPiston(Value value) {
-        rightClimberRatchet.set(value);
-    }
+    // public void setRightClimberPiston(Value value) {
+    //     rightClimberRatchet.set(value);
+    // }
 
     @Override
     public void periodic() {
