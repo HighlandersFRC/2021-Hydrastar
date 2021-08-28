@@ -21,7 +21,7 @@ public class EjectMagazine extends CommandBase {
             countsToEnd = timeToEnd;
         }
         else {
-            countsToEnd = 47;
+            countsToEnd = 50;
         }
         // Use addRequirements() here to declare subsystem dependencies.
     }
