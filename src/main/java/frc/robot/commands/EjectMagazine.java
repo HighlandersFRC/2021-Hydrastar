@@ -4,25 +4,25 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.OI;
+import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.MagIntake;
 
 public class EjectMagazine extends CommandBase {
     private MagIntake magIntake;
+    private Drive drive;
+
     private int counter = 0;
     private int countsToEnd;
 
     /** Creates a new EjectMagazine. */
-    public EjectMagazine(MagIntake magIntake, int timeToEnd) {
+    public EjectMagazine(MagIntake magIntake, Drive drive, int timeToEnd) {
         this.magIntake = magIntake;
+        this.drive = drive;
         addRequirements(magIntake);
-        if(timeToEnd > 0) {
-            countsToEnd = timeToEnd;
-        }
-        else {
-            countsToEnd = 50;
-        }
+        countsToEnd = timeToEnd;
         // Use addRequirements() here to declare subsystem dependencies.
     }
 
@@ -36,6 +36,18 @@ public class EjectMagazine extends CommandBase {
     @Override
     public void execute() {
         magIntake.setMagPercent(1, 0.75, 1);
+        if(OI.driverController.getBumper(Hand.kRight)) {
+            drive.setLeftPercent(0.1);
+            drive.setRightPercent(-0.1);
+        }
+        else if(OI.driverController.getBumper(Hand.kLeft)) {
+            drive.setLeftPercent(-0.1);
+            drive.setRightPercent(0.1);
+        }
+        else {
+            drive.setRightPercent(0);
+            drive.setLeftPercent(0);
+        }
         counter++;
     }
 
@@ -46,8 +58,10 @@ public class EjectMagazine extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if(counter > countsToEnd) {
-            return true;
+        if(countsToEnd > 0) {
+            if(counter > countsToEnd) {
+                return true;
+            }
         }
         return false;
     }

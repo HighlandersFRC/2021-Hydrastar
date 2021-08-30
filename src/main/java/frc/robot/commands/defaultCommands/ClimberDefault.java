@@ -39,29 +39,29 @@ public class ClimberDefault extends CommandBase {
         // else {
         //     climber.setClimber(0, 0);
         // }
-        if (OI.operatorController.getBButton()) {
-            climber.setClimberPiston(Value.kReverse);
-        } else if (OI.operatorController.getAButton()) {
-            // climber.setRightClimberPiston(Value.kReverse);
-            climber.setClimberPiston(Value.kForward);
-        }
-        // if(OI.operatorController.getYButton()) {
+        // if (OI.operatorController.getBButton()) {
         //     climber.setClimberPiston(Value.kReverse);
-        //     climber.setClimber(0.2, 0.2);
-        // }
-        // else if(OI.operatorController.getBButton()) {
-        //     climber.setClimber(0, -0.4);
-        // }
-        // else if(OI.operatorController.getXButton()) {
-        //     climber.setClimber(-0.4, 0);
-        // }
-        // else if(OI.operatorController.getAButton()) {
-        //     climber.setClimber(-0.4, -0.4);
-        // }
-        // else {
+        // } else if (OI.operatorController.getAButton()) {
+        //     // climber.setRightClimberPiston(Value.kReverse);
         //     climber.setClimberPiston(Value.kForward);
-        //     climber.setClimber(0, 0);
         // }
+        if(OI.operatorController.getYButton()) {
+            climber.setClimberPiston(Value.kReverse);
+            climber.setClimber(0.2, 0.2);
+        }
+        else if(OI.operatorController.getBButton()) {
+            climber.setClimber(0, -0.4);
+        }
+        else if(OI.operatorController.getXButton()) {
+            climber.setClimber(-0.4, 0);
+        }
+        else if(OI.operatorController.getAButton()) {
+            climber.setClimber(-0.4, -0.4);
+        }
+        else {
+            climber.setClimberPiston(Value.kForward);
+            climber.setClimber(0, 0);
+        }
     }
 
     // Called once the command ends or is interrupted.

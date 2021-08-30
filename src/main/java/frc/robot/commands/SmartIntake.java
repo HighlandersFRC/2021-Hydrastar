@@ -32,19 +32,21 @@ public class SmartIntake extends CommandBase {
         // magIntake.setMagPercent(0.5, 0.5, 0.5);
         // magIntake.setIntakePercent(-0.65);
         if (!magIntake.getBeamBreak(BeamBreakID.ONE)) {
-            magIntake.setMagPercent(0.5, 0.15, 0.5);
-            magIntake.setIntakePercent(-0.30);
+            magIntake.setMagPercent(0.5, 0.25, 0.5);
+            magIntake.setIntakePercent(-0.27);
         } else {
-            magIntake.setIntakePercent(-0.65);
+            magIntake.setIntakePercent(-0.35);
             magIntake.setMagPercent(0, 0, 0);
         }
+        magIntake.putIntakeCurrentSmartDashboard();
     }
 
     @Override
     public void end(boolean interrupted) {
-        magIntake.setMagPercent(0, 0, 0);
-        magIntake.setIntakePercent(0);
-        magIntake.setIntakePistonUp();
+        System.out.println("Inside end command");
+        // magIntake.setMagPercent(0, 0, 0);
+        // magIntake.setIntakePercent(0);
+        // magIntake.setIntakePistonUp();
     }
 
     @Override

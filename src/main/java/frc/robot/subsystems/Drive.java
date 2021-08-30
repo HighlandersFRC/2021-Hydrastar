@@ -111,8 +111,8 @@ public class Drive extends SubsytemBaseEnhanced {
         // for (WPI_TalonFX t : driveMotors) {
         //     t.setNeutralMode(NeutralMode.Coast);
         // }
-        leftDriveLead.setNeutralMode(NeutralMode.Brake);
-        rightDriveLead.setNeutralMode(NeutralMode.Brake);
+        leftDriveLead.setNeutralMode(NeutralMode.Coast);
+        rightDriveLead.setNeutralMode(NeutralMode.Coast);
     }
 
     public double getDriveMeters() {

@@ -118,6 +118,10 @@ public class MagIntake extends SubsytemBaseEnhanced {
         // SmartDashboard.putBoolean("Beam Break 6", this.getBeamBreak(BeamBreakID.SIX));
     }
 
+    public void putIntakeCurrentSmartDashboard() {
+        SmartDashboard.putNumber("Intake Current", intakeMotor.getOutputCurrent());
+    }
+
     public void setMagPercent(double lowPercent, double midPercent, double highPercent) {
         setLowMagPercent(lowPercent);
         setMidMagPercent(midPercent);

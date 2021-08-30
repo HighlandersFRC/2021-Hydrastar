@@ -2,9 +2,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.OI;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.LightRing;
 import frc.robot.subsystems.Peripherals;
@@ -28,18 +29,21 @@ public class VisionAlignment extends CommandBase {
     private double angleOffset = 0;
     private boolean isBack = false;
     private double output = 0;
+    private double distance = 0;
 
     public VisionAlignment(
             LightRing lightRing,
             Drive drive,
             Peripherals peripherals,
             Double offset,
-            boolean back) {
+            boolean back,
+            double distance) {
         this.drive = drive;
         this.lightRing = lightRing;
         this.peripherals = peripherals;
         angleOffset = offset;
         isBack = back;
+        this.distance = distance;
 
         addRequirements(this.drive, this.lightRing);
     }
@@ -68,8 +72,19 @@ public class VisionAlignment extends CommandBase {
         }
         SmartDashboard.putNumber("PID Output", pid.getResult());
         SmartDashboard.putNumber("Counter", counter);
-        drive.setRightPercent(output);
-        drive.setLeftPercent(-output);
+        if(OI.driverController.getBumper(Hand.kRight)) {
+            drive.setLeftPercent(0.1);
+            drive.setRightPercent(-0.1);
+        }
+        else if(OI.driverController.getBumper(Hand.kLeft)) {
+            drive.setLeftPercent(-0.1);
+            drive.setRightPercent(0.1);
+        }
+        else {
+            drive.setRightPercent(output);
+            drive.setLeftPercent(-output);
+        }
+        
     }
 
     @Override
@@ -82,9 +97,19 @@ public class VisionAlignment extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Math.abs(peripherals.getCamAngle() - angleOffset) <= 0.5
+        if(isBack) {
+            return Math.abs(peripherals.getCamAngle() - angleOffset) <= 0.5
+                        && Math.abs(pid.getResult()) < 0.1
+                        && peripherals.getCamAngle() != angleOffset
+                || counter > 75;
+        }
+        else {
+            return Math.abs(peripherals.getCamAngle() - angleOffset) <= 2
                         && Math.abs(pid.getResult()) < 0.05
                         && peripherals.getCamAngle() != angleOffset
                 || counter > 45;
+        }
+        // return false;
+        
     }
 }

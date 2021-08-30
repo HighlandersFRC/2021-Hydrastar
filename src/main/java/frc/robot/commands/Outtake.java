@@ -25,8 +25,6 @@ public class Outtake extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        magIntake.setIntakePercent(0);
-        magIntake.setMagPercent(0, 0, 0);
     }
 
     @Override

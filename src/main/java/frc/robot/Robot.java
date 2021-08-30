@@ -2,6 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+//random comment
+
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -72,6 +74,7 @@ public class Robot extends TimedRobot {
         peripherals.init();
         lightRing.init();
         climber.init();
+        magIntake.init();
         try {
             autoPart1 =
                     TrajectoryUtil.fromPathweaverJson(
@@ -166,8 +169,9 @@ public class Robot extends TimedRobot {
         drive.teleopInit();
         OI.driverRT.whileHeld(new SmartIntake(magIntake));
         OI.driverLT.whileHeld(new Outtake(magIntake));
-        OI.driverLT.whenReleased(new CancelMagazine(magIntake));
-        OI.driverA.whenPressed(
+        // OI.driverLT.whenReleased(new CancelMagazine(magIntake));
+        // OI.driverRT.whenReleased(new CancelMagazine(magIntake));
+        OI.driverB.whenPressed(
                 new Fire(
                         magIntake,
                         peripherals,
@@ -179,13 +183,29 @@ public class Robot extends TimedRobot {
                         24,
                         -9.0,
                         false,
-                        -1));
+                        -1,
+                        10));
+
+        OI.driverB.whenPressed(
+            new Fire(
+                    magIntake,
+                    peripherals,
+                    shooter,
+                    hood,
+                    lightRing,
+                    drive,
+                    2000,
+                    4,
+                    0.0,
+                    false,
+                    -1,
+                    0));
 
         // OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
 
         // OI.driverA.whenPressed(new ParallelRaceGroup(new DriveBackwards1(drive, 10), new
         // SmartIntake(magIntake)));
-        OI.driverB.whenPressed(
+        OI.driverX.whenPressed(
                 new Fire(
                         magIntake,
                         peripherals,
@@ -193,11 +213,12 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        3100,
-                        30,
+                        2800,
+                        31,
                         2.0,
                         true,
-                        -1));
+                        -1,
+                        20));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));
