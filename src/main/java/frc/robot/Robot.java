@@ -60,10 +60,6 @@ public class Robot extends TimedRobot {
 
     private RobotContainer m_robotContainer;
 
-    /**
-     * This function is run when the robot is first started up and should be used for any
-     * initialization code.
-     */
     @Override
     public void robotInit() {
         odometry.zero();
@@ -91,13 +87,6 @@ public class Robot extends TimedRobot {
         m_robotContainer = new RobotContainer();
     }
 
-    /**
-     * This function is called every robot packet, no matter the mode. Use this for items like
-     * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
-     *
-     * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-     * SmartDashboard integrated updating.
-     */
     @Override
     public void robotPeriodic() {
         SmartDashboard.putBoolean("Top Switch", hood.getTopLimitSwitch());
@@ -113,14 +102,9 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
 
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
     }
 
-    /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {}
 
@@ -136,25 +120,6 @@ public class Robot extends TimedRobot {
         drive.zeroDriveEncoderTics();
         SmartDashboard.putNumber("Position Y", odometry.getY());
         SmartDashboard.putNumber("Position Theta", odometry.getTheta());
-
-        // try {
-        //     autoPathPart1 = new PurePursuit(drive, odometry, autoPart1, 1, 5.0, true);
-        //     autoPathPart2 = new PurePursuit(drive, odometry, autoPart2, 18, 5.0, false);
-        //     autoCommand =
-        //             new SequentialCommandGroup(
-
-        //                     new ParallelRaceGroup(autoPathPart1, new SmartIntake(magIntake)));
-        //     //autoCommand.schedule();
-        // } catch (Exception e) {
-        //     System.out.println("Inside Catch");
-        // }
-
-        // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-        // // schedule the autonomous command (example)
-        // if (m_autonomousCommand != null) {
-        //   m_autonomousCommand.schedule();
-        // }
         autonomous.schedule();
     }
 
@@ -169,8 +134,6 @@ public class Robot extends TimedRobot {
         drive.teleopInit();
         OI.driverRT.whileHeld(new SmartIntake(magIntake));
         OI.driverLT.whileHeld(new Outtake(magIntake));
-        // OI.driverLT.whenReleased(new CancelMagazine(magIntake));
-        // OI.driverRT.whenReleased(new CancelMagazine(magIntake));
         OI.driverB.whenPressed(
                 new Fire(
                         magIntake,
@@ -201,10 +164,6 @@ public class Robot extends TimedRobot {
                     -1,
                     0));
 
-        // OI.driverA.whenPressed(new Fire(magIntake, shooter, hood, 3500, 19));
-
-        // OI.driverA.whenPressed(new ParallelRaceGroup(new DriveBackwards1(drive, 10), new
-        // SmartIntake(magIntake)));
         OI.driverX.whenPressed(
                 new Fire(
                         magIntake,
@@ -213,9 +172,9 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        2800,
+                        2900,
                         31,
-                        2.0,
+                        3.0,
                         true,
                         -1,
                         20));
@@ -230,9 +189,6 @@ public class Robot extends TimedRobot {
         OI.driverX.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
 
-        // OI.driverA.whileHeld(new Fire(magIntake, shooter));
-
-        // OI.driverA.whenPressed(new SpinShooter(shooter, 1500));
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
