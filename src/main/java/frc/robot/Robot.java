@@ -2,11 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-//random comment
+// random comment
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
@@ -47,6 +51,8 @@ public class Robot extends TimedRobot {
     private final Hood hood = new Hood();
     private final LightRing lightRing = new LightRing();
     private final Climber climber = new Climber();
+    private UsbCamera camera;
+    private VideoSink server;
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
     Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing);
@@ -85,6 +91,14 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
+        camera = CameraServer.getInstance().startAutomaticCapture("VisionCamera1", "/dev/video0");
+        camera.setResolution(160, 120);
+        camera.setFPS(10);
+
+        server = CameraServer.getInstance().addSwitchedCamera("driverVisionCameras");
+        server.setSource(camera);
+        Shuffleboard.update();
+        SmartDashboard.updateValues();
     }
 
     @Override
@@ -150,19 +164,19 @@ public class Robot extends TimedRobot {
                         10));
 
         OI.driverB.whenPressed(
-            new Fire(
-                    magIntake,
-                    peripherals,
-                    shooter,
-                    hood,
-                    lightRing,
-                    drive,
-                    2000,
-                    4,
-                    0.0,
-                    false,
-                    -1,
-                    0));
+                new Fire(
+                        magIntake,
+                        peripherals,
+                        shooter,
+                        hood,
+                        lightRing,
+                        drive,
+                        2000,
+                        4,
+                        0.0,
+                        false,
+                        -1,
+                        0));
 
         OI.driverX.whenPressed(
                 new Fire(
