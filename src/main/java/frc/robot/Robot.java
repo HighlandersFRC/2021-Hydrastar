@@ -31,6 +31,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
@@ -53,11 +54,13 @@ public class Robot extends TimedRobot {
     private final Hood hood = new Hood();
     private final LightRing lightRing = new LightRing();
     private final Climber climber = new Climber();
+    private final Lights lights = new Lights();
     private UsbCamera camera;
     private VideoSink server;
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
-    Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing);
+    Autonomous autonomous =
+            new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing, lights);
     private Command m_autonomousCommand;
 
     private Trajectory autoPart1;
@@ -77,6 +80,7 @@ public class Robot extends TimedRobot {
         shooter.zeroShooterEncoder();
         peripherals.init();
         lightRing.init();
+        lights.init();
         climber.init();
         magIntake.init();
         try {
@@ -137,6 +141,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Position Y", odometry.getY());
         SmartDashboard.putNumber("Position Theta", odometry.getTheta());
         autonomous.schedule();
+        lights.autoInit();
     }
 
     /** This function is called periodically during autonomous. */
@@ -148,7 +153,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         drive.teleopInit();
-        OI.driverRT.whileHeld(new SmartIntake(magIntake));
+        OI.driverRT.whileHeld(new SmartIntake(magIntake, lights));
         OI.driverLT.whileHeld(new Outtake(magIntake));
         OI.driverB.whenPressed(
                 new Fire(
@@ -158,6 +163,7 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
+                        lights,
                         2000,
                         24,
                         -9.0,
@@ -173,6 +179,7 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
+                        lights,
                         2000,
                         4,
                         0.0,
@@ -188,6 +195,7 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
+                        lights,
                         2800,
                         31,
                         3.0,

@@ -14,6 +14,7 @@ import frc.robot.commands.SmartIntake;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
@@ -29,7 +30,8 @@ public class Autonomous extends SequentialCommandGroup {
             MagIntake magIntake,
             Hood hood,
             Shooter shooter,
-            LightRing lightRing) {
+            LightRing lightRing,
+            Lights lights) {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
@@ -40,6 +42,7 @@ public class Autonomous extends SequentialCommandGroup {
                         hood,
                         lightRing,
                         drive,
+                        lights,
                         2100,
                         24,
                         -9.0,
@@ -50,10 +53,12 @@ public class Autonomous extends SequentialCommandGroup {
                 new NavxTurn(peripherals, drive, 15),
                 // changed from 15 degrees on NavxTurn
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 160, 0.25, false, 19), new SmartIntake(magIntake)),
+                        new DriveBackwards1(drive, peripherals, 160, 0.25, false, 19),
+                        new SmartIntake(magIntake, lights)),
                 new NavxTurn(peripherals, drive, 11),
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 120, 0.6, true, 3), new SmartIntake(magIntake)),
+                        new DriveBackwards1(drive, peripherals, 120, 0.6, true, 3),
+                        new SmartIntake(magIntake, lights)),
                 new Fire(
                         magIntake,
                         peripherals,
@@ -61,6 +66,7 @@ public class Autonomous extends SequentialCommandGroup {
                         hood,
                         lightRing,
                         drive,
+                        lights,
                         2900,
                         28,
                         0,

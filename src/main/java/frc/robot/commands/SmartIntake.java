@@ -4,22 +4,27 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import frc.robot.subsystems.Lights;
+import frc.robot.subsystems.Lights.LEDMode;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.MagIntake.BeamBreakID;
 
 public class SmartIntake extends CommandBase {
     private MagIntake magIntake;
+    private Lights lights;
 
     private enum MagIntakeStates {}
 
-    public SmartIntake(MagIntake magIntake) {
+    public SmartIntake(MagIntake magIntake, Lights lights) {
         this.magIntake = magIntake;
-        addRequirements(magIntake);
+        this.lights = lights;
+        addRequirements(magIntake, lights);
     }
 
-    public SmartIntake(MagIntake magIntake, double duration) {
+    public SmartIntake(MagIntake magIntake, Lights lights, double duration) {
         this.magIntake = magIntake;
-        addRequirements(magIntake);
+        this.lights = lights;
+        addRequirements(magIntake, lights);
     }
 
     @Override
@@ -34,9 +39,11 @@ public class SmartIntake extends CommandBase {
         if (!magIntake.getBeamBreak(BeamBreakID.ONE)) {
             magIntake.setMagPercent(0.5, 0.17, 0.5);
             magIntake.setIntakePercent(-0.27);
+            lights.setMode(LEDMode.YELLOW);
         } else {
             magIntake.setIntakePercent(-0.35);
             magIntake.setMagPercent(0, 0, 0);
+            lights.setMode(LEDMode.BLUE);
         }
         magIntake.putIntakeCurrentSmartDashboard();
     }

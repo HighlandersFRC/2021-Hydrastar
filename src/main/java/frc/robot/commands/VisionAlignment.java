@@ -5,9 +5,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.OI;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.LightRing;
+import frc.robot.subsystems.Lights;
+import frc.robot.subsystems.Lights.LEDMode;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.tools.controlloops.PID;
 
@@ -16,6 +19,7 @@ public class VisionAlignment extends CommandBase {
     private LightRing lightRing;
     private Drive drive;
     private Peripherals peripherals;
+    private Lights lights;
 
     private PID pid;
     private PID backPID;
@@ -35,6 +39,7 @@ public class VisionAlignment extends CommandBase {
             LightRing lightRing,
             Drive drive,
             Peripherals peripherals,
+            Lights lights,
             Double offset,
             boolean back,
             double distance) {
@@ -44,8 +49,9 @@ public class VisionAlignment extends CommandBase {
         angleOffset = offset;
         isBack = back;
         this.distance = distance;
+        this.lights = lights;
 
-        addRequirements(this.drive, this.lightRing);
+        addRequirements(this.drive, this.lightRing, this.lights);
     }
 
     @Override
@@ -72,19 +78,21 @@ public class VisionAlignment extends CommandBase {
         }
         SmartDashboard.putNumber("PID Output", pid.getResult());
         SmartDashboard.putNumber("Counter", counter);
-        if(OI.driverController.getBumper(Hand.kRight)) {
+        if (OI.driverController.getBumper(Hand.kRight)) {
             drive.setLeftPercent(0.1);
             drive.setRightPercent(-0.1);
-        }
-        else if(OI.driverController.getBumper(Hand.kLeft)) {
+        } else if (OI.driverController.getBumper(Hand.kLeft)) {
             drive.setLeftPercent(-0.1);
             drive.setRightPercent(0.1);
-        }
-        else {
+        } else {
             drive.setRightPercent(output);
             drive.setLeftPercent(-output);
         }
-        
+        if (peripherals.getCamAngle() == 0) {
+            lights.setMode(LEDMode.ORANGE);
+        } else {
+            lights.setMode(LEDMode.GREEN);
+        }
     }
 
     @Override
@@ -97,19 +105,18 @@ public class VisionAlignment extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(isBack) {
+        if (isBack) {
             return Math.abs(peripherals.getCamAngle() - angleOffset) <= 0.5
-                        && Math.abs(pid.getResult()) < 0.1
-                        && peripherals.getCamAngle() != angleOffset
-                || counter > 75;
-        }
-        else {
+                            && Math.abs(pid.getResult()) < 0.1
+                            && peripherals.getCamAngle() != angleOffset
+                    || counter > 75;
+        } else {
             return Math.abs(peripherals.getCamAngle() - angleOffset) <= 2
-                        && Math.abs(pid.getResult()) < 0.05
-                        && peripherals.getCamAngle() != angleOffset
-                || counter > 45;
+                            && Math.abs(pid.getResult()) < 0.05
+                            && peripherals.getCamAngle() != angleOffset
+                    || counter > 45;
         }
         // return false;
-        
+
     }
 }
