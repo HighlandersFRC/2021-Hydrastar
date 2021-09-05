@@ -20,8 +20,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.CancelMagazine;
 import frc.robot.commands.Fire;
+import frc.robot.commands.LeftClimberDownCurrent;
 import frc.robot.commands.Outtake;
 import frc.robot.commands.PurePursuit;
+import frc.robot.commands.PushClimber;
 import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
 import frc.robot.commands.composite.Autonomous;
@@ -163,7 +165,7 @@ public class Robot extends TimedRobot {
                         -1,
                         10));
 
-        OI.driverB.whenPressed(
+        OI.driverA.whenPressed(
                 new Fire(
                         magIntake,
                         peripherals,
@@ -202,6 +204,9 @@ public class Robot extends TimedRobot {
 
         OI.driverX.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
+
+        OI.operatorX.whenPressed(new PushClimber(climber, 200000));
+        OI.operatorB.whenPressed(new LeftClimberDownCurrent(climber));
 
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();

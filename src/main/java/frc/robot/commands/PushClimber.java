@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
@@ -25,32 +26,30 @@ public class PushClimber extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climber.resetClimbEncoders();
+    // climber.resetClimbEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    climber.setClimberPiston(Value.kReverse);
     climber.putEncodersSmartDashboard();
-    if(target - climber.getLeftEncoderTics() > 0) {
-      climber.setClimber(0.2, 0.0);
-    }
-    else if(target - climber.getLeftEncoderTics() < 0) {
-      climber.setClimber(-0.2, -0.0);
-    }
-    if(target - climber.getRightEncoderTics() > 0) {
-        climber.setClimber(0.0, 0.2);
-    }
-      else if(target - climber.getRightEncoderTics() < 0) {
-        climber.setClimber(0.0, -0.2);
-    }
-
-    if(Math.abs(target - climber.getLeftEncoderTics()) < 500) {
+    if(Math.abs(target - climber.getLeftEncoderTics()) < 1000) {
         leftDone = true;
     }    
 
-    if(Math.abs(target - climber.getRightEncoderTics()) < 500) {
+    if(Math.abs(target - climber.getRightEncoderTics()) < 1000) {
         rightDone = true;
+    }
+
+    if(rightDone) {
+        climber.setClimber(0, 0.2);
+    }
+    else if(leftDone) {
+        climber.setClimber(0.2, 0);
+    }
+    else {
+        climber.setClimber(0.2, 0.2);
     }
   }
 
