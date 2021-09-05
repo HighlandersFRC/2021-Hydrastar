@@ -7,10 +7,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Peripherals;
 import frc.robot.tools.controlloops.PID;
 
 public class DriveBackwards1 extends CommandBase {
   private Drive drive;
+  private Peripherals peripherals;
   private PID pid;
   private double kP = 0.4;
   private double kI = 0.0;
@@ -19,15 +21,19 @@ public class DriveBackwards1 extends CommandBase {
   private double minOutput;
   private double maxOutput;
   private boolean isForwards;
+  private double turnOffset = 0.0;
+  private double desiredAngle = 0;
   
   /** Creates a new DriveBackwards1. */
-  public DriveBackwards1(Drive drive, double target, double minMaxOutput, boolean trueForwards) {
+  public DriveBackwards1(Drive drive, Peripherals peripherals, double target, double minMaxOutput, boolean trueForwards, double wantedAngle) {
     this.drive = drive;
+    this.peripherals = peripherals;
     this.target = target * 0.0254;
     addRequirements(drive);
     minOutput = -minMaxOutput;
     maxOutput = minMaxOutput;
     isForwards = trueForwards;
+    this.desiredAngle = wantedAngle;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -47,14 +53,17 @@ public class DriveBackwards1 extends CommandBase {
   @Override
   public void execute() {
     pid.updatePID(drive.getDriveMeters());
+    if(Math.abs(peripherals.getNavxAngle() - desiredAngle) > 1.5) {
+        turnOffset = 0.02;
+    }
     if(isForwards) {
-      drive.setLeftPercent(pid.getResult());
-      drive.setRightPercent(pid.getResult());
+      drive.setLeftPercent(pid.getResult() - turnOffset);
+      drive.setRightPercent(pid.getResult() + turnOffset);
       SmartDashboard.putNumber("Distance", drive.getDriveMeters() - target);
     }
     else {
-      drive.setLeftPercent(-pid.getResult());
-      drive.setRightPercent(-pid.getResult());
+      drive.setLeftPercent(-pid.getResult() + turnOffset);
+      drive.setRightPercent(-pid.getResult() - turnOffset);
       SmartDashboard.putNumber("Distance", drive.getDriveMeters() + target);
     }
     SmartDashboard.putNumber("drivebackwards 1 output", pid.getResult());

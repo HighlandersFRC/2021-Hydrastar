@@ -46,14 +46,14 @@ public class Autonomous extends SequentialCommandGroup {
                         false,
                         47,
                         10),
-                new DriveBackwards1(drive, 40, 0.7, false),
-                new NavxTurn(peripherals, drive, 18),
+                new DriveBackwards1(drive, peripherals, 37, 0.7, false, 0),
+                new NavxTurn(peripherals, drive, 15),
                 // changed from 15 degrees on NavxTurn
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, 160, 0.20, false), new SmartIntake(magIntake)),
-                // new NavxTurn(peripherals, drive, 0),
+                        new DriveBackwards1(drive, peripherals, 160, 0.25, false, 19), new SmartIntake(magIntake)),
+                // new NavxTurn(peripherals, drive, 3),
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, 120, 0.6, true), new SmartIntake(magIntake)),
+                        new DriveBackwards1(drive, peripherals, 120, 0.6, true, 3), new SmartIntake(magIntake)),
                 new Fire(
                         magIntake,
                         peripherals,

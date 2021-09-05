@@ -49,12 +49,6 @@ public class ClimberDefault extends CommandBase {
             climber.setClimberPiston(Value.kReverse);
             climber.setClimber(0.2, 0.2);
         }
-        else if(OI.operatorController.getBButton()) {
-            climber.setClimber(0, -0.4);
-        }
-        else if(OI.operatorController.getXButton()) {
-            climber.setClimber(-0.4, 0);
-        }
         else if(OI.operatorController.getAButton()) {
             climber.setClimber(-0.3, -0.3);
         }

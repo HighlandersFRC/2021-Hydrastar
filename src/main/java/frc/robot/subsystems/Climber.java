@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.commands.defaultCommands.ClimberDefault;
@@ -35,9 +36,19 @@ public class Climber extends SubsystemBase {
         rightClimberMotor.set(ControlMode.PercentOutput, percent);
     }
 
+    public void resetClimbEncoders() {
+        leftClimberMotor.setSelectedSensorPosition(0);
+        rightClimberMotor.setSelectedSensorPosition(0);
+    }
+
     public void setClimber(double leftPercent, double rightPercent) {
         leftClimberMotor.set(ControlMode.PercentOutput, leftPercent);
         rightClimberMotor.set(ControlMode.PercentOutput, rightPercent);
+    }
+
+    public void putEncodersSmartDashboard() {
+        SmartDashboard.putNumber("Left Climber Encoder", leftClimberMotor.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Right Climber Encoder", rightClimberMotor.getSelectedSensorPosition());
     }
 
     public void setClimberPiston(Value value) {
@@ -51,5 +62,21 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+    }
+
+	public double getLeftClimberCurrent() {
+        return leftClimberMotor.getOutputCurrent();
+    }
+    
+    public double getRightClimberCurrent() {
+        return rightClimberMotor.getOutputCurrent();
+    }
+
+	public double getRightEncoderTics() {
+        return rightClimberMotor.getSelectedSensorPosition();
+    }
+
+    public double getLeftEncoderTics() {
+        return leftClimberMotor.getSelectedSensorPosition();
     }
 }
