@@ -26,6 +26,8 @@ public class Lights extends SubsytemBaseEnhanced {
         RAINBOW(-0.97),
         ORANGE(0.65),
         PURPLE(0.91),
+        STROBERED(-0.11),
+        RAINBOWWAVE(-0.45),
         OFF(0.99);
 
         public final double value;

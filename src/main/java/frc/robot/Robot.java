@@ -56,7 +56,10 @@ public class Robot extends TimedRobot {
     private final Climber climber = new Climber();
     private final Lights lights = new Lights();
     private UsbCamera camera;
+    private UsbCamera camera2;
     private VideoSink server;
+    private boolean ableToSwitch;
+    private boolean cameraBoolean;
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
     Autonomous autonomous =
@@ -98,8 +101,12 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
         camera = CameraServer.getInstance().startAutomaticCapture("VisionCamera1", "/dev/video0");
-        camera.setResolution(160, 120);
+        camera.setResolution(320, 240);
         camera.setFPS(10);
+
+        camera2 = CameraServer.getInstance().startAutomaticCapture("VisionCamera2", "/dev/video1");
+        camera2.setResolution(320, 240);
+        camera2.setFPS(10);
 
         server = CameraServer.getInstance().addSwitchedCamera("driverVisionCameras");
         server.setSource(camera);
@@ -109,6 +116,18 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
+        if (OI.driverStart.get() && ableToSwitch) {
+            if (cameraBoolean) {
+                server.setSource(camera2);
+                cameraBoolean = false;
+            } else if (!cameraBoolean) {
+                server.setSource(camera);
+                cameraBoolean = true;
+            }
+            ableToSwitch = false;
+        } else if (!OI.driverStart.get()) {
+            ableToSwitch = true;
+        }
         SmartDashboard.putBoolean("Top Switch", hood.getTopLimitSwitch());
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveMeters();

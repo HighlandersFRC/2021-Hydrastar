@@ -20,6 +20,7 @@ public class OI {
     public static JoystickButton driverY = new JoystickButton(driverController, 4);
     public static JoystickButton driverA = new JoystickButton(driverController, 1);
     public static JoystickButton driverB = new JoystickButton(driverController, 2);
+    public static JoystickButton driverStart = new JoystickButton(driverController, 8);
 
     public static JoystickButton operatorB = new JoystickButton(operatorController, 2);
     public static JoystickButton operatorX = new JoystickButton(operatorController, 3);
@@ -63,5 +64,4 @@ public class OI {
     public static boolean is6BallAuto() {
         return autoChooser.getRawButton(6);
     }
-
 }
