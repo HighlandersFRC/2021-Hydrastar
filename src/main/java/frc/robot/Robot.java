@@ -95,12 +95,12 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
         camera = CameraServer.getInstance().startAutomaticCapture("VisionCamera1", "/dev/video0");
-        camera.setResolution(320, 240);
+        camera.setResolution(160, 120);
         camera.setFPS(10);
 
         camera2 = CameraServer.getInstance().startAutomaticCapture("VisionCamera2", "/dev/video1");
-        camera2.setResolution(320, 240);
-        camera2.setFPS(15);
+        camera2.setResolution(160, 120);
+        camera2.setFPS(10);
 
         server = CameraServer.getInstance().addSwitchedCamera("driverVisionCameras");
         server.setSource(camera);
