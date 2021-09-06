@@ -57,11 +57,11 @@ public class OI {
     }
 
     public static boolean isThreeBallAuto() {
-        return autoChooser.getRawButton(5);
+        return autoChooser.getRawButton(6);
     }
 
     public static boolean is6BallAuto() {
-        return autoChooser.getRawButton(6);
+        return autoChooser.getRawButton(5);
     }
 
 }

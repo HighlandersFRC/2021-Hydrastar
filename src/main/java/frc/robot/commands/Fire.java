@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
@@ -32,13 +33,14 @@ public class Fire extends SequentialCommandGroup {
             double visionOffset,
             boolean isBack,
             int timeToEnd,
-            double distance) {
+            double distance,
+            Lights lights) {
         addRequirements(magIntake, shooter, hood);
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
                 new ParallelCommandGroup(
-                        new VisionAlignment(lightRing, drive, peripherals, visionOffset, isBack, distance),
+                        new VisionAlignment(lightRing, drive, peripherals, visionOffset, isBack, distance, lights),
                         new SpinShooter(shooter, rpm),
                         new SetHoodPosition(hood, hoodPosition)),
                 new EjectMagazine(magIntake, drive, timeToEnd),

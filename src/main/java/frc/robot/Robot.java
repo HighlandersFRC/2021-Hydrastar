@@ -27,10 +27,12 @@ import frc.robot.commands.PushClimber;
 import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
 import frc.robot.commands.composite.Autonomous;
+import frc.robot.commands.composite.ThreeBallAuto;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
@@ -53,11 +55,13 @@ public class Robot extends TimedRobot {
     private final Hood hood = new Hood();
     private final LightRing lightRing = new LightRing();
     private final Climber climber = new Climber();
+    private final Lights lights = new Lights();
     private UsbCamera camera;
     private VideoSink server;
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
-    Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing);
+    Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing, lights);
+    // ThreeBallAuto threeBallAuto = new ThreeBallAuto(drive, peripherals, magIntake, hood, shooter, lightRing);
     private Command m_autonomousCommand;
 
     private Trajectory autoPart1;
@@ -79,6 +83,7 @@ public class Robot extends TimedRobot {
         lightRing.init();
         climber.init();
         magIntake.init();
+        lights.init();
         try {
             autoPart1 =
                     TrajectoryUtil.fromPathweaverJson(
@@ -136,7 +141,15 @@ public class Robot extends TimedRobot {
         drive.zeroDriveEncoderTics();
         SmartDashboard.putNumber("Position Y", odometry.getY());
         SmartDashboard.putNumber("Position Theta", odometry.getTheta());
-        autonomous.schedule();
+        if(OI.is6BallAuto()) {
+            autonomous.schedule();
+        }
+        else if(OI.isThreeBallAuto()) {
+            // threeBallAuto.schedule();
+        }
+        else {
+            autonomous.schedule();
+        }
     }
 
     /** This function is called periodically during autonomous. */
@@ -148,7 +161,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         drive.teleopInit();
-        OI.driverRT.whileHeld(new SmartIntake(magIntake));
+        OI.driverRT.whileHeld(new SmartIntake(magIntake, lights));
         OI.driverLT.whileHeld(new Outtake(magIntake));
         OI.driverB.whenPressed(
                 new Fire(
@@ -163,7 +176,8 @@ public class Robot extends TimedRobot {
                         -9.0,
                         false,
                         -1,
-                        10));
+                        10,
+                        lights));
 
         OI.driverA.whenPressed(
                 new Fire(
@@ -178,7 +192,8 @@ public class Robot extends TimedRobot {
                         0.0,
                         false,
                         -1,
-                        0));
+                        0,
+                        lights));
 
         OI.driverX.whenPressed(
                 new Fire(
@@ -188,12 +203,13 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        2800,
+                        2900,
                         31,
                         3.0,
                         true,
                         -1,
-                        20));
+                        20,
+                        lights));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));

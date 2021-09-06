@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.LightRing;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Peripherals;
+import frc.robot.subsystems.Lights.LEDMode;
 import frc.robot.tools.controlloops.PID;
 
 public class VisionAlignment extends CommandBase {
@@ -22,7 +24,7 @@ public class VisionAlignment extends CommandBase {
     private double kP = 0.0075;
     private double kI = 0.0001;
     private double kD = 0.005;
-    private double backP = 0.02;
+    private double backP = 0.018;
     private double backI = 0.0;
     private double backD = 0.0;
     private int counter = 0;
@@ -30,6 +32,7 @@ public class VisionAlignment extends CommandBase {
     private boolean isBack = false;
     private double output = 0;
     private double distance = 0;
+    private Lights lights;
 
     public VisionAlignment(
             LightRing lightRing,
@@ -37,14 +40,15 @@ public class VisionAlignment extends CommandBase {
             Peripherals peripherals,
             Double offset,
             boolean back,
-            double distance) {
+            double distance,
+            Lights lights) {
         this.drive = drive;
         this.lightRing = lightRing;
         this.peripherals = peripherals;
         angleOffset = offset;
         isBack = back;
         this.distance = distance;
-
+        this.lights = lights;
         addRequirements(this.drive, this.lightRing);
     }
 
@@ -84,7 +88,11 @@ public class VisionAlignment extends CommandBase {
             drive.setRightPercent(output);
             drive.setLeftPercent(-output);
         }
-        
+        if (peripherals.getCamAngle() == 0) {
+            lights.setMode(LEDMode.STROBERED);
+        } else {
+            lights.setMode(LEDMode.GREEN);
+        }
     }
 
     @Override
