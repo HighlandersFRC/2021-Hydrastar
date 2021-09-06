@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -25,6 +26,9 @@ public class Climber extends SubsystemBase {
 
     public void init() {
         // leftClimberMotor.set(Conr, demand0, demand1Type, demand1);
+        resetClimbEncoders();
+        leftClimberMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
+        rightClimberMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
         setDefaultCommand(new ClimberDefault(this));
     }
 

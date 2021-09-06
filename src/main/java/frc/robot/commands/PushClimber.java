@@ -26,27 +26,34 @@ public class PushClimber extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    climber.setClimberPiston(Value.kReverse);
     // climber.resetClimbEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.setClimberPiston(Value.kReverse);
     climber.putEncodersSmartDashboard();
-    if(Math.abs(target - climber.getLeftEncoderTics()) < 1000) {
-        leftDone = true;
-    }    
+    // if(Math.abs(target - climber.getLeftEncoderTics()) < 1000) {
+    //     leftDone = true;
+    // }    
 
-    if(Math.abs(target - climber.getRightEncoderTics()) < 1000) {
-        rightDone = true;
+    // if(Math.abs(target - climber.getRightEncoderTics()) < 1000) {
+    //     rightDone = true;
+    // }
+
+    if(climber.getRightEncoderTics() > target) {
+      rightDone = true;
+    }
+    if(climber.getLeftEncoderTics() > target) {
+      leftDone = true;
     }
 
     if(rightDone) {
-        climber.setClimber(0, 0.2);
+        climber.setClimber(0.2, 0);
     }
     else if(leftDone) {
-        climber.setClimber(0.2, 0);
+        climber.setClimber(0, 0.2);
     }
     else {
         climber.setClimber(0.2, 0.2);

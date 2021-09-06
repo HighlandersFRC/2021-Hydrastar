@@ -19,15 +19,18 @@ public class LeftClimberDownCurrent extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    leftDone = false;
+    rightDone = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(climber.getLeftClimberCurrent() > 7) {
+    if(climber.getLeftClimberCurrent() > 20) {
         leftDone = true;
     }
-    if(climber.getRightClimberCurrent() > 7) {
+    if(climber.getRightClimberCurrent() > 20) {
         rightDone = true;
     }
     if(rightDone) {

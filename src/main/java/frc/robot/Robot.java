@@ -27,6 +27,7 @@ import frc.robot.commands.PushClimber;
 import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
 import frc.robot.commands.composite.Autonomous;
+import frc.robot.commands.composite.PushClimberUp;
 import frc.robot.commands.composite.ThreeBallAuto;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
@@ -57,6 +58,7 @@ public class Robot extends TimedRobot {
     private final Climber climber = new Climber();
     private final Lights lights = new Lights();
     private UsbCamera camera;
+    private UsbCamera camera2;
     private VideoSink server;
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
@@ -71,6 +73,9 @@ public class Robot extends TimedRobot {
     private PurePursuit autoPathPart2;
 
     private RobotContainer m_robotContainer;
+
+    private Boolean cameraBoolean = false;
+    private Boolean ableToSwitch = false;
 
     @Override
     public void robotInit() {
@@ -102,6 +107,10 @@ public class Robot extends TimedRobot {
         camera.setResolution(160, 120);
         camera.setFPS(10);
 
+        camera2 = CameraServer.getInstance().startAutomaticCapture("VisionCamera2", "/dev/video1");
+        camera2.setResolution(160, 120);
+        camera2.setFPS(10);
+
         server = CameraServer.getInstance().addSwitchedCamera("driverVisionCameras");
         server.setSource(camera);
         Shuffleboard.update();
@@ -110,6 +119,16 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
+        if(OI.operatorStart.get() && ableToSwitch) {
+            if(cameraBoolean) {
+                server.setSource(camera2);
+                cameraBoolean = false;
+            }
+            else if(!cameraBoolean) {
+                server.setSource(camera);
+
+            }
+        }
         SmartDashboard.putBoolean("Top Switch", hood.getTopLimitSwitch());
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveMeters();
@@ -124,6 +143,9 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
 
         CommandScheduler.getInstance().run();
+
+        SmartDashboard.putNumber("Left CLimber Tics", climber.getLeftEncoderTics());
+        SmartDashboard.putNumber("Right Climber Tics", climber.getRightEncoderTics());
     }
 
     @Override
@@ -221,7 +243,7 @@ public class Robot extends TimedRobot {
         OI.driverX.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
 
-        OI.operatorX.whenPressed(new PushClimber(climber, 200000));
+        OI.operatorX.whenPressed(new PushClimberUp(climber));
         OI.operatorB.whenPressed(new LeftClimberDownCurrent(climber));
 
         if (m_autonomousCommand != null) {
