@@ -29,23 +29,8 @@ public class ClimberDefault extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        climber.setClimber(OI.getOperatorLeftY(), OI.getOperatorRightY());
-        // if(OI.operatorController.getYButton()) {
-        //     climber.setClimber(0.5, 0.5);
-        // }
-        // else if(OI.operatorController.getAButton()) {
-        //     climber.setClimber(-0.5, -0.5);
-        // }
-        // else {
-        //     climber.setClimber(0, 0);
-        // }
-        // if (OI.operatorController.getBButton()) {
-        //     climber.setClimberPiston(Value.kReverse);
-        // } else if (OI.operatorController.getAButton()) {
-        //     // climber.setRightClimberPiston(Value.kReverse);
-        //     climber.setClimberPiston(Value.kForward);
-        // }
         if(OI.operatorController.getYButton()) {
+            System.out.println("Inside Y Button");
             climber.setClimberPiston(Value.kReverse);
             climber.setClimber(0.2, 0.2);
         }
@@ -53,6 +38,7 @@ public class ClimberDefault extends CommandBase {
             climber.setClimber(-0.3, -0.3);
         }
         else {
+            System.out.println("Not inside Y Button");
             climber.setClimberPiston(Value.kForward);
             climber.setClimber(0, 0);
         }

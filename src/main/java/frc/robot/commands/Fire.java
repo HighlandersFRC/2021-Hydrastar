@@ -28,14 +28,14 @@ public class Fire extends SequentialCommandGroup {
             Hood hood,
             LightRing lightRing,
             Drive drive,
-            Lights lights,
             double rpm,
             double hoodPosition,
             double visionOffset,
             boolean isBack,
             int timeToEnd,
-            double distance) {
-        addRequirements(magIntake, shooter, hood, lights);
+            double distance,
+            Lights lights) {
+        addRequirements(magIntake, shooter, hood);
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
@@ -44,10 +44,10 @@ public class Fire extends SequentialCommandGroup {
                                 lightRing,
                                 drive,
                                 peripherals,
-                                lights,
                                 visionOffset,
                                 isBack,
-                                distance),
+                                distance,
+                                lights),
                         new SpinShooter(shooter, rpm),
                         new SetHoodPosition(hood, hoodPosition)),
                 new EjectMagazine(magIntake, drive, timeToEnd),

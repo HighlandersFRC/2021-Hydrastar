@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import frc.robot.sensors.LidarLite;
 import frc.robot.sensors.Navx;
 import frc.robot.sensors.VisionCamera;
 
 public class Peripherals extends SubsytemBaseEnhanced {
     private final AHRS ahrs = new AHRS(Port.kMXP);
-
     private final Navx navx = new Navx(ahrs);
-    // private final Counter lidarPort = new Counter(0);
+    private final LidarLite lidar = new LidarLite();
     private VisionCamera visionCam;
 
     @Override
@@ -57,6 +57,10 @@ public class Peripherals extends SubsytemBaseEnhanced {
 
     public void zeroNavx() {
         navx.softResetAngle();
+    }
+
+    public double getLidarDistance() {
+        return lidar.getDistanceIn();
     }
 
     @Override

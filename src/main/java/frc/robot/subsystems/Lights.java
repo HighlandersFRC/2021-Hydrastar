@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Spark;
 
-import frc.robot.commands.defaultCommands.AutoLightsDefault;
+// import frc.robot.commands.defaultCommands.AutoLightsDefault;
 import frc.robot.commands.defaultCommands.LightsDefault;
 
 public class Lights extends SubsytemBaseEnhanced {
@@ -46,11 +46,17 @@ public class Lights extends SubsytemBaseEnhanced {
         setDefaultCommand(new LightsDefault(this));
     }
 
-    public void autoInit() {
-        setDefaultCommand(new AutoLightsDefault(this));
-    }
+    // public void autoInit() {
+    //     setDefaultCommand(new AutoLightsDefault(this));
+    // }
 
     public void teleopInit() {
         setDefaultCommand(new LightsDefault(this));
+    }
+
+    @Override
+    public void autoInit() {
+        // TODO Auto-generated method stub
+
     }
 }

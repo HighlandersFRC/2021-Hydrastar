@@ -24,6 +24,8 @@ public class OI {
 
     public static JoystickButton operatorB = new JoystickButton(operatorController, 2);
     public static JoystickButton operatorX = new JoystickButton(operatorController, 3);
+    public static JoystickButton operatorStart = new JoystickButton(operatorController, 8);
+
 
     public static double getDriverLeftX() {
         return driverController.getX(Hand.kLeft);
@@ -58,10 +60,10 @@ public class OI {
     }
 
     public static boolean isThreeBallAuto() {
-        return autoChooser.getRawButton(5);
+        return autoChooser.getRawButton(6);
     }
 
     public static boolean is6BallAuto() {
-        return autoChooser.getRawButton(6);
+        return autoChooser.getRawButton(5);
     }
 }

@@ -18,10 +18,10 @@ public class SmartIntake extends CommandBase {
     public SmartIntake(MagIntake magIntake, Lights lights) {
         this.magIntake = magIntake;
         this.lights = lights;
-        addRequirements(magIntake, lights);
+        addRequirements(magIntake);
     }
 
-    public SmartIntake(MagIntake magIntake, Lights lights, double duration) {
+    public SmartIntake(MagIntake magIntake, double duration, Lights lights) {
         this.magIntake = magIntake;
         this.lights = lights;
         addRequirements(magIntake, lights);

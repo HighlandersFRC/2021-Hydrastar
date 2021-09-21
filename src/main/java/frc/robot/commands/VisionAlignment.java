@@ -19,14 +19,13 @@ public class VisionAlignment extends CommandBase {
     private LightRing lightRing;
     private Drive drive;
     private Peripherals peripherals;
-    private Lights lights;
 
     private PID pid;
     private PID backPID;
     private double kP = 0.0075;
     private double kI = 0.0001;
     private double kD = 0.005;
-    private double backP = 0.02;
+    private double backP = 0.018;
     private double backI = 0.0;
     private double backD = 0.0;
     private int counter = 0;
@@ -34,15 +33,16 @@ public class VisionAlignment extends CommandBase {
     private boolean isBack = false;
     private double output = 0;
     private double distance = 0;
+    private Lights lights;
 
     public VisionAlignment(
             LightRing lightRing,
             Drive drive,
             Peripherals peripherals,
-            Lights lights,
             Double offset,
             boolean back,
-            double distance) {
+            double distance,
+            Lights lights) {
         this.drive = drive;
         this.lightRing = lightRing;
         this.peripherals = peripherals;
@@ -50,8 +50,7 @@ public class VisionAlignment extends CommandBase {
         isBack = back;
         this.distance = distance;
         this.lights = lights;
-
-        addRequirements(this.drive, this.lightRing, this.lights);
+        addRequirements(this.drive, this.lightRing);
     }
 
     @Override

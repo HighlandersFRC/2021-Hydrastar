@@ -8,9 +8,7 @@ package frc.robot;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSink;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
@@ -27,6 +25,7 @@ import frc.robot.commands.PushClimber;
 import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
 import frc.robot.commands.composite.Autonomous;
+import frc.robot.sensors.LidarLite;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
@@ -55,6 +54,7 @@ public class Robot extends TimedRobot {
     private final LightRing lightRing = new LightRing();
     private final Climber climber = new Climber();
     private final Lights lights = new Lights();
+    private final LidarLite lidar = new LidarLite();
     private UsbCamera camera;
     private UsbCamera camera2;
     private VideoSink server;
@@ -100,46 +100,54 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-        camera = CameraServer.getInstance().startAutomaticCapture("VisionCamera1", "/dev/video0");
-        camera.setResolution(160, 120);
-        camera.setFPS(10);
+        // camera = CameraServer.getInstance().startAutomaticCapture("VisionCamera1",
+        // "/dev/video0");
+        // camera.setResolution(160, 120);
+        // camera.setFPS(10);
 
-        camera2 = CameraServer.getInstance().startAutomaticCapture("VisionCamera2", "/dev/video1");
-        camera2.setResolution(160, 120);
-        camera2.setFPS(10);
+        // camera2 = CameraServer.getInstance().startAutomaticCapture("VisionCamera2",
+        // "/dev/video1");
+        // camera2.setResolution(160, 120);
+        // camera2.setFPS(10);
 
-        server = CameraServer.getInstance().addSwitchedCamera("driverVisionCameras");
-        server.setSource(camera);
-        Shuffleboard.update();
-        SmartDashboard.updateValues();
+        // server = CameraServer.getInstance().addSwitchedCamera("driverVisionCameras");
+        // server.setSource(camera);
+        // Shuffleboard.update();
+        // SmartDashboard.updateValues();
+        // commented out cameras (for now)9/19/2021
     }
 
     @Override
     public void robotPeriodic() {
-        if (OI.driverStart.get() && ableToSwitch) {
-            if (cameraBoolean) {
-                server.setSource(camera2);
-                cameraBoolean = false;
-            } else if (!cameraBoolean) {
-                server.setSource(camera);
-                cameraBoolean = true;
-            }
-            ableToSwitch = false;
-        } else if (!OI.driverStart.get()) {
-            ableToSwitch = true;
-        }
+        // if (OI.operatorStart.get() && ableToSwitch) {
+        //     if (cameraBoolean) {
+        //         server.setSource(camera2);
+        //         cameraBoolean = false;
+        //     } else if (!cameraBoolean) {
+        //         server.setSource(camera);
+        //         cameraBoolean = true;
+        //     }
+        //     ableToSwitch = false;
+        // } else if (!OI.driverStart.get()) {
+        //     ableToSwitch = true;
+        // }
+        // commented out cameras (for now)9/19/2021
         SmartDashboard.putBoolean("Top Switch", hood.getTopLimitSwitch());
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveMeters();
         magIntake.putBeamBreaksSmartDashboard();
+
         SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
         SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
         SmartDashboard.putNumber("hood position", hood.getHoodPosition());
         SmartDashboard.putNumber("Drive Encoder Tics", drive.getDriveMeters());
         SmartDashboard.putNumber("navx angle", peripherals.getNavxAngle());
+        SmartDashboard.putNumber("camera distance", peripherals.getCamDistance());
+        SmartDashboard.putNumber("lidar", peripherals.getLidarDistance());
 
         SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
+        // SmartDashboard.putNumber("Lidar Distance", peripherals.getLidarDistance());
 
         CommandScheduler.getInstance().run();
     }
@@ -182,13 +190,13 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        lights,
                         2000,
                         24,
                         -9.0,
                         false,
                         -1,
-                        10));
+                        10,
+                        lights));
 
         OI.driverA.whenPressed(
                 new Fire(
@@ -198,13 +206,13 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        lights,
                         2000,
                         4,
                         0.0,
                         false,
                         -1,
-                        0));
+                        0,
+                        lights));
 
         OI.driverX.whenPressed(
                 new Fire(
@@ -214,13 +222,13 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        lights,
                         2800,
                         31,
                         3.0,
                         true,
                         -1,
-                        20));
+                        20,
+                        lights));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));
