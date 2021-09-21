@@ -84,9 +84,9 @@ public class Hood extends SubsytemBaseEnhanced {
 
     public void periodic() {
         if (bottomSwitch.get()) {
-            hoodEncoder.setPosition(0);
+            // hoodEncoder.setPosition(0);
         } else if (topSwitch.get()) {
-            hoodEncoder.setPosition(32);
+            // hoodEncoder.setPosition(32);
         }
     }
 }

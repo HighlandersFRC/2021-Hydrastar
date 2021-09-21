@@ -40,7 +40,7 @@ public class SmartIntake extends CommandBase {
             magIntake.setIntakePercent(-0.27);
             lights.setMode(LEDMode.YELLOW);
         } else {
-            magIntake.setIntakePercent(-0.35);
+            magIntake.setIntakePercent(-0.70);
             magIntake.setMagPercent(0, 0, 0);
             lights.setMode(LEDMode.BLUE);
         }

@@ -11,9 +11,9 @@ public final class Constants {
     public static final int RIGHT_DRIVE_LEAD_ID = 2;
     public static final int LEFT_DRIVE_FOLLOWER_ID = 3;
     public static final int RIGHT_DRIVE_FOLLOWER_ID = 1;
-    public static final int BOTTOM_MAG_ID = 5;
+    public static final int BOTTOM_MAG_ID = 11;
     public static final int MIDDLE_MAG_ID = 7;
-    public static final int HIGH_MAG_ID = 6;
+    public static final int HIGH_MAG_ID = 12;
     public static final int INTAKE_MOTOR_ID = 8;
     public static final int BEAM_BREAK_1_ID = 0;
     public static final int BEAM_BREAK_2_ID = 3;

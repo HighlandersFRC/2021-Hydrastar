@@ -50,13 +50,13 @@ public class PushClimber extends CommandBase {
     }
 
     if(rightDone) {
-        climber.setClimber(0.2, 0);
+        climber.setClimber(0.4, 0);
     }
     else if(leftDone) {
-        climber.setClimber(0, 0.2);
+        climber.setClimber(0, 0.4);
     }
     else {
-        climber.setClimber(0.2, 0.2);
+        climber.setClimber(0.4, 0.4);
     }
   }
 

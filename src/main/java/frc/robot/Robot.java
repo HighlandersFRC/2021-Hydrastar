@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import frc.robot.commands.BringDownClimber;
 import frc.robot.commands.CancelMagazine;
 import frc.robot.commands.Fire;
 import frc.robot.commands.LeftClimberDownCurrent;
@@ -29,6 +29,7 @@ import frc.robot.commands.SmartIntake;
 import frc.robot.commands.composite.Autonomous;
 import frc.robot.commands.composite.PushClimberUp;
 import frc.robot.commands.composite.ThreeBallAuto;
+import frc.robot.commands.composite.TwoBallSnatch;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
@@ -63,6 +64,7 @@ public class Robot extends TimedRobot {
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
     Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing, lights);
+    TwoBallSnatch twoBallSteal = new TwoBallSnatch(drive, peripherals, magIntake, hood, shooter, lightRing, lights);
     // ThreeBallAuto threeBallAuto = new ThreeBallAuto(drive, peripherals, magIntake, hood, shooter, lightRing);
     private Command m_autonomousCommand;
 
@@ -170,7 +172,7 @@ public class Robot extends TimedRobot {
             // threeBallAuto.schedule();
         }
         else {
-            autonomous.schedule();
+            twoBallSteal.schedule();
         }
     }
 
@@ -245,6 +247,8 @@ public class Robot extends TimedRobot {
 
         OI.operatorX.whenPressed(new PushClimberUp(climber));
         OI.operatorB.whenPressed(new LeftClimberDownCurrent(climber));
+
+        OI.operatorA.whenPressed(new BringDownClimber(climber));
 
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
