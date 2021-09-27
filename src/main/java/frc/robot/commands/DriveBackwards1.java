@@ -54,7 +54,7 @@ public class DriveBackwards1 extends CommandBase {
   public void execute() {
     pid.updatePID(drive.getDriveMeters());
     if(Math.abs(peripherals.getNavxAngle() - desiredAngle) > 1.5) {
-        turnOffset = 0.02;
+        turnOffset = 0.01;
     }
     if(isForwards) {
       drive.setLeftPercent(pid.getResult() - turnOffset);

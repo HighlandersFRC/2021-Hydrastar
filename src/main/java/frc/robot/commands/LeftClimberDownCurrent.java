@@ -34,13 +34,13 @@ public class LeftClimberDownCurrent extends CommandBase {
         rightDone = true;
     }
     if(rightDone) {
-        climber.setClimber(-0.1, 0);
+        climber.setClimber(-0.3, 0);
     }
     else if(leftDone) {
-        climber.setClimber(0, -0.1);
+        climber.setClimber(0, -0.3);
     }
     else {
-        climber.setClimber(-0.1, -0.1);
+        climber.setClimber(-0.3, -0.3);
     }
     SmartDashboard.putNumber("Output current", climber.getLeftClimberCurrent());
   }

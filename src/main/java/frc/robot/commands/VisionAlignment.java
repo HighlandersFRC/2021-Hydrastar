@@ -85,8 +85,8 @@ public class VisionAlignment extends CommandBase {
             drive.setRightPercent(0.1);
         }
         else {
-            drive.setRightPercent(output);
-            drive.setLeftPercent(-output);
+            // drive.setRightPercent(output);
+            // drive.setLeftPercent(-output);
         }
         if (peripherals.getCamAngle() == 0) {
             lights.setMode(LEDMode.STROBERED);

@@ -30,6 +30,7 @@ import frc.robot.commands.composite.Autonomous;
 import frc.robot.commands.composite.PushClimberUp;
 import frc.robot.commands.composite.ThreeBallAuto;
 import frc.robot.commands.composite.TwoBallSnatch;
+import frc.robot.sensors.LidarLite;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
@@ -58,6 +59,7 @@ public class Robot extends TimedRobot {
     private final LightRing lightRing = new LightRing();
     private final Climber climber = new Climber();
     private final Lights lights = new Lights();
+    private final LidarLite lidar = new LidarLite();
     private UsbCamera camera;
     private UsbCamera camera2;
     private VideoSink server;
@@ -135,6 +137,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveMeters();
         magIntake.putBeamBreaksSmartDashboard();
+       // lidar.getDistance();
         SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
         SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
@@ -148,6 +151,8 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putNumber("Left CLimber Tics", climber.getLeftEncoderTics());
         SmartDashboard.putNumber("Right Climber Tics", climber.getRightEncoderTics());
+
+        SmartDashboard.putNumber("Lidar Distance CM", lidar.lidarDistance());
     }
 
     @Override
@@ -172,7 +177,7 @@ public class Robot extends TimedRobot {
             // threeBallAuto.schedule();
         }
         else {
-            twoBallSteal.schedule();
+            autonomous.schedule();
         }
     }
 
@@ -201,7 +206,8 @@ public class Robot extends TimedRobot {
                         false,
                         -1,
                         10,
-                        lights));
+                        lights,
+                        -1));
 
         OI.driverA.whenPressed(
                 new Fire(
@@ -211,13 +217,14 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        2000,
-                        4,
+                        1800,
+                        6,
                         0.0,
                         false,
                         -1,
                         0,
-                        lights));
+                        lights,
+                        lidar.lidarDistance()));
 
         OI.driverX.whenPressed(
                 new Fire(
@@ -228,27 +235,28 @@ public class Robot extends TimedRobot {
                         lightRing,
                         drive,
                         2900,
-                        31,
+                        33,
                         3.0,
                         true,
                         -1,
                         20,
-                        lights));
+                        lights,
+                        -1));
 
-        OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
+        OI.driverA.whenReleased(new SetHoodPosition(hood, 0, -1));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));
 
         // OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 2000, 18));
-        OI.driverB.whenReleased(new SetHoodPosition(hood, 0));
+        OI.driverB.whenReleased(new SetHoodPosition(hood, 0, -1));
         OI.driverB.whenReleased(new CancelMagazine(magIntake));
 
-        OI.driverX.whenReleased(new SetHoodPosition(hood, 0));
+        OI.driverX.whenReleased(new SetHoodPosition(hood, 0, -1));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
 
         OI.operatorX.whenPressed(new PushClimberUp(climber));
         OI.operatorB.whenPressed(new LeftClimberDownCurrent(climber));
 
-        OI.operatorA.whenPressed(new BringDownClimber(climber));
+        OI.operatorA.whileHeld(new BringDownClimber(climber));
 
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();

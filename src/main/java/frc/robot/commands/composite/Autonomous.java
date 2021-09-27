@@ -48,28 +48,30 @@ public class Autonomous extends SequentialCommandGroup {
                         false,
                         47,
                         10,
-                        lights),
+                        lights,
+                        -1),
                 new DriveBackwards1(drive, peripherals, 38, 0.7, false, 0),
                 new NavxTurn(peripherals, drive, 9),
                 // changed from 15 degrees on NavxTurn
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 160, 0.25, false, 19), new SmartIntake(magIntake, lights)),
-                new NavxTurn(peripherals, drive, 6),
+                        new DriveBackwards1(drive, peripherals, 130, 0.25, false, 19), new SmartIntake(magIntake, lights)),
+                new NavxTurn(peripherals, drive, 12),
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 120, 0.6, true, 3), new SmartIntake(magIntake, lights)),
-                new Fire(
-                        magIntake,
-                        peripherals,
-                        shooter,
-                        hood,
-                        lightRing,
-                        drive,
-                        2900,
-                        31,
-                        -3.0,
-                        true,
-                        -1,
-                        20,
-                        lights));
+                        new DriveBackwards1(drive, peripherals, 90, 0.6, true, 3), new SmartIntake(magIntake, lights)));
+                // // new Fire(
+                //         magIntake,
+                //         peripherals,
+                //         shooter,
+                //         hood,
+                //         lightRing,
+                //         drive,
+                //         2900,
+                //         31,
+                //         -3.0,
+                //         true,
+                //         -1,
+                //         20,
+                //         lights,
+                //         -1));
     }
 }
