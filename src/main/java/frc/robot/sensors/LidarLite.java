@@ -25,20 +25,33 @@ public class LidarLite {
     // blue is sda
     // red is 3.3v
 
+    // public int lidarDistance(boolean biasCorrection) {
+    //     if (biasCorrection) {
+    //         i2c.write(0x00, 0x04);
+    //     } else {
+    //         i2c.write(0x00, 0x03);
+    //     }
+    //     distanceArray = new byte[2];
+    //     i2c.read(0x10, 2, distanceArray);
+    //     int distance = (distanceArray[0] << 8) + distanceArray[1];
+    //     return distance;
+    // }
+
     private void update() {
         i2c.write(0x00, 0x04);
-        new Wait(0.05);
+        i2c.write(0x00, 0x03);
+        new Wait(0.005);
         i2c.read(0x10, 2, buffer);
-        new Wait(0.05);
+        new Wait(0.005);
     }
 
-    public int getDistance() {
+    public double getDistanceIn() {
         update();
-        return (int) (Integer.toUnsignedLong(buffer[0] << 8)) + (Byte.toUnsignedInt(buffer[1]));
+        return ((buffer[0] + buffer[1]) * 0.394);
     }
 
-    public double getDistanceIn() { // I made this function better. It used to be part of a PID
-        // system. We didn't need a PID system.
-        return (double) getDistance(); // inches cuz Merica.
-    }
+    // public int getDistanceIn() { // I made this function better. It used to be part of a PID
+    // system. We didn't need a PID system.
+    //  update();
+    // return (int) getDistance(); // inches cuz Merica.
 }

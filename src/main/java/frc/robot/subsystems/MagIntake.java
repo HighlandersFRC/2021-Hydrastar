@@ -2,25 +2,18 @@
 
 package frc.robot.subsystems;
 
-import java.util.ResourceBundle.Control;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
-import frc.robot.commands.defaultCommands.DriveDefault;
 import frc.robot.commands.defaultCommands.MagIntakeDefault;
 
 public class MagIntake extends SubsytemBaseEnhanced {
@@ -34,13 +27,15 @@ public class MagIntake extends SubsytemBaseEnhanced {
         SIX
     }
 
-    private final CANSparkMax lowMag = new CANSparkMax(Constants.BOTTOM_MAG_ID, MotorType.kBrushless);
+    private final CANSparkMax lowMag =
+            new CANSparkMax(Constants.BOTTOM_MAG_ID, MotorType.kBrushless);
     private final WPI_VictorSPX middleMag = new WPI_VictorSPX(Constants.MIDDLE_MAG_ID);
-    private final CANSparkMax highMag = new CANSparkMax(Constants.HIGH_MAG_ID, MotorType.kBrushless);
+    private final CANSparkMax highMag =
+            new CANSparkMax(Constants.HIGH_MAG_ID, MotorType.kBrushless);
 
     private final WPI_TalonFX intakeMotor = new WPI_TalonFX(Constants.INTAKE_MOTOR_ID);
 
-    private final DoubleSolenoid intakePiston = new DoubleSolenoid(0,1);
+    private final DoubleSolenoid intakePiston = new DoubleSolenoid(0, 1);
 
     private final DigitalInput beamBreak1 = new DigitalInput(Constants.BEAM_BREAK_1_ID);
     private final DigitalInput beamBreak2 = new DigitalInput(Constants.BEAM_BREAK_2_ID);
@@ -59,12 +54,10 @@ public class MagIntake extends SubsytemBaseEnhanced {
     }
 
     @Override
-    public void autoInit() {
-    }
+    public void autoInit() {}
 
     @Override
-    public void teleopInit() {
-    }
+    public void teleopInit() {}
 
     public boolean getBeamBreak(BeamBreakID id) {
         switch (id) {
@@ -77,7 +70,7 @@ public class MagIntake extends SubsytemBaseEnhanced {
             case FOUR:
                 return beamBreak4.get();
             case FIVE:
-                 return beamBreak5.get();
+                return beamBreak5.get();
             case SIX:
                 return beamBreak6.get();
         }

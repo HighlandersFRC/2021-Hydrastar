@@ -34,7 +34,8 @@ public class Fire extends SequentialCommandGroup {
             boolean isBack,
             int timeToEnd,
             double distance,
-            Lights lights) {
+            Lights lights,
+            double lidarDistance) {
         addRequirements(magIntake, shooter, hood);
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
@@ -49,7 +50,7 @@ public class Fire extends SequentialCommandGroup {
                                 distance,
                                 lights),
                         new SpinShooter(shooter, rpm),
-                        new SetHoodPosition(hood, hoodPosition)),
+                        new SetHoodPosition(hood, hoodPosition, lidarDistance)),
                 new EjectMagazine(magIntake, drive, timeToEnd),
                 // new SetHoodPosition(hood, 0),
                 new CancelMagazine(magIntake));

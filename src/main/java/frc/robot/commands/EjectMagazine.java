@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.OI;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.MagIntake;
@@ -36,15 +37,13 @@ public class EjectMagazine extends CommandBase {
     @Override
     public void execute() {
         magIntake.setMagPercent(1, 0.75, 1);
-        if(OI.driverController.getBumper(Hand.kRight)) {
+        if (OI.driverController.getBumper(Hand.kRight)) {
             drive.setLeftPercent(0.1);
             drive.setRightPercent(-0.1);
-        }
-        else if(OI.driverController.getBumper(Hand.kLeft)) {
+        } else if (OI.driverController.getBumper(Hand.kLeft)) {
             drive.setLeftPercent(-0.1);
             drive.setRightPercent(0.1);
-        }
-        else {
+        } else {
             drive.setRightPercent(0);
             drive.setLeftPercent(0);
         }
@@ -58,8 +57,8 @@ public class EjectMagazine extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if(countsToEnd > 0) {
-            if(counter > countsToEnd) {
+        if (countsToEnd > 0) {
+            if (counter > countsToEnd) {
                 return true;
             }
         }

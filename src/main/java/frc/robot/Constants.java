@@ -13,7 +13,7 @@ public final class Constants {
     public static final int RIGHT_DRIVE_FOLLOWER_ID = 1;
     public static final int BOTTOM_MAG_ID = 5;
     public static final int MIDDLE_MAG_ID = 7;
-    public static final int HIGH_MAG_ID = 6;
+    public static final int HIGH_MAG_ID = 12;
     public static final int INTAKE_MOTOR_ID = 8;
     public static final int BEAM_BREAK_1_ID = 0;
     public static final int BEAM_BREAK_2_ID = 3;
@@ -44,7 +44,6 @@ public final class Constants {
     public static double driveMetersToUnits(double feet) {
         return feet * DRIVE_TICKS_PER_ROTATION / DRIVE_WHEEL_CIRCUMFERENCE;
     }
-
 
     public static double driveUnitsPer100MSToFPS(double velocity) {
         return driveUnitsToMeters(velocity) * 10;

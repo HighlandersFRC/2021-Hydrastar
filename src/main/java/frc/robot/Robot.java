@@ -60,6 +60,7 @@ public class Robot extends TimedRobot {
     private VideoSink server;
     private boolean ableToSwitch;
     private boolean cameraBoolean;
+
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
     Autonomous autonomous =
@@ -136,6 +137,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveMeters();
         magIntake.putBeamBreaksSmartDashboard();
+        SmartDashboard.putNumber("lidar distance", peripherals.getLidarDistance());
 
         SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
         SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
@@ -144,7 +146,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Drive Encoder Tics", drive.getDriveMeters());
         SmartDashboard.putNumber("navx angle", peripherals.getNavxAngle());
         SmartDashboard.putNumber("camera distance", peripherals.getCamDistance());
-        SmartDashboard.putNumber("lidar", peripherals.getLidarDistance());
+        // SmartDashboard.putNumber("lidar", peripherals.getLidarDistance());
 
         SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
         // SmartDashboard.putNumber("Lidar Distance", peripherals.getLidarDistance());
@@ -196,7 +198,8 @@ public class Robot extends TimedRobot {
                         false,
                         -1,
                         10,
-                        lights));
+                        lights,
+                        -1));
 
         OI.driverA.whenPressed(
                 new Fire(
@@ -212,7 +215,8 @@ public class Robot extends TimedRobot {
                         false,
                         -1,
                         0,
-                        lights));
+                        lights,
+                        lidar.getDistanceIn()));
 
         OI.driverX.whenPressed(
                 new Fire(
@@ -228,16 +232,17 @@ public class Robot extends TimedRobot {
                         true,
                         -1,
                         20,
-                        lights));
+                        lights,
+                        -1));
 
-        OI.driverA.whenReleased(new SetHoodPosition(hood, 0));
+        OI.driverA.whenReleased(new SetHoodPosition(hood, 0, -1));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));
 
         // OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 2000, 18));
-        OI.driverB.whenReleased(new SetHoodPosition(hood, 0));
+        OI.driverB.whenReleased(new SetHoodPosition(hood, 0, -1));
         OI.driverB.whenReleased(new CancelMagazine(magIntake));
 
-        OI.driverX.whenReleased(new SetHoodPosition(hood, 0));
+        OI.driverX.whenReleased(new SetHoodPosition(hood, 0, -1));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
 
         OI.operatorX.whenPressed(new PushClimber(climber, 200000));

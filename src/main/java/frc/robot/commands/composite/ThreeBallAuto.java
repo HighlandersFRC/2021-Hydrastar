@@ -1,12 +1,9 @@
 package frc.robot.commands.composite;
 
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.DriveBackwards1;
 import frc.robot.commands.Fire;
-import frc.robot.commands.NavxTurn;
-import frc.robot.commands.SmartIntake;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
@@ -44,27 +41,30 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                         false,
                         47,
                         10,
-                        lights),
+                        lights,
+                        -1),
                 new DriveBackwards1(drive, peripherals, 38, 0.7, false, 0));
-                // new NavxTurn(peripherals, drive, 12),
-                // // changed from 15 degrees on NavxTurn
-                // new ParallelRaceGroup(
-                //         new DriveBackwards1(drive, peripherals, 160, 0.25, false, 19), new SmartIntake(magIntake)),
-                // new NavxTurn(peripherals, drive, 11),
-                // new ParallelRaceGroup(
-                //         new DriveBackwards1(drive, peripherals, 120, 0.6, true, 3), new SmartIntake(magIntake)),
-                // new Fire(
-                //         magIntake,
-                //         peripherals,
-                //         shooter,
-                //         hood,
-                //         lightRing,
-                //         drive,
-                //         2900,
-                //         31,
-                //         0,
-                //         true,
-                //         100,
-                //         20));
+        // new NavxTurn(peripherals, drive, 12),
+        // // changed from 15 degrees on NavxTurn
+        // new ParallelRaceGroup(
+        //         new DriveBackwards1(drive, peripherals, 160, 0.25, false, 19), new
+        // SmartIntake(magIntake)),
+        // new NavxTurn(peripherals, drive, 11),
+        // new ParallelRaceGroup(
+        //         new DriveBackwards1(drive, peripherals, 120, 0.6, true, 3), new
+        // SmartIntake(magIntake)),
+        // new Fire(
+        //         magIntake,
+        //         peripherals,
+        //         shooter,
+        //         hood,
+        //         lightRing,
+        //         drive,
+        //         2900,
+        //         31,
+        //         0,
+        //         true,
+        //         100,
+        //         20));
     }
 }
