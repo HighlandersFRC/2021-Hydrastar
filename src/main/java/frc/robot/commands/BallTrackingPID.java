@@ -106,6 +106,7 @@ public class BallTrackingPID extends CommandBase {
     @Override
     public boolean isFinished() {
         if(isBack) {
+          // SmartDashboard
             return Math.abs(peripherals.getCamAngle() - angleOffset) <= 0.5
                         && Math.abs(pid.getResult()) < 0.1
                         && peripherals.getCamAngle() != angleOffset
