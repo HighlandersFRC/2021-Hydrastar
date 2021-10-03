@@ -7,7 +7,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import frc.robot.sensors.LidarLite;
 import frc.robot.sensors.Navx;
 import frc.robot.sensors.VisionCamera;
 
@@ -40,6 +40,7 @@ public class Peripherals extends SubsytemBaseEnhanced {
     }
 
     public Peripherals() {}
+
 
     public double getCamAngle() {
         visionCam.updateVision();

@@ -137,7 +137,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveMeters();
         magIntake.putBeamBreaksSmartDashboard();
-       // lidar.getDistance();
+        // lidar.getDistance();
+        // SmartDashboard.putNumber("Lidar Distance", peripherals.getLidarDistance());
         SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
         SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
@@ -152,7 +153,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Left CLimber Tics", climber.getLeftEncoderTics());
         SmartDashboard.putNumber("Right Climber Tics", climber.getRightEncoderTics());
 
-        SmartDashboard.putNumber("Lidar Distance CM", lidar.lidarDistance());
+        // SmartDashboard.putNumber("Lidar Distance CM", lidar.lidarDistance());
     }
 
     @Override
@@ -224,7 +225,7 @@ public class Robot extends TimedRobot {
                         -1,
                         0,
                         lights,
-                        lidar.lidarDistance()));
+                        -1));
 
         OI.driverX.whenPressed(
                 new Fire(

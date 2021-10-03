@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -57,6 +58,8 @@ public class Drive extends SubsytemBaseEnhanced {
         rightDriveLead.config_kI(0, vkI);
         leftDriveLead.config_kD(0, vkD);
         rightDriveLead.config_kD(0, vkD);
+        rightDriveLead.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 80, 0, 0));
+        leftDriveLead.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 80, 0, 0));
         setCurrentLimitsEnabled();
         setDefaultCommand(new DriveDefault(this));
     }
