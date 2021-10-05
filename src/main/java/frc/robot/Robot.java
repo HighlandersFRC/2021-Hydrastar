@@ -59,7 +59,6 @@ public class Robot extends TimedRobot {
     private final LightRing lightRing = new LightRing();
     private final Climber climber = new Climber();
     private final Lights lights = new Lights();
-    private final LidarLite lidar = new LidarLite();
     private UsbCamera camera;
     private UsbCamera camera2;
     private VideoSink server;
@@ -138,7 +137,7 @@ public class Robot extends TimedRobot {
         drive.getDriveMeters();
         magIntake.putBeamBreaksSmartDashboard();
         // lidar.getDistance();
-        // SmartDashboard.putNumber("Lidar Distance", peripherals.getLidarDistance());
+         SmartDashboard.putNumber("Lidar Distance", peripherals.getLidarDistance());
         SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
         SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
@@ -153,7 +152,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Left CLimber Tics", climber.getLeftEncoderTics());
         SmartDashboard.putNumber("Right Climber Tics", climber.getRightEncoderTics());
 
-        // SmartDashboard.putNumber("Lidar Distance CM", lidar.lidarDistance());
     }
 
     @Override
@@ -208,7 +206,7 @@ public class Robot extends TimedRobot {
                         -1,
                         10,
                         lights,
-                        -1));
+                        -1, true));
 
         OI.driverA.whenPressed(
                 new Fire(
@@ -225,7 +223,8 @@ public class Robot extends TimedRobot {
                         -1,
                         0,
                         lights,
-                        -1));
+                        peripherals.getLidarDistance(),
+                        true));
 
         OI.driverX.whenPressed(
                 new Fire(
@@ -242,16 +241,17 @@ public class Robot extends TimedRobot {
                         -1,
                         20,
                         lights,
-                        -1));
+                        -1,
+                        true));
 
-        OI.driverA.whenReleased(new SetHoodPosition(hood, 0, -1));
+        OI.driverA.whenReleased(new SetHoodPosition(hood, peripherals, 0, -1, false));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));
 
         // OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 2000, 18));
-        OI.driverB.whenReleased(new SetHoodPosition(hood, 0, -1));
+        OI.driverB.whenReleased(new SetHoodPosition(hood, peripherals, 0, -1, false));
         OI.driverB.whenReleased(new CancelMagazine(magIntake));
 
-        OI.driverX.whenReleased(new SetHoodPosition(hood, 0, -1));
+        OI.driverX.whenReleased(new SetHoodPosition(hood, peripherals, 0, -1, false));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
 
         OI.operatorX.whenPressed(new PushClimberUp(climber));

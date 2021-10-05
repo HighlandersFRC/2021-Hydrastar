@@ -5,6 +5,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.sensors.LidarLite;
@@ -15,7 +16,8 @@ public class Peripherals extends SubsytemBaseEnhanced {
     private final AHRS ahrs = new AHRS(Port.kMXP);
 
     private final Navx navx = new Navx(ahrs);
-    // private final Counter lidarPort = new Counter(0);
+    private final Counter lidarPort = new Counter(8);
+    private final LidarLite lidar = new LidarLite(lidarPort);
     private VisionCamera visionCam;
 
     @Override
@@ -58,6 +60,11 @@ public class Peripherals extends SubsytemBaseEnhanced {
 
     public void zeroNavx() {
         navx.softResetAngle();
+    }
+
+    public double getLidarDistance(){
+        // lidar.update();
+        return lidar.getDistance();
     }
 
     @Override

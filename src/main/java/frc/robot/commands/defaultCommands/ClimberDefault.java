@@ -38,7 +38,7 @@ public class ClimberDefault extends CommandBase {
         //     climber.setClimber(-0.3, -0.3);
         // }
         else {
-            System.out.println("Not inside Y Button");
+            // System.out.println("Not inside Y Button");
             climber.setClimberPiston(Value.kForward);
             climber.setClimber(0, 0);
         }

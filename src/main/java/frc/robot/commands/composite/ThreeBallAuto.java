@@ -45,7 +45,8 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                         47,
                         10,
                         lights,
-                        -1),
+                        -1, 
+                        false),
                 new DriveBackwards1(drive, peripherals, 38, 0.7, false, 0));
                 // new NavxTurn(peripherals, drive, 12),
                 // // changed from 15 degrees on NavxTurn
