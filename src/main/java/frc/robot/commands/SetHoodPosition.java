@@ -28,7 +28,6 @@ public class SetHoodPosition extends CommandBase {
         SmartDashboard.putBoolean("Inisde Hood Init", true);
         this.distance = peripherals.getLidarDistance();
         SmartDashboard.putNumber("Hood Lidar", peripherals.getLidarDistance());
-        SmartDashboard.putNumber("HDist", distance);
         SmartDashboard.putBoolean("UseRegression", regression);
         if(regression == true) {
             target = (1.469567313 * this.distance) + 0.9674088001;
