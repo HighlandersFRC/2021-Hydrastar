@@ -13,29 +13,32 @@ public class SetHoodPosition extends CommandBase {
     private double target;
     private LidarLite lidar;
     private double distance;
-    private int regression; 
+    private int zone; 
 
-    public SetHoodPosition(Hood hood, Peripherals peripherals, double target, int useRegression) {
+    public SetHoodPosition(Hood hood, Peripherals peripherals, double target, int shootingZone) {
         this.hood = hood;
         this.peripherals = peripherals;
         addRequirements(hood);
         this.target = target;
-        this.regression = useRegression;
+        this.zone = shootingZone;
     }
 
     @Override
     public void initialize() {
         this.distance = peripherals.getLidarDistance();
         SmartDashboard.putNumber("Hood Lidar", peripherals.getLidarDistance());
-        SmartDashboard.putNumber("UseRegression", regression);
-        if(regression == 0) {
+        SmartDashboard.putNumber("Zone Number", zone);
+        //target zone = 1
+        //initiation line = 2
+        //trench = 3
+        if(zone == 1) {
             target = (1.469567313 * this.distance) + 0.9674088001;
         SmartDashboard.putNumber("InitTarget", target);
     }
-        // if(regression == 1){
+        // if(regression == 2){
         //     target = 24;
         // }
-        // if(regression == 2){
+        // if(regression == 3){
         //     target = 33;
         // }
     }
