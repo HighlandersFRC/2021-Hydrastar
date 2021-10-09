@@ -25,9 +25,9 @@ public class LidarLite {
         }
         // countDist = counter.getPeriod() * 100000;// * 30000.0;
         
-        cmDist = (counter.getPeriod() * 10000000.0 / 10.0);
-        inDist = (cmDist * 0.00328084) ;
-        return inDist;
+        cmDist = (counter.getPeriod() * 10000000.0 / 1000.0);
+     
+        return cmDist;
         
     }
 }

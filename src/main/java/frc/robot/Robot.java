@@ -206,7 +206,7 @@ public class Robot extends TimedRobot {
                         -1,
                         10,
                         lights,
-                        -1, true));
+                        -1, false));
 
         OI.driverA.whenPressed(
                 new Fire(
@@ -217,7 +217,7 @@ public class Robot extends TimedRobot {
                         lightRing,
                         drive,
                         1800,
-                        6,
+                        9.75,
                         0.0,
                         false,
                         -1,
@@ -242,7 +242,7 @@ public class Robot extends TimedRobot {
                         20,
                         lights,
                         -1,
-                        true));
+                        false));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, peripherals, 0, -1, false));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));

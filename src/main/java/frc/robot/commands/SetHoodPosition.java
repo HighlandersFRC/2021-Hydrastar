@@ -27,31 +27,33 @@ public class SetHoodPosition extends CommandBase {
     public void initialize() {
         SmartDashboard.putBoolean("Inisde Hood Init", true);
         this.distance = peripherals.getLidarDistance();
+        SmartDashboard.putNumber("Hood Lidar", peripherals.getLidarDistance());
         SmartDashboard.putNumber("HDist", distance);
         SmartDashboard.putBoolean("UseRegression", regression);
         if(regression == true) {
-            if (this.distance != -1 && this.distance > 13) {
-                SmartDashboard.putBoolean("1True", true);
-                SmartDashboard.putBoolean("2True", false);
-                SmartDashboard.putBoolean("3True", false);
-                target = (0.23 * this.distance) + 6;
-            } else if (this.distance < 5 && this.distance != -1) {
-                SmartDashboard.putBoolean("1True", false);
-                SmartDashboard.putBoolean("2True", true);
-                SmartDashboard.putBoolean("3True", false);
-                target = 4;
-            } else if (this.distance != -1 && ((this.distance > 3) && (this.distance < 13))) {
-                SmartDashboard.putBoolean("1True", false);
-                SmartDashboard.putBoolean("2True", false);
-                SmartDashboard.putBoolean("3True", true);
-                target = (0.15 * this.distance) + 2;
-            }
-        } else {
-            SmartDashboard.putBoolean("1True", false);
-            SmartDashboard.putBoolean("2True", false);
-            SmartDashboard.putBoolean("3True", false);
-        }
-        SmartDashboard.putNumber("InitTarget", target);
+            target = (1.469567313 * this.distance) + 0.9674088001;
+        //     if (this.distance != -1 && this.distance > 13) {
+        //         SmartDashboard.putBoolean("1True", true);
+        //         SmartDashboard.putBoolean("2True", false);
+        //         SmartDashboard.putBoolean("3True", false);
+        //         target = (0.23 * this.distance) + 6;
+        //     } else if (this.distance < 3 && this.distance != -1) {
+        //         SmartDashboard.putBoolean("1True", false);
+        //         SmartDashboard.putBoolean("2True", true);
+        //         SmartDashboard.putBoolean("3True", false);
+        //         target = 4;
+        //     } else if (this.distance != -1 && ((this.distance > 3) && (this.distance < 13))) {
+        //         SmartDashboard.putBoolean("1True", false);
+        //         SmartDashboard.putBoolean("2True", false);
+        //         SmartDashboard.putBoolean("3True", true);
+        //         target = (0.15 * this.distance) + 2;
+        //     }
+        // } else {
+        //     SmartDashboard.putBoolean("1True", false);
+        //     SmartDashboard.putBoolean("2True", false);
+        //     SmartDashboard.putBoolean("3True", false);
+        // }
+        SmartDashboard.putNumber("InitTarget", target);}
     }
 
     @Override
