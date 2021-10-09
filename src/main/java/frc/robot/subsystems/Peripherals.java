@@ -5,6 +5,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.sensors.LidarLite;
@@ -15,11 +16,12 @@ public class Peripherals extends SubsytemBaseEnhanced {
     private final AHRS ahrs = new AHRS(Port.kMXP);
 
     private final Navx navx = new Navx(ahrs);
-    // private final Counter lidarPort = new Counter(0);
+    private final Counter ultraSonic = new Counter(7);
     private VisionCamera visionCam;
 
     @Override
     public void init() {
+        ultraSonic.setSemiPeriodMode(true);
         SerialPort jevois = null;
         try {
             jevois = new SerialPort(115200, SerialPort.Port.kUSB1);
@@ -41,7 +43,10 @@ public class Peripherals extends SubsytemBaseEnhanced {
 
     public Peripherals() {}
 
-
+    public double getUltraSonicDist() {
+        return ultraSonic.getPeriod() * 40000;
+    }
+    
     public double getCamAngle() {
         visionCam.updateVision();
         return visionCam.getAngle();

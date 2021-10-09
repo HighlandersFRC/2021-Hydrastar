@@ -9,8 +9,10 @@ import frc.robot.OI;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.LightRing;
 import frc.robot.subsystems.Lights;
+import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Lights.LEDMode;
+import frc.robot.subsystems.MagIntake.BeamBreakID;
 import frc.robot.tools.controlloops.PID;
 
 public class BallTrackingPID extends CommandBase {
@@ -33,10 +35,12 @@ public class BallTrackingPID extends CommandBase {
     private double output = 0;
     private double distance = 0;
     private Lights lights;
+    private MagIntake magIntake;
 
     public BallTrackingPID(
             LightRing lightRing,
             Drive drive,
+            MagIntake magIntake,
             Peripherals peripherals,
             Double offset,
             boolean back,
@@ -49,7 +53,8 @@ public class BallTrackingPID extends CommandBase {
         isBack = back;
         this.distance = distance;
         this.lights = lights;
-        addRequirements(this.drive, this.lightRing);
+        this.magIntake = magIntake;
+        addRequirements(this.drive, this.lightRing, this.magIntake);
     }
 
     @Override
@@ -59,35 +64,23 @@ public class BallTrackingPID extends CommandBase {
         pid = new PID(kP, kI, kD);
         backPID = new PID(backP, backI, backD);
         pid.setSetPoint(0);
-        pid.setMinOutput(-0.5);
-        pid.setMaxOutput(0.5);
+        pid.setMinOutput(-0.1);
+        pid.setMaxOutput(0.1);
     }
 
     @Override
     public void execute() {
         counter++;
-        lightRing.turnVisionOn();
-        // SmartDashboard.putNumber("vision Angle", peripherals.getCamAngle());
-        // System.out.println(peripherals.getCamAngle());
-        if (isBack) {
-            output = backPID.updatePID(peripherals.getCamAngle() + angleOffset);
-        } else {
-            output = pid.updatePID(peripherals.getCamAngle() + angleOffset);
-        }
-        SmartDashboard.putNumber("PID Output", pid.getResult());
-        SmartDashboard.putNumber("Counter", counter);
-        if(OI.driverController.getBumper(Hand.kRight)) {
-            drive.setLeftPercent(0.1);
-            drive.setRightPercent(-0.1);
-        }
-        else if(OI.driverController.getBumper(Hand.kLeft)) {
-            drive.setLeftPercent(-0.1);
-            drive.setRightPercent(0.1);
+        magIntake.setIntakePercent(-0.7);
+        if(magIntake.getBeamBreak(BeamBreakID.ONE)) {
+          magIntake.setMagPercent(0.5, 0.2, 0.5);
         }
         else {
-            drive.setRightPercent(output - 0.3);
-            drive.setLeftPercent(-output - 0.3);
+          magIntake.setMagPercent(0.0, 0.0, 0.0);
         }
+        SmartDashboard.putNumber("PID Output", pid.getResult());
+        drive.setRightPercent(output - 0.3);
+        drive.setLeftPercent(-output - 0.3);
         if (peripherals.getCamAngle() == 0) {
             lights.setMode(LEDMode.STROBERED);
         } else {
@@ -105,20 +98,10 @@ public class BallTrackingPID extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(isBack) {
-          // SmartDashboard
-            return Math.abs(peripherals.getCamAngle() - angleOffset) <= 0.5
-                        && Math.abs(pid.getResult()) < 0.1
-                        && peripherals.getCamAngle() != angleOffset
-                || counter > 75;
+        if(!magIntake.getBeamBreak(BeamBreakID.THREE)) {
+          return true;
         }
-        else {
-            return Math.abs(peripherals.getCamAngle() - angleOffset) <= 2
-                        && Math.abs(pid.getResult()) < 0.05
-                        && peripherals.getCamAngle() != angleOffset
-                || counter > 45;
-        }
-        // return false;
+        return false;
         
     }
 }

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.BallTrackingPID;
 import frc.robot.commands.BringDownClimber;
 import frc.robot.commands.CancelMagazine;
 import frc.robot.commands.Fire;
@@ -133,6 +134,8 @@ public class Robot extends TimedRobot {
 
             }
         }
+        SmartDashboard.putNumber("UltraSonic Dist", peripherals.getUltraSonicDist());
+        System.out.println("Ultra Sonic Distance: " + peripherals.getUltraSonicDist());
         SmartDashboard.putBoolean("Top Switch", hood.getTopLimitSwitch());
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveMeters();
@@ -242,7 +245,8 @@ public class Robot extends TimedRobot {
                         -1,
                         20,
                         lights,
-                        -1));
+                        -1));              
+        // OI.driverY.whenPressed(new BallTrackingPID(lightRing, drive, magIntake, peripherals, 0.0, false, -1, lights));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, 0, -1));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));
