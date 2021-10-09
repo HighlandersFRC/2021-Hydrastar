@@ -13,9 +13,9 @@ public class SetHoodPosition extends CommandBase {
     private double target;
     private LidarLite lidar;
     private double distance;
-    private boolean regression; 
+    private int regression; 
 
-    public SetHoodPosition(Hood hood, Peripherals peripherals, double target, double lidarDistance, boolean useRegression) {
+    public SetHoodPosition(Hood hood, Peripherals peripherals, double target, int useRegression) {
         this.hood = hood;
         this.peripherals = peripherals;
         addRequirements(hood);
@@ -25,13 +25,19 @@ public class SetHoodPosition extends CommandBase {
 
     @Override
     public void initialize() {
-        SmartDashboard.putBoolean("Inisde Hood Init", true);
         this.distance = peripherals.getLidarDistance();
         SmartDashboard.putNumber("Hood Lidar", peripherals.getLidarDistance());
-        SmartDashboard.putBoolean("UseRegression", regression);
-        if(regression == true) {
+        SmartDashboard.putNumber("UseRegression", regression);
+        if(regression == 0) {
             target = (1.469567313 * this.distance) + 0.9674088001;
-        SmartDashboard.putNumber("InitTarget", target);}
+        SmartDashboard.putNumber("InitTarget", target);
+    }
+        // if(regression == 1){
+        //     target = 24;
+        // }
+        // if(regression == 2){
+        //     target = 33;
+        // }
     }
 
     @Override

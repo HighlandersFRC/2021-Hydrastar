@@ -206,7 +206,7 @@ public class Robot extends TimedRobot {
                         -1,
                         10,
                         lights,
-                        -1, false));
+                         1));
 
         OI.driverA.whenPressed(
                 new Fire(
@@ -223,8 +223,7 @@ public class Robot extends TimedRobot {
                         -1,
                         0,
                         lights,
-                        peripherals.getLidarDistance(),
-                        true));
+                        0));
 
         OI.driverX.whenPressed(
                 new Fire(
@@ -241,17 +240,16 @@ public class Robot extends TimedRobot {
                         -1,
                         20,
                         lights,
-                        -1,
-                        false));
+                        2));
 
-        OI.driverA.whenReleased(new SetHoodPosition(hood, peripherals, 0, -1, false));
+        OI.driverA.whenReleased(new SetHoodPosition(hood, peripherals, 0,  3));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));
 
         // OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 2000, 18));
-        OI.driverB.whenReleased(new SetHoodPosition(hood, peripherals, 0, -1, false));
+        OI.driverB.whenReleased(new SetHoodPosition(hood, peripherals, 0,  3));
         OI.driverB.whenReleased(new CancelMagazine(magIntake));
 
-        OI.driverX.whenReleased(new SetHoodPosition(hood, peripherals, 0, -1, false));
+        OI.driverX.whenReleased(new SetHoodPosition(hood, peripherals, 0,  3));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
 
         OI.operatorX.whenPressed(new PushClimberUp(climber));
