@@ -59,7 +59,7 @@ public class SmartIntake extends CommandBase {
         System.out.println("Inside end command");
         // magIntake.setMagPercent(0, 0, 0);
         // magIntake.setIntakePercent(0);
-        magIntake.setIntakePistonUp();
+        // magIntake.setIntakePistonUp();
     }
 
     @Override
