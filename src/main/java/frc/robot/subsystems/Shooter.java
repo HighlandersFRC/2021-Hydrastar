@@ -24,7 +24,8 @@ public class Shooter extends SubsytemBaseEnhanced {
         shooterMaster.enableVoltageCompensation(true);
         shooterMaster.setSensorPhase(true);
         shooterMaster.selectProfileSlot(0, 0);
-        shooterMaster.config_kF(0, 0.007);
+        // kF was previously 0.007
+        shooterMaster.config_kF(0, 0.0095);
         shooterMaster.config_kP(0, 0.05);
         shooterMaster.config_kI(0, 0.000001);
         shooterMaster.config_kD(0, 0.12);

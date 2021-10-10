@@ -16,7 +16,7 @@ public class Peripherals extends SubsytemBaseEnhanced {
     private final AHRS ahrs = new AHRS(Port.kMXP);
 
     private final Navx navx = new Navx(ahrs);
-    private final Counter lidarPort = new Counter(8);
+    private final Counter lidarPort = new Counter(9);
     private final LidarLite lidar = new LidarLite(lidarPort);
     private VisionCamera visionCam;
 
@@ -24,7 +24,7 @@ public class Peripherals extends SubsytemBaseEnhanced {
     public void init() {
         SerialPort jevois = null;
         try {
-            jevois = new SerialPort(115200, SerialPort.Port.kUSB1);
+            jevois = new SerialPort(115200, SerialPort.Port.kOnboard);
             System.out.println("Hola om");
             SmartDashboard.putBoolean("Got Camera", true);
         } catch (final Exception e) {

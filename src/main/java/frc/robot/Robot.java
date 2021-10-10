@@ -110,9 +110,6 @@ public class Robot extends TimedRobot {
         camera.setResolution(160, 120);
         camera.setFPS(10);
 
-        camera2 = CameraServer.getInstance().startAutomaticCapture("VisionCamera2", "/dev/video1");
-        camera2.setResolution(160, 120);
-        camera2.setFPS(10);
 
         server = CameraServer.getInstance().addSwitchedCamera("driverVisionCameras");
         server.setSource(camera);
@@ -122,16 +119,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        if(OI.operatorStart.get() && ableToSwitch) {
-            if(cameraBoolean) {
-                server.setSource(camera2);
-                cameraBoolean = false;
-            }
-            else if(!cameraBoolean) {
-                server.setSource(camera);
-
-            }
-        }
+       
+        
         SmartDashboard.putBoolean("Top Switch", hood.getTopLimitSwitch());
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveMeters();
@@ -224,7 +213,7 @@ public class Robot extends TimedRobot {
                         0,
                         lights,
                         1));
-
+// changed rpm from 2900 to 3100
         OI.driverX.whenPressed(
                 new Fire(
                         magIntake,
@@ -233,7 +222,7 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        2900,
+                        2850,
                         33,
                         3.0,
                         true,

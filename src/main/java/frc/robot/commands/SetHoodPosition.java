@@ -35,10 +35,10 @@ public class SetHoodPosition extends CommandBase {
             target = (1.469567313 * this.distance) + 0.9674088001;
         SmartDashboard.putNumber("InitTarget", target);
     }
-        // if(regression == 2){
+        // if(zone == 2){
         //     target = 24;
         // }
-        // if(regression == 3){
+        // if(zone == 3){
         //     target = 33;
         // }
     }

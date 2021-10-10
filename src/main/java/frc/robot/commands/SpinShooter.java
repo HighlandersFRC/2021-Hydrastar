@@ -5,17 +5,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
 
 public class SpinShooter extends CommandBase {
     private Shooter shooter;
+    private Peripherals peripherals;
     private double rpm;
+    private double distance;
+    private int zone;
     private double counter = 0;
     /** Creates a new SpinShooter. */
-    public SpinShooter(Shooter shooter, double rpm) {
+    public SpinShooter(Shooter shooter, Peripherals peripherals, double rpm, int shootingZone) {
         this.shooter = shooter;
+        this.peripherals = peripherals;
         this.rpm = rpm;
+        this.zone = shootingZone;
         addRequirements(shooter);
 
         // Use addRequirements() here to declare subsystem dependencies.
@@ -24,6 +29,11 @@ public class SpinShooter extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        this.distance = peripherals.getLidarDistance();
+        if(zone == 3){
+            rpm = (29.84041751 * this.distance) + 1008.993061;
+
+        }
         shooter.setShooterRPM(rpm);
         counter = 0;
     }
