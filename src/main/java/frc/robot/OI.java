@@ -67,4 +67,8 @@ public class OI {
         return autoChooser.getRawButton(5);
     }
 
+    public static int getPOV() {
+        return driverController.getPOV();
+    }
+
 }

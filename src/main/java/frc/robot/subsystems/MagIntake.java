@@ -43,7 +43,7 @@ public class MagIntake extends SubsytemBaseEnhanced {
     private final DoubleSolenoid intakePiston = new DoubleSolenoid(0,1);
 
     private final DigitalInput beamBreak1 = new DigitalInput(Constants.BEAM_BREAK_1_ID);
-    private final DigitalInput beamBreak2 = new DigitalInput(Constants.BEAM_BREAK_2_ID);
+    // private final DigitalInput beamBreak2 = new DigitalInput(Constants.BEAM_BREAK_2_ID);
     private final DigitalInput beamBreak3 = new DigitalInput(Constants.BEAM_BREAK_3_ID);
     private final DigitalInput beamBreak4 = new DigitalInput(Constants.BEAM_BREAK_4_ID);
     private final DigitalInput beamBreak5 = new DigitalInput(Constants.BEAM_BREAK_5_ID);
@@ -71,7 +71,7 @@ public class MagIntake extends SubsytemBaseEnhanced {
             case ONE:
                 return beamBreak1.get();
             case TWO:
-                return beamBreak2.get();
+                // return beamBreak2.get();
             case THREE:
                 return beamBreak3.get();
             case FOUR:

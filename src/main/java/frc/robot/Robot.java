@@ -40,6 +40,7 @@ import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
+import frc.robot.tools.RPMAdder;
 import frc.robot.tools.pathing.Odometry;
 
 import java.io.IOException;
@@ -60,7 +61,7 @@ public class Robot extends TimedRobot {
     private final LightRing lightRing = new LightRing();
     private final Climber climber = new Climber();
     private final Lights lights = new Lights();
-    private final LidarLite lidar = new LidarLite();
+ 
     private UsbCamera camera;
     private UsbCamera camera2;
     private VideoSink server;
@@ -81,6 +82,8 @@ public class Robot extends TimedRobot {
 
     private Boolean cameraBoolean = false;
     private Boolean ableToSwitch = false;
+
+    private RPMAdder rpmAdder = new RPMAdder();
 
     @Override
     public void robotInit() {
@@ -108,18 +111,18 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
-        camera = CameraServer.getInstance().startAutomaticCapture("VisionCamera1", "/dev/video0");
-        camera.setResolution(160, 120);
-        camera.setFPS(10);
+        // camera = CameraServer.getInstance().startAutomaticCapture("VisionCamera1", "/dev/video0");
+        // camera.setResolution(160, 120);
+        // camera.setFPS(10);
 
-        camera2 = CameraServer.getInstance().startAutomaticCapture("VisionCamera2", "/dev/video1");
-        camera2.setResolution(160, 120);
-        camera2.setFPS(10);
+        // camera2 = CameraServer.getInstance().startAutomaticCapture("VisionCamera2", "/dev/video1");
+        // camera2.setResolution(160, 120);
+        // camera2.setFPS(10);
 
-        server = CameraServer.getInstance().addSwitchedCamera("driverVisionCameras");
-        server.setSource(camera);
-        Shuffleboard.update();
-        SmartDashboard.updateValues();
+        // server = CameraServer.getInstance().addSwitchedCamera("driverVisionCameras");
+        // server.setSource(camera);
+        // Shuffleboard.update();
+        // SmartDashboard.updateValues();
     }
 
     @Override
@@ -134,29 +137,21 @@ public class Robot extends TimedRobot {
 
             }
         }
-        SmartDashboard.putNumber("UltraSonic Dist", peripherals.getUltraSonicDist());
-        System.out.println("Ultra Sonic Distance: " + peripherals.getUltraSonicDist());
+        SmartDashboard.putNumber("Back Ultra Sonic Distance", peripherals.getBackUltraSonicDist());
+        SmartDashboard.putNumber("Front UltraSonic Distance", peripherals.getUltraSonicDist());
         SmartDashboard.putBoolean("Top Switch", hood.getTopLimitSwitch());
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveMeters();
         magIntake.putBeamBreaksSmartDashboard();
-        // lidar.getDistance();
-        // SmartDashboard.putNumber("Lidar Distance", peripherals.getLidarDistance());
-        SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
-        SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
         SmartDashboard.putNumber("hood position", hood.getHoodPosition());
-        SmartDashboard.putNumber("Drive Encoder Tics", drive.getDriveMeters());
-        SmartDashboard.putNumber("navx angle", peripherals.getNavxAngle());
-
         SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
 
         CommandScheduler.getInstance().run();
 
         SmartDashboard.putNumber("Left CLimber Tics", climber.getLeftEncoderTics());
         SmartDashboard.putNumber("Right Climber Tics", climber.getRightEncoderTics());
-
-        // SmartDashboard.putNumber("Lidar Distance CM", lidar.lidarDistance());
+        SmartDashboard.putNumber("POV", OI.getPOV());
     }
 
     @Override
@@ -209,9 +204,10 @@ public class Robot extends TimedRobot {
                         -9.0,
                         false,
                         -1,
-                        10,
                         lights,
-                        -1));
+                        -1, 
+                        2,
+                        rpmAdder));
 
         OI.driverA.whenPressed(
                 new Fire(
@@ -226,9 +222,10 @@ public class Robot extends TimedRobot {
                         0.0,
                         false,
                         -1,
-                        0,
                         lights,
-                        -1));
+                        peripherals.getLidarDistance(), 
+                        1,
+                        rpmAdder));
 
         OI.driverX.whenPressed(
                 new Fire(
@@ -239,23 +236,24 @@ public class Robot extends TimedRobot {
                         lightRing,
                         drive,
                         2900,
-                        33,
+                        32,
                         3.0,
                         true,
                         -1,
-                        20,
                         lights,
-                        -1));              
+                        -1, 
+                        3,
+                        rpmAdder));              
         // OI.driverY.whenPressed(new BallTrackingPID(lightRing, drive, magIntake, peripherals, 0.0, false, -1, lights));
 
-        OI.driverA.whenReleased(new SetHoodPosition(hood, 0, -1));
+        OI.driverA.whenReleased(new SetHoodPosition(hood, peripherals, 0,  0));
         OI.driverA.whenReleased(new CancelMagazine(magIntake));
 
         // OI.driverX.whenPressed(new Fire(magIntake, shooter, hood, 2000, 18));
-        OI.driverB.whenReleased(new SetHoodPosition(hood, 0, -1));
+        OI.driverB.whenReleased(new SetHoodPosition(hood, peripherals,  0,  0));
         OI.driverB.whenReleased(new CancelMagazine(magIntake));
 
-        OI.driverX.whenReleased(new SetHoodPosition(hood, 0, -1));
+        OI.driverX.whenReleased(new SetHoodPosition(hood, peripherals, 0,  0));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
 
         OI.operatorX.whenPressed(new PushClimberUp(climber));
@@ -270,7 +268,15 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+        if(OI.getPOV() == 0) {
+            rpmAdder.increaseRPM();
+        }
+        else if(OI.getPOV() == 180) {
+            rpmAdder.decreaseRPM();
+        }
+        // SmartDashboard.putNumber("Adder", rpmAdder);
+    }
 
     @Override
     public void testInit() {

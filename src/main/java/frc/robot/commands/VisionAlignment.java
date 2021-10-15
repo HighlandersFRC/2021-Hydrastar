@@ -40,7 +40,6 @@ public class VisionAlignment extends CommandBase {
             Peripherals peripherals,
             Double offset,
             boolean back,
-            double distance,
             Lights lights) {
         this.drive = drive;
         this.lightRing = lightRing;

@@ -18,6 +18,7 @@ import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.MagIntake;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Shooter;
+import frc.robot.tools.RPMAdder;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -42,21 +43,36 @@ public class Autonomous extends SequentialCommandGroup {
                         hood,
                         lightRing,
                         drive,
-                        2100,
-                        23,
+                        2000,
+                        24,
                         -9.0,
                         false,
-                        47,
-                        10,
+                        -1,
                         lights,
-                        -1),
-                new DriveBackwards1(drive, peripherals, 52, 0.7, false, 0),
+                        -1, 
+                        2),
+                new DriveBackwards1(drive, peripherals, 65, 0.7, false, 0, false),
                 new NavxTurn(peripherals, drive, 9),
                 // changed from 15 degrees on NavxTurn
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 145, 0.4, false, 19), new SmartIntake(magIntake, lights)));
-                // new NavxTurn(peripherals, drive, 12),
-                // new ParallelRaceGroup(
-                //         new DriveBackwards1(drive, peripherals, 90, 0.6, true, 3), new SmartIntake(magIntake, lights)));
-    }
+                        new DriveBackwards1(drive, peripherals, 145, 0.4, false, 19, true), new SmartIntake(magIntake, lights)),
+                new NavxTurn(peripherals, drive, 3),
+                new ParallelRaceGroup(
+                        new DriveBackwards1(drive, peripherals, 110, 0.6, true, 3, true), new SmartIntake(magIntake, lights)),
+                new Fire(
+                        magIntake,
+                        peripherals,
+                        shooter,
+                        hood,
+                        lightRing,
+                        drive,
+                        2900,
+                        33,
+                        3.0,
+                        true,
+                        -1,
+                        lights,
+                        -1, 
+                        3));
+        }
 }

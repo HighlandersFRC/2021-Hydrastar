@@ -16,15 +16,20 @@ public class Peripherals extends SubsytemBaseEnhanced {
     private final AHRS ahrs = new AHRS(Port.kMXP);
 
     private final Navx navx = new Navx(ahrs);
-    private final Counter ultraSonic = new Counter(7);
+    private final Counter ultraSonic = new Counter(8);
+    private final Counter backUltraSonic = new Counter(3);
     private VisionCamera visionCam;
+    private final Counter lidarPort = new Counter(9);
+
+    private final LidarLite lidar = new LidarLite(lidarPort);
 
     @Override
     public void init() {
         ultraSonic.setSemiPeriodMode(true);
+        backUltraSonic.setSemiPeriodMode(true);
         SerialPort jevois = null;
         try {
-            jevois = new SerialPort(115200, SerialPort.Port.kUSB1);
+            jevois = new SerialPort(115200, SerialPort.Port.kMXP);
             System.out.println("Hola om");
             SmartDashboard.putBoolean("Got Camera", true);
         } catch (final Exception e) {
@@ -43,8 +48,17 @@ public class Peripherals extends SubsytemBaseEnhanced {
 
     public Peripherals() {}
 
+    public double getLidarDistance() {
+        return lidar.getDistance();
+    }
+
+    public double getBackUltraSonicDist() {
+        // return 0.0;
+        return backUltraSonic.getPeriod() * 33000;
+    }
+
     public double getUltraSonicDist() {
-        return ultraSonic.getPeriod() * 40000;
+        return ultraSonic.getPeriod() * 37000;
     }
     
     public double getCamAngle() {

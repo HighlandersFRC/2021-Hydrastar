@@ -37,10 +37,10 @@ public class TwoBallSnatch extends SequentialCommandGroup {
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 116, 0.35, false, 19), new SmartIntake(magIntake, lights)),
+                        new DriveBackwards1(drive, peripherals, 116, 0.35, false, 19, false), new SmartIntake(magIntake, lights)),
                 new ParallelRaceGroup(new NavxTurnOneSide(peripherals, drive, 45), new SmartIntake(magIntake, lights)),
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 7, 0.35, false, 45), new SmartIntake(magIntake, lights)),
-                new DriveBackwards1(drive, peripherals, 150, 0.7, true, 45));
+                        new DriveBackwards1(drive, peripherals, 7, 0.35, false, 45, false), new SmartIntake(magIntake, lights)),
+                new DriveBackwards1(drive, peripherals, 150, 0.7, true, 45, false));
     }
 }
