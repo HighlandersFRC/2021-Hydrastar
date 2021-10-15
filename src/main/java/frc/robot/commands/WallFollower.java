@@ -21,6 +21,7 @@ public class WallFollower extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = driveSubsystem;
     this.peripherals = peripheralSubsystem;
+    addRequirements(this.drive);
   }
 
   // Called when the command is initially scheduled.
@@ -33,39 +34,39 @@ public class WallFollower extends CommandBase {
     backDist = peripherals.getBackUltraSonicDist();
     frontDist = peripherals.getUltraSonicDist();
 
-    if(backDist == frontDist && (Math.abs(backDist - 27) < 2)) {
+    if(((Math.abs(backDist - frontDist) < 2)) && (Math.abs(backDist - 23) < 2)) {
       drive.setLeftPercent(-0.4);
       drive.setRightPercent(-0.4);
     }
-    else if(backDist == frontDist && ((backDist - 27) > 2)) {
+    else if(((Math.abs(backDist - frontDist) < 2)) && ((backDist - 23) > 2)) {
       drive.setLeftPercent(-0.45);
       drive.setRightPercent(-0.4);
     }
-    else if(backDist == frontDist && ((backDist - 27) < -2)) {
+    else if(((Math.abs(backDist - frontDist) < 2)) && ((backDist - 23) < -2)) {
       drive.setLeftPercent(-0.4);
       drive.setRightPercent(-0.45);
     }
-    else if(backDist < frontDist && ((backDist - 27) > 2)) {
+    else if(backDist < frontDist && ((backDist - 23) > 2)) {
       drive.setRightPercent(-0.3);
       drive.setLeftPercent(-0.3);
     }
-    else if(backDist < frontDist && ((Math.abs(backDist - 27)) < 2)) {
+    else if(backDist < frontDist && ((Math.abs(backDist - 23)) < 2)) {
       drive.setLeftPercent(-0.4);
       drive.setRightPercent(-0.45);
     }
-    else if(backDist < frontDist && ((backDist - 27) < 2)) {
+    else if(backDist < frontDist && ((backDist - 23) < 2)) {
       drive.setLeftPercent(-0.35);
       drive.setRightPercent(-0.45);
     }
-    else if(frontDist < backDist && ((frontDist - 27) > 2)) {
+    else if(frontDist < backDist && ((frontDist - 23) > 2)) {
       drive.setRightPercent(-0.35);
       drive.setLeftPercent(-0.45);
     }
-    else if(frontDist < backDist && (Math.abs(frontDist - 27) < 2)) {
+    else if(frontDist < backDist && (Math.abs(frontDist - 23) < 2)) {
       drive.setLeftPercent(-0.45);
       drive.setRightPercent(-0.4);
     }
-    else if(frontDist < backDist && ((frontDist - 27) < 2)) {
+    else if(frontDist < backDist && ((frontDist - 23) < 2)) {
       drive.setRightPercent(-0.3);
       drive.setLeftPercent(-0.3);
     }

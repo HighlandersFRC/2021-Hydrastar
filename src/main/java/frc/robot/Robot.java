@@ -27,6 +27,7 @@ import frc.robot.commands.PurePursuit;
 import frc.robot.commands.PushClimber;
 import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
+import frc.robot.commands.WallFollower;
 import frc.robot.commands.composite.Autonomous;
 import frc.robot.commands.composite.PushClimberUp;
 import frc.robot.commands.composite.ThreeBallAuto;
@@ -243,7 +244,9 @@ public class Robot extends TimedRobot {
                         lights,
                         -1, 
                         3,
-                        rpmAdder));              
+                        rpmAdder));     
+                        
+        OI.driverY.whenPressed(new WallFollower(drive, peripherals));
         // OI.driverY.whenPressed(new BallTrackingPID(lightRing, drive, magIntake, peripherals, 0.0, false, -1, lights));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, peripherals, 0,  0));

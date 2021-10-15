@@ -16,8 +16,8 @@ public class Peripherals extends SubsytemBaseEnhanced {
     private final AHRS ahrs = new AHRS(Port.kMXP);
 
     private final Navx navx = new Navx(ahrs);
-    private final Counter ultraSonic = new Counter(8);
-    private final Counter backUltraSonic = new Counter(3);
+    private final Counter backUltraSonic = new Counter(8);
+    private final Counter ultraSonic = new Counter(3);
     private VisionCamera visionCam;
     private final Counter lidarPort = new Counter(9);
 
@@ -58,7 +58,7 @@ public class Peripherals extends SubsytemBaseEnhanced {
     }
 
     public double getUltraSonicDist() {
-        return ultraSonic.getPeriod() * 37000;
+        return (ultraSonic.getPeriod() * 37000) + 8;
     }
     
     public double getCamAngle() {
