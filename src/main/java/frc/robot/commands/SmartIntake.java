@@ -43,7 +43,7 @@ public class SmartIntake extends CommandBase {
             lights.setMode(LEDMode.YELLOW);
         } else {
             if(OI.operatorController.getBumper(Hand.kLeft )){
-                magIntake.setMagPercent(0.5, 0.17, 0.5);
+                magIntake.setMagPercent(0.5, 0.23, 0.5);
             }
             else {
                 magIntake.setMagPercent(0, 0, 0);

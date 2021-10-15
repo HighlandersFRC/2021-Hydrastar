@@ -18,8 +18,7 @@ public class LidarLite {
 
     public double getDistance() {
         double cmDist;
-        double inDist;
-        double countDist;
+        
         if (counter.get() < 1) {
             return -1;
         }

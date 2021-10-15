@@ -60,12 +60,13 @@ public class Robot extends TimedRobot {
     private final Climber climber = new Climber();
     private final Lights lights = new Lights();
     private UsbCamera camera;
-    private UsbCamera camera2;
+    // private UsbCamera camera2;
     private VideoSink server;
     private SequentialCommandGroup autoCommand;
     private final Odometry odometry = new Odometry(drive, peripherals);
     Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing, lights);
     TwoBallSnatch twoBallSteal = new TwoBallSnatch(drive, peripherals, magIntake, hood, shooter, lightRing, lights);
+    ThreeBallAuto threeBallAuto = new ThreeBallAuto(drive, peripherals, magIntake, hood, shooter, lightRing, lights);
     // ThreeBallAuto threeBallAuto = new ThreeBallAuto(drive, peripherals, magIntake, hood, shooter, lightRing);
     private Command m_autonomousCommand;
 
@@ -119,14 +120,14 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-       
+     
         
         SmartDashboard.putBoolean("Top Switch", hood.getTopLimitSwitch());
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveMeters();
         magIntake.putBeamBreaksSmartDashboard();
-        // lidar.getDistance();
          SmartDashboard.putNumber("Lidar Distance", peripherals.getLidarDistance());
+         SmartDashboard.putNumber("Camera DISTANCE", peripherals.getCamDistance());
         SmartDashboard.putNumber("navx value", peripherals.getNavxAngle());
         SmartDashboard.putNumber("shooter tics", shooter.getShooterTics());
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
@@ -162,7 +163,7 @@ public class Robot extends TimedRobot {
             autonomous.schedule();
         }
         else if(OI.isThreeBallAuto()) {
-            // threeBallAuto.schedule();
+            threeBallAuto.schedule();
         }
         else {
             autonomous.schedule();
@@ -222,8 +223,8 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        2850,
-                        33,
+                        3750,
+                        32,
                         3.0,
                         true,
                         -1,

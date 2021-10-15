@@ -30,10 +30,11 @@ public class SpinShooter extends CommandBase {
     @Override
     public void initialize() {
         this.distance = peripherals.getLidarDistance();
-        if(zone == 3){
-            rpm = (29.84041751 * this.distance) + 1008.993061;
+        // if((zone == 3) && (this.distance != -1)){
+        //     rpm = (29.84041751 * this.distance) + 1008.993061;
 
-        }
+        // }
+
         shooter.setShooterRPM(rpm);
         counter = 0;
     }
