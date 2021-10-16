@@ -223,7 +223,7 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        3750,
+                        3800,
                         32,
                         3.0,
                         true,
