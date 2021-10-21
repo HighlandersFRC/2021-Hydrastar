@@ -54,11 +54,15 @@ public class Peripherals extends SubsytemBaseEnhanced {
 
     public double getBackUltraSonicDist() {
         // return 0.0;
-        return backUltraSonic.getPeriod() * 33000;
+        return (backUltraSonic.getPeriod() * 33000);
     }
 
     public double getUltraSonicDist() {
-        return (ultraSonic.getPeriod() * 37000) + 8;
+        return (ultraSonic.getPeriod() * 37000);
+    }
+
+    public double getAverageUltraSonicDist() {
+        return (((getBackUltraSonicDist()) + getUltraSonicDist())/2);
     }
     
     public double getCamAngle() {

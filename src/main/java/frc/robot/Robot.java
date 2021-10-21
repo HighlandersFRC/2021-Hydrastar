@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.BallTrackingPID;
+import frc.robot.commands.BeamBreakTurn;
 import frc.robot.commands.BringDownClimber;
 import frc.robot.commands.CancelMagazine;
 import frc.robot.commands.Fire;
@@ -236,7 +237,7 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        2900,
+                        3100,
                         32,
                         3.0,
                         true,
@@ -246,7 +247,7 @@ public class Robot extends TimedRobot {
                         3,
                         rpmAdder));     
                         
-        OI.driverY.whenPressed(new WallFollower(drive, peripherals));
+        OI.driverY.whenPressed(new BeamBreakTurn(peripherals, drive, 0));
         // OI.driverY.whenPressed(new BallTrackingPID(lightRing, drive, magIntake, peripherals, 0.0, false, -1, lights));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, peripherals, 0,  0));
