@@ -148,7 +148,6 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
         SmartDashboard.putNumber("hood position", hood.getHoodPosition());
         SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
-
         CommandScheduler.getInstance().run();
 
         SmartDashboard.putNumber("Left CLimber Tics", climber.getLeftEncoderTics());

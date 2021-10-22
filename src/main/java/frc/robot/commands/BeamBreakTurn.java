@@ -15,11 +15,11 @@ public class BeamBreakTurn extends CommandBase {
     private Peripherals peripherals;
     private Drive drive;
     private PID pid;
-    private double kP = 0.035;
-    private double kI = 0;
-    private double kD = 0.25;
+    private double kP = 0.0125;
+    private double kI = 0.0000125;
+    private double kD = 0;
     private double target;
-    private double averageValue;
+    private double averageValue = 0;
     private int averageCount = 0;
 
     private int finishTrue = 0;
@@ -30,7 +30,7 @@ public class BeamBreakTurn extends CommandBase {
     private double backUSDist = 0;
     private double frontUSDist = 0;
 
-    private double USToUS = 18.5;
+    private double USToUS = 16;
 
     /** Creates a new BeamBreakTurn. */
     public BeamBreakTurn(Peripherals peripherals, Drive drive, double target) {
@@ -55,6 +55,7 @@ public class BeamBreakTurn extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        averageValue = 0;
         backUSDist = peripherals.getBackUltraSonicDist();
         frontUSDist = peripherals.getUltraSonicDist();
 
@@ -63,10 +64,8 @@ public class BeamBreakTurn extends CommandBase {
         normalAngle = Math.atan2(USToUS, ultraSonicDifference);
         normalAngle = normalAngle * 180;
         normalAngle = normalAngle / Math.PI;
-
         
-        
-        if(Math.abs(averageValue - normalAngle) < 7) {
+        if((Math.abs(averageValue - normalAngle) < 7) && backUSDist > 10|| (averageValue == 0)) {
             pid.updatePID(normalAngle);
             if(Math.abs(normalAngle - 90) < 3) {
                 finishTrue++;
@@ -84,12 +83,14 @@ public class BeamBreakTurn extends CommandBase {
             }
         }
         else {
-            drive.setLeftPercent(0.0);
-            drive.setRightPercent(0.0);
+            // drive.setLeftPercent(0);
+            // drive.setRightPercent(0);
+            // System.out.println("not inside if");
         }
 
         SmartDashboard.putNumber("US pid output", pid.getResult());
         SmartDashboard.putNumber("Angle", normalAngle);
+        SmartDashboard.putNumber("Average", Math.abs(averageValue - normalAngle));
     }
 
     // Called once the command ends or is interrupted.

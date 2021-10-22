@@ -52,6 +52,7 @@ public class Autonomous extends SequentialCommandGroup {
                         -1, 
                         2),
                 new DriveBackwards1(drive, peripherals, 65, 0.7, false, 0, false),
+                // new NavxTurn(peripherals, drive, 9));
                 new BeamBreakTurn(peripherals, drive, 0));
                 // changed from 15 degrees on NavxTurn
                 // new ParallelRaceGroup(

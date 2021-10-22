@@ -19,7 +19,7 @@ public class Peripherals extends SubsytemBaseEnhanced {
     private final Counter backUltraSonic = new Counter(8);
     private final Counter ultraSonic = new Counter(3);
     private VisionCamera visionCam;
-    private final Counter lidarPort = new Counter(9);
+    private final Counter lidarPort = new Counter(6);
 
     private final LidarLite lidar = new LidarLite(lidarPort);
 
@@ -54,7 +54,7 @@ public class Peripherals extends SubsytemBaseEnhanced {
 
     public double getBackUltraSonicDist() {
         // return 0.0;
-        return (backUltraSonic.getPeriod() * 33000);
+        return (backUltraSonic.getPeriod() * 33000) - 7;
     }
 
     public double getUltraSonicDist() {

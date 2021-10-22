@@ -29,11 +29,13 @@ public class VisionCamera {
                 () -> {
                     String buffer = "";
                     while (!shouldStop.get()) {
+                        // System.out.println(port.getBytesReceived());
                         // Gets bytes from serial port
                         if (port.getBytesReceived() > 0) {
                             String temp = port.readString();
                             buffer += temp;
                             stringResults.add(temp);
+                            System.out.println("Temp: " + temp);
                         }
                         debugString = buffer;
                         // Consume bytes until the '{'
