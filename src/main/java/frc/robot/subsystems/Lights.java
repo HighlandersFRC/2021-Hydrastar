@@ -10,7 +10,7 @@ public class Lights extends SubsytemBaseEnhanced {
     private double currentLedMode;
 
     public Lights() {
-        ledPWM = new Spark(1);
+        ledPWM = new Spark(0);
         currentLedMode = LEDMode.BLUE.value;
     }
     // setMode method uses constants from the LEDMode enum

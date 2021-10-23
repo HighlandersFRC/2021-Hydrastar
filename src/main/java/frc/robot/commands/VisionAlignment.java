@@ -24,7 +24,7 @@ public class VisionAlignment extends CommandBase {
     private double kP = 0.0075;
     private double kI = 0.0001;
     private double kD = 0.005;
-    private double backP = 0.018;
+    private double backP = 0.01;
     private double backI = 0.0;
     private double backD = 0.0;
     private int counter = 0;

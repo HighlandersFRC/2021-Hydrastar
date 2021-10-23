@@ -66,12 +66,12 @@ public class DriveBackwards1 extends CommandBase {
   @Override
   public void execute() {
     pid.updatePID(drive.getDriveMeters());
-    // if(useUS) {
-    //   turnOffset = usPID.updatePID(peripherals.getUltraSonicDist());
-    // }
-    // if(Math.abs(peripherals.getNavxAngle() - desiredAngle) > 1.5) {
-    //     turnOffset = 0.01;
-    // }
+    if(useUS) {
+      turnOffset = usPID.updatePID(peripherals.getUltraSonicDist());
+    }
+    if(Math.abs(peripherals.getNavxAngle() - desiredAngle) > 1.5) {
+        turnOffset = 0.01;
+    }
     if(isForwards) {
       drive.setLeftPercent(pid.getResult() - turnOffset);
       drive.setRightPercent(pid.getResult() + turnOffset);

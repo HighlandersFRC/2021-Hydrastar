@@ -51,29 +51,29 @@ public class Autonomous extends SequentialCommandGroup {
                         lights,
                         -1, 
                         2),
-                new DriveBackwards1(drive, peripherals, 65, 0.7, false, 0, false),
-                // new NavxTurn(peripherals, drive, 9));
-                new BeamBreakTurn(peripherals, drive, 0));
+                new DriveBackwards1(drive, peripherals, 55, 0.7, false, 0, false),
+                new NavxTurn(peripherals, drive, 9, true),
+                // new BeamBreakTurn(peripherals, drive, 0));
                 // changed from 15 degrees on NavxTurn
-                // new ParallelRaceGroup(
-                //         new DriveBackwards1(drive, peripherals, 145, 0.4, false, 19, true), new SmartIntake(magIntake, lights)),
-                // new NavxTurn(peripherals, drive, 3),
-                // new ParallelRaceGroup(
-                //         new DriveBackwards1(drive, peripherals, 110, 0.6, true, 3, true), new SmartIntake(magIntake, lights)),
-                // new Fire(
-                //         magIntake,
-                //         peripherals,
-                //         shooter,
-                //         hood,
-                //         lightRing,
-                //         drive,
-                //         2900,
-                //         33,
-                //         3.0,
-                //         true,
-                //         -1,
-                //         lights,
-                //         -1, 
-                //         3));
+                new ParallelRaceGroup(
+                        new DriveBackwards1(drive, peripherals, 150, 0.4, false, 19, true), new SmartIntake(magIntake, lights)),
+                new NavxTurn(peripherals, drive, -2, false),
+                new ParallelRaceGroup(
+                        new DriveBackwards1(drive, peripherals, 190, 0.75, true, 3, true), new SmartIntake(magIntake, lights)),
+                new Fire(
+                        magIntake,
+                        peripherals,
+                        shooter,
+                        hood,
+                        lightRing,
+                        drive,
+                        2700,
+                        28,
+                        -3.0,
+                        false,
+                        -1,
+                        lights,
+                        -1, 
+                        3));
         }
 }

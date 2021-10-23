@@ -139,8 +139,8 @@ public class Robot extends TimedRobot {
 
             }
         }
-        SmartDashboard.putNumber("Back Ultra Sonic Distance", peripherals.getBackUltraSonicDist());
-        SmartDashboard.putNumber("Front UltraSonic Distance", peripherals.getUltraSonicDist());
+        // SmartDashboard.putNumber("Back Ultra Sonic Distance", peripherals.getBackUltraSonicDist());
+        // SmartDashboard.putNumber("Front UltraSonic Distance", peripherals.getUltraSonicDist());
         SmartDashboard.putBoolean("Top Switch", hood.getTopLimitSwitch());
         SmartDashboard.putBoolean("Bottom Switch", hood.getBottomLimitSwitch());
         drive.getDriveMeters();
@@ -150,9 +150,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
         CommandScheduler.getInstance().run();
 
-        SmartDashboard.putNumber("Left CLimber Tics", climber.getLeftEncoderTics());
-        SmartDashboard.putNumber("Right Climber Tics", climber.getRightEncoderTics());
-        SmartDashboard.putNumber("POV", OI.getPOV());
+        // SmartDashboard.putNumber("Left CLimber Tics", climber.getLeftEncoderTics());
+        // SmartDashboard.putNumber("Right Climber Tics", climber.getRightEncoderTics());
+        // SmartDashboard.putNumber("POV", OI.getPOV());
+        SmartDashboard.putNumber("NAVX", peripherals.getNavxAngle());
     }
 
     @Override

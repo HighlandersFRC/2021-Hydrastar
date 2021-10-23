@@ -74,7 +74,7 @@ public class Drive extends SubsytemBaseEnhanced {
 
     @Override
     public void teleopInit() {
-        setDriveBrake();
+        setDriveCoast();
         leftDriveLead.setSelectedSensorPosition(0);
         rightDriveLead.setSelectedSensorPosition(0);
         rightDriveLead.setInverted(true);
