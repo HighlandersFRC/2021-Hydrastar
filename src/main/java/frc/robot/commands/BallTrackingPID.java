@@ -13,7 +13,7 @@ import frc.robot.subsystems.Peripherals;
 import frc.robot.subsystems.Lights.LEDMode;
 import frc.robot.tools.controlloops.PID;
 
-public class VisionAlignment extends CommandBase {
+public class BallTrackingPID extends CommandBase {
 
     private LightRing lightRing;
     private Drive drive;
@@ -34,7 +34,7 @@ public class VisionAlignment extends CommandBase {
     private double distance = 0;
     private Lights lights;
 
-    public VisionAlignment(
+    public BallTrackingPID(
             LightRing lightRing,
             Drive drive,
             Peripherals peripherals,
@@ -85,8 +85,8 @@ public class VisionAlignment extends CommandBase {
             drive.setRightPercent(0.1);
         }
         else {
-            drive.setRightPercent(output);
-            drive.setLeftPercent(-output);
+            drive.setRightPercent(output - 0.3);
+            drive.setLeftPercent(-output - 0.3);
         }
         if (peripherals.getCamAngle() == 0) {
             lights.setMode(LEDMode.STROBERED);
@@ -106,6 +106,7 @@ public class VisionAlignment extends CommandBase {
     @Override
     public boolean isFinished() {
         if(isBack) {
+          // SmartDashboard
             return Math.abs(peripherals.getCamAngle() - angleOffset) <= 0.5
                         && Math.abs(pid.getResult()) < 0.1
                         && peripherals.getCamAngle() != angleOffset

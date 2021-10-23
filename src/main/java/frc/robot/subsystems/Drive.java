@@ -6,14 +6,17 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
+
 import frc.robot.Constants;
 import frc.robot.commands.defaultCommands.DriveDefault;
 
-public class Drive extends SubsystemBaseEnhanced {
+public class Drive extends SubsytemBaseEnhanced {
 
     private final WPI_TalonFX leftDriveLead = new WPI_TalonFX(Constants.LEFT_DRIVE_LEAD_ID);
     private final WPI_TalonFX rightDriveLead = new WPI_TalonFX(Constants.RIGHT_DRIVE_LEAD_ID);
@@ -57,6 +60,8 @@ public class Drive extends SubsystemBaseEnhanced {
         rightDriveLead.config_kI(0, vkI);
         leftDriveLead.config_kD(0, vkD);
         rightDriveLead.config_kD(0, vkD);
+        rightDriveLead.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 80, 0, 0));
+        leftDriveLead.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 80, 0, 0));
         setCurrentLimitsEnabled();
         setDefaultCommand(new DriveDefault(this));
     }
@@ -93,9 +98,11 @@ public class Drive extends SubsystemBaseEnhanced {
     }
 
     public void setDriveBrake() {
-        for (WPI_TalonFX t : driveMotors) {
-            t.setNeutralMode(NeutralMode.Brake);
-        }
+        // for (WPI_TalonFX t : driveMotors) {
+        //     t.setNeutralMode(NeutralMode.Brake);
+        // }
+        leftDriveLead.setNeutralMode(NeutralMode.Brake);
+        rightDriveLead.setNeutralMode(NeutralMode.Brake);
     }
 
     public void inverseDriveMotors(boolean inverted) {
@@ -106,9 +113,11 @@ public class Drive extends SubsystemBaseEnhanced {
     }
 
     public void setDriveCoast() {
-        for (WPI_TalonFX t : driveMotors) {
-            t.setNeutralMode(NeutralMode.Coast);
-        }
+        // for (WPI_TalonFX t : driveMotors) {
+        //     t.setNeutralMode(NeutralMode.Coast);
+        // }
+        leftDriveLead.setNeutralMode(NeutralMode.Coast);
+        rightDriveLead.setNeutralMode(NeutralMode.Coast);
     }
 
     public double getDriveMeters() {

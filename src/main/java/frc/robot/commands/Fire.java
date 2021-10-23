@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import frc.robot.subsystems.BallCount;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
@@ -20,7 +20,23 @@ import frc.robot.subsystems.Shooter;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Fire extends SequentialCommandGroup {
 
-    /** Creates a new Fire. */
+    private MagIntake magIntake;
+	private Peripherals peripherals;
+	private Shooter shooter;
+	private Hood hood;
+	private LightRing lightRing;
+	private Drive drive;
+	private double rpm;
+	private double hoodPosition;
+	private double visionOffset;
+	private boolean isBack;
+	private int timeToEnd;
+	private double distance;
+	private Lights lights;
+	private BallCount ballCount;
+	private double lidarDistance;
+
+	/** Creates a new Fire. */
     public Fire(
             MagIntake magIntake,
             Peripherals peripherals,
@@ -28,17 +44,42 @@ public class Fire extends SequentialCommandGroup {
             Hood hood,
             LightRing lightRing,
             Drive drive,
-            Lights lights,
             double rpm,
             double hoodPosition,
-            double visionOffset) {
-        addRequirements(magIntake, shooter, hood, lights);
+            double visionOffset,
+            boolean isBack,
+            int timeToEnd,
+            double distance,
+            Lights lights,
+            BallCount ballCount,
+            double lidarDistance,
+            int shootingZone) {
+                this.magIntake = magIntake;
+				this.peripherals = peripherals;
+				this.shooter = shooter;
+				this.hood = hood;
+				this.lightRing = lightRing;
+				this.drive = drive;
+				this.rpm = rpm;
+				this.hoodPosition = hoodPosition;
+				this.visionOffset = visionOffset;
+				this.isBack = isBack;
+				this.timeToEnd = timeToEnd;
+				this.distance = distance;
+				this.lights = lights;
+				this.ballCount = ballCount;
+                this.lidarDistance = lidarDistance;
+                                this.ballCount = ballCount;
+		addRequirements(magIntake, shooter, hood);
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new VisionAlignment(lightRing, drive, peripherals, lights, visionOffset),
                 new ParallelCommandGroup(
-                        new SpinShooter(shooter, rpm), new SetHoodPosition(hood, hoodPosition)),
-                new EjectMagazine(magIntake));
+                        new VisionAlignment(lightRing, drive, peripherals, visionOffset, isBack, distance, lights),
+                        new SpinShooter(shooter, rpm),
+                        new SetHoodPosition(hood, peripherals, hoodPosition, shootingZone)),
+                new EjectMagazine(magIntake, drive, ballCount, timeToEnd),
+                // new SetHoodPosition(hood, 0),
+                new CancelMagazine(magIntake));
     }
 }

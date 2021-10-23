@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class TriggerButton extends Button {
-    private final double THRESHOLD = 0.5;
+    private final double THRESHOLD = 0.25;
     private GenericHID joystick;
     private int axis;
 

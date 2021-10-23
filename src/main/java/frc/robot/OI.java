@@ -3,6 +3,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -11,6 +12,7 @@ import frc.robot.tools.extrabuttons.TriggerButton;
 public class OI {
     public static XboxController driverController = new XboxController(0);
     public static XboxController operatorController = new XboxController(1);
+    public static Joystick autoChooser = new Joystick(2);
 
     public static TriggerButton driverRT = new TriggerButton(driverController, 3);
     public static TriggerButton driverLT = new TriggerButton(driverController, 2);
@@ -18,6 +20,12 @@ public class OI {
     public static JoystickButton driverY = new JoystickButton(driverController, 4);
     public static JoystickButton driverA = new JoystickButton(driverController, 1);
     public static JoystickButton driverB = new JoystickButton(driverController, 2);
+
+    public static JoystickButton operatorB = new JoystickButton(operatorController, 2);
+    public static JoystickButton operatorX = new JoystickButton(operatorController, 3);
+    public static JoystickButton operatorA = new JoystickButton(operatorController, 1);
+    public static JoystickButton operatorStart = new JoystickButton(operatorController, 8);
+
 
     public static double getDriverLeftX() {
         return driverController.getX(Hand.kLeft);
@@ -34,4 +42,29 @@ public class OI {
     public static double getDriverRightY() {
         return driverController.getY(Hand.kRight);
     }
+
+    public static double getOperatorLeftX() {
+        return operatorController.getX(Hand.kLeft);
+    }
+
+    public static double getOperatorLeftY() {
+        return operatorController.getY(Hand.kLeft) * 0.4;
+    }
+
+    public static double getOperatorRightX() {
+        return operatorController.getX(Hand.kRight);
+    }
+
+    public static double getOperatorRightY() {
+        return operatorController.getY(Hand.kRight) * 0.4;
+    }
+
+    public static boolean isThreeBallAuto() {
+        return autoChooser.getRawButton(6);
+    }
+
+    public static boolean is6BallAuto() {
+        return autoChooser.getRawButton(5);
+    }
+
 }

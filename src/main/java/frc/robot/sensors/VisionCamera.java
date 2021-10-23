@@ -27,13 +27,17 @@ public class VisionCamera {
         port = jevois;
         Runnable task =
                 () -> {
+                    System.out.println("Inside task");
                     String buffer = "";
                     while (!shouldStop.get()) {
                         // Gets bytes from serial port
                         if (port.getBytesReceived() > 0) {
+                            // System.out.println("Port: " + port.readString());
+                            // System.out.println("Got bytes");
                             String temp = port.readString();
                             buffer += temp;
                             stringResults.add(temp);
+                            //System.out.println("Temp: " + temp);
                         }
                         debugString = buffer;
                         // Consume bytes until the '{'

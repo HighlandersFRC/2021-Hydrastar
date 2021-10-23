@@ -10,7 +10,7 @@ import com.revrobotics.ControlType;
 
 import frc.robot.commands.defaultCommands.HoodDefault;
 
-public class Hood extends SubsystemBaseEnhanced {
+public class Hood extends SubsytemBaseEnhanced {
 
     private double hoodTarget = 0.0;
     private double kf = 0.0;
@@ -84,9 +84,9 @@ public class Hood extends SubsystemBaseEnhanced {
 
     public void periodic() {
         if (bottomSwitch.get()) {
-            hoodEncoder.setPosition(0);
+            // hoodEncoder.setPosition(0);
         } else if (topSwitch.get()) {
-            hoodEncoder.setPosition(32);
+            // hoodEncoder.setPosition(32);
         }
     }
 }

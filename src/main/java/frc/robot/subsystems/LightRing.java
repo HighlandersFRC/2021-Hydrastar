@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Relay.Value;
 import frc.robot.Constants;
 import frc.robot.commands.defaultCommands.LightRingDefault;
 
-public class LightRing extends SubsystemBaseEnhanced {
+public class LightRing extends SubsytemBaseEnhanced {
     private final Relay visionRelay = new Relay(1);
 
     public LightRing() {}

@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.composite;
 
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
@@ -23,9 +19,9 @@ import frc.robot.subsystems.Shooter;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Autonomous extends SequentialCommandGroup {
+public class ThreeBallAuto extends SequentialCommandGroup {
     /** Creates a new Autonomous. */
-    public Autonomous(
+    public ThreeBallAuto(
             Drive drive,
             Peripherals peripherals,
             MagIntake magIntake,
@@ -45,7 +41,7 @@ public class Autonomous extends SequentialCommandGroup {
                         lightRing,
                         drive,
                         2100,
-                        23,
+                        24,
                         -9.0,
                         false,
                         47,
@@ -54,15 +50,15 @@ public class Autonomous extends SequentialCommandGroup {
                         ballCount,
                         -1,
                         2),
-                new DriveBackwards1(drive, peripherals, 38, 0.7, false, 0),
-                new NavxTurn(peripherals, drive, 9),
-                // changed from 15 degrees on NavxTurn
-                new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 130, 0.25, false, 19), new SmartIntake(magIntake, lights, ballCount)),
-                new NavxTurn(peripherals, drive, 12),
-                new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 90, 0.6, true, 3), new SmartIntake(magIntake, lights, ballCount)));
-                // // new Fire(
+                new DriveBackwards1(drive, peripherals, 38, 0.7, false, 0));
+                // new NavxTurn(peripherals, drive, 12),
+                // // changed from 15 degrees on NavxTurn
+                // new ParallelRaceGroup(
+                //         new DriveBackwards1(drive, peripherals, 160, 0.25, false, 19), new SmartIntake(magIntake)),
+                // new NavxTurn(peripherals, drive, 11),
+                // new ParallelRaceGroup(
+                //         new DriveBackwards1(drive, peripherals, 120, 0.6, true, 3), new SmartIntake(magIntake)),
+                // new Fire(
                 //         magIntake,
                 //         peripherals,
                 //         shooter,
@@ -71,11 +67,9 @@ public class Autonomous extends SequentialCommandGroup {
                 //         drive,
                 //         2900,
                 //         31,
-                //         -3.0,
+                //         0,
                 //         true,
-                //         -1,
-                //         20,
-                //         lights,
-                //         -1));
+                //         100,
+                //         20));
     }
 }

@@ -11,7 +11,7 @@ import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Peripherals;
 import frc.robot.tools.controlloops.PID;
 
-public class NavxTurn extends CommandBase {
+public class NavxTurnOneSide extends CommandBase {
     private Peripherals peripherals;
     private Drive drive;
     private PID pid;
@@ -21,7 +21,7 @@ public class NavxTurn extends CommandBase {
     private double target;
 
     /** Creates a new NavxTurn. */
-    public NavxTurn(Peripherals peripherals, Drive drive, double target) {
+    public NavxTurnOneSide(Peripherals peripherals, Drive drive, double target) {
         this.peripherals = peripherals;
         this.drive = drive;
         this.target = target;
@@ -46,7 +46,7 @@ public class NavxTurn extends CommandBase {
         System.out.println("Inside navx turn");
         pid.updatePID(peripherals.getNavxAngle());
         SmartDashboard.putNumber("navx pid output", pid.getResult());
-        drive.setLeftPercent(pid.getResult());
+        drive.setLeftPercent(0);
         drive.setRightPercent(-pid.getResult());
     }
 

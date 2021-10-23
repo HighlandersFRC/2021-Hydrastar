@@ -22,35 +22,35 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.defaultCommands.DriveDefault;
 import frc.robot.commands.defaultCommands.MagIntakeDefault;
+import frc.robot.sensors.BeamBreaks;
 
-public class MagIntake extends SubsystemBaseEnhanced {
+public class MagIntake extends SubsytemBaseEnhanced {
 
-    public enum BeamBreakID {
-        ONE,
-        TWO,
-        THREE,
-        FOUR,
-        FIVE,
-        SIX
-    }
+    // public enum BeamBreakID {
+    //     ONE,
+    //     TWO,
+    //     THREE,
+    //     FOUR,
+    //     FIVE,
+    //     SIX
+    // }
 
     private final CANSparkMax lowMag = new CANSparkMax(Constants.BOTTOM_MAG_ID, MotorType.kBrushless);
     private final WPI_VictorSPX middleMag = new WPI_VictorSPX(Constants.MIDDLE_MAG_ID);
     private final CANSparkMax highMag = new CANSparkMax(Constants.HIGH_MAG_ID, MotorType.kBrushless);
 
     private final WPI_TalonFX intakeMotor = new WPI_TalonFX(Constants.INTAKE_MOTOR_ID);
-
+    
     private final DoubleSolenoid intakePiston = new DoubleSolenoid(0,1);
 
-    private final DigitalInput beamBreak1 = new DigitalInput(Constants.BEAM_BREAK_1_ID);
-    private final DigitalInput beamBreak2 = new DigitalInput(Constants.BEAM_BREAK_2_ID);
-    private final DigitalInput beamBreak3 = new DigitalInput(Constants.BEAM_BREAK_3_ID);
-    private final DigitalInput beamBreak4 = new DigitalInput(Constants.BEAM_BREAK_4_ID);
-    private final DigitalInput beamBreak5 = new DigitalInput(Constants.BEAM_BREAK_5_ID);
-    private final DigitalInput beamBreak6 = new DigitalInput(6);
+    private final BeamBreaks beamBreaks;
+    
+    
     // private final DigitalInput beamBreak6 = new DigitalInput(Constants.BEAM_BREAK_6_ID);
 
-    public MagIntake() {}
+    public MagIntake(BeamBreaks beamBreaks) {
+        this.beamBreaks = beamBreaks;
+    }
 
     public void init() {
         setDefaultCommand(new MagIntakeDefault(this));
@@ -66,23 +66,23 @@ public class MagIntake extends SubsystemBaseEnhanced {
     public void teleopInit() {
     }
 
-    public boolean getBeamBreak(BeamBreakID id) {
-        switch (id) {
-            case ONE:
-                return beamBreak1.get();
-            case TWO:
-                return beamBreak2.get();
-            case THREE:
-                return beamBreak3.get();
-            case FOUR:
-                return beamBreak4.get();
-            case FIVE:
-                 return beamBreak5.get();
-            case SIX:
-                return beamBreak6.get();
-        }
-        return false;
-    }
+    // public boolean getBeamBreak(BeamBreakID id) {
+    //     switch (id) {
+    //         case ONE:
+    //             return beamBreak1.get();
+    //         case TWO:
+    //             return beamBreak2.get();
+    //         case THREE:
+    //             return beamBreak3.get();
+    //         case FOUR:
+    //             return beamBreak4.get();
+    //         case FIVE:
+    //              return beamBreak5.get();
+    //         case SIX:
+    //             return beamBreak6.get();
+    //     }
+    //     return false;
+    // }
 
     public void setIntakePercent(double percent) {
         intakeMotor.set(ControlMode.PercentOutput, percent);
@@ -108,14 +108,22 @@ public class MagIntake extends SubsystemBaseEnhanced {
         intakePiston.set(Value.kReverse);
     }
 
+    public BeamBreaks getBeamBreaks() {
+        return this.beamBreaks;
+      }
+
     public void putBeamBreaksSmartDashboard() {
-        SmartDashboard.putBoolean("Beam Break 1", this.getBeamBreak(BeamBreakID.ONE));
-        SmartDashboard.putBoolean("Beam Break 2", this.getBeamBreak(BeamBreakID.TWO));
-        SmartDashboard.putBoolean("Beam Break 3", this.getBeamBreak(BeamBreakID.THREE));
-        SmartDashboard.putBoolean("Beam Break 4", this.getBeamBreak(BeamBreakID.FOUR));
-        SmartDashboard.putBoolean("Beam Break 5", this.getBeamBreak(BeamBreakID.FIVE));
-        SmartDashboard.putBoolean("Bream Break 6", this.getBeamBreak(BeamBreakID.SIX));
+        SmartDashboard.putBoolean("Beam Break 1", this.beamBreaks.getBeamBreak(1));
+        SmartDashboard.putBoolean("Beam Break 2", this.beamBreaks.getBeamBreak(2));
+        SmartDashboard.putBoolean("Beam Break 3", this.beamBreaks.getBeamBreak(3));
+        SmartDashboard.putBoolean("Beam Break 4", this.beamBreaks.getBeamBreak(4));
+        SmartDashboard.putBoolean("Beam Break 5", this.beamBreaks.getBeamBreak(5));
+        SmartDashboard.putBoolean("Bream Break 6", this.beamBreaks.getBeamBreak(6));
         // SmartDashboard.putBoolean("Beam Break 6", this.getBeamBreak(BeamBreakID.SIX));
+    }
+
+    public void putIntakeCurrentSmartDashboard() {
+        SmartDashboard.putNumber("Intake Current", intakeMotor.getOutputCurrent());
     }
 
     public void setMagPercent(double lowPercent, double midPercent, double highPercent) {
