@@ -38,7 +38,6 @@ public class SmartIntake extends CommandBase {
     @Override
     public void initialize() {
         magIntake.setIntakePistonDown();
-        System.out.println("inside intake init");
     }
 
     @Override
@@ -61,9 +60,10 @@ public class SmartIntake extends CommandBase {
         }
         magIntake.putIntakeCurrentSmartDashboard();
 
-        if (ballCount.getBeamBreaks().getBeamBreak(1)) {
+        System.out.println("Intaking!");
+
+        if (!tempBoolean && !tempBoolean2 && ballCount.getBeamBreaks().getBeamBreak(1)) {
             tempBoolean2 = true;
-            System.out.println("1");
         } else if (tempBoolean2 && !ballCount.getBeamBreaks().getBeamBreak(1)) {
             tempBoolean = true;
             //System.out.println("2");

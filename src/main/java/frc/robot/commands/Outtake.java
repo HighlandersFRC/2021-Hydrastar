@@ -12,6 +12,7 @@ public class Outtake extends CommandBase {
     private boolean tempBoolean = true;
     private BallCount ballCount;
     private double startTime = Timer.getFPGATimestamp();
+    private double currentTime = Timer.getFPGATimestamp();
 
     public Outtake(MagIntake magIntake, BallCount ballCount) {
         this.magIntake = magIntake;
@@ -21,7 +22,7 @@ public class Outtake extends CommandBase {
 
     @Override
     public void initialize() {
-        System.out.println("inside initialize");
+        
     }
 
     @Override
@@ -31,34 +32,34 @@ public class Outtake extends CommandBase {
 
         // if (tempBoolean && !ballCount.getBeamBreaks().getBeamBreak(1)) {
         //     tempBoolean = false;
-        //     ballCount.decrementBallCount();
-        // } else if (ballCount.getBeamBreaks().getBeamBreak(1)) {
-        //     tempBoolean = true;
-        // }
-
-        // if (tempBoolean && !ballCount.getBeamBreaks().getBeamBreak(1)) {
-        //     //System.out.println("NUMBER 1");
-        //     ballCount.decrementBallCount();
-        //     tempBoolean = false;
         //     startTime = Timer.getFPGATimestamp();
         // } else if (ballCount.getBeamBreaks().getBeamBreak(1)) {
-        //     tempBoolean = true;
-        //     if (Timer.getFPGATimestamp() - startTime > 0.75) {
-        //         //System.out.println("NUMBER 2");
-        //         ballCount.decrementBallCount();
+        //     System.out.println("broken duration: " + (Timer.getFPGATimestamp() - startTime));
+        //     if (!tempBoolean) {
+        //         ballCount.subtractNum( (int) Math.floor( (Timer.getFPGATimestamp() - startTime) / 0.2) );
+        //         System.out.println( (int) Math.floor( (Timer.getFPGATimestamp() - startTime) / 0.2) );
         //     }
+        //     tempBoolean = true;
         //     startTime = 99999;
         // }
+        currentTime = Timer.getFPGATimestamp();
+
+        System.out.println("Outtaking!");
 
         if (tempBoolean && !ballCount.getBeamBreaks().getBeamBreak(1)) {
+
             tempBoolean = false;
-            startTime = Timer.getFPGATimestamp();
-        } else if (ballCount.getBeamBreaks().getBeamBreak(1)) {
-            System.out.println("broken duration: " + (Timer.getFPGATimestamp() - startTime));
-            if (!tempBoolean) {
-                ballCount.subtractNum( (int) Math.floor( (Timer.getFPGATimestamp() - startTime) / 0.2) );
-                System.out.println( (int) Math.floor( (Timer.getFPGATimestamp() - startTime) / 0.2) );
-            }
+            startTime = currentTime;
+
+        } else if (!tempBoolean && ballCount.getBeamBreaks().getBeamBreak(1)) {
+
+            System.out.println("broken duration: " + (currentTime - startTime));
+            System.out.println("had " + ballCount.getBallCount() + " balls");
+
+            ballCount.subtractNum( (int) Math.floor( (currentTime - startTime) / 0.2) );
+
+            System.out.println("now have " + ballCount.getBallCount() + " balls");
+
             tempBoolean = true;
             startTime = 99999;
         }

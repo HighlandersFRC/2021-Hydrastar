@@ -48,6 +48,9 @@ public class BallCount extends SubsystemBaseEnhanced {
 
   public void subtractNum(int n) {
     ballCount -= n;
+    if (ballCount < 0) {
+      ballCount = 0;
+    }
     System.out.println("subtracted " + n + " balls");
   }
 

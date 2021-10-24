@@ -55,18 +55,16 @@ public class EjectMagazine extends CommandBase {
             drive.setLeftPercent(0);
         }
         counter++;
+
         if (tempBoolean && !ballCount.getBeamBreaks().getBeamBreak(6)) {
-            //System.out.println("NUMBER 1");
+
             ballCount.decrementBallCount();
             tempBoolean = false;
-            startTime = Timer.getFPGATimestamp();
+
         } else if (ballCount.getBeamBreaks().getBeamBreak(6)) {
+
             tempBoolean = true;
-            if (Timer.getFPGATimestamp() - startTime > 0.75) {
-                //System.out.println("NUMBER 2");
-                ballCount.decrementBallCount();
-            }
-            startTime = 99999;
+            
         }
     }
 

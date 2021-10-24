@@ -42,11 +42,11 @@ public class Lights extends SubsystemBaseEnhanced {
     OFF(0.99),
     STROBERED(-0.11),
     ZEROBALLS(-0.31),
-    ONEBALL(-0.29),
-    TWOBALLS(-0.27),
-    THREEBALLS(-0.25),
-    FOURBALLS(-0.23),
-    FIVEBALLS(-0.21)
+    ONEBALL(0.61),
+    TWOBALLS(0.93),
+    THREEBALLS(0.73),
+    FOURBALLS(0.57),
+    FIVEBALLS(0.67)
     ;
 
     public final double value;
