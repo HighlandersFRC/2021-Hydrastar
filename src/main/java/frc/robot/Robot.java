@@ -148,6 +148,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
         SmartDashboard.putNumber("hood position", hood.getHoodPosition());
         SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
+        SmartDashboard.putNumber("Lidar", peripherals.getLidarDistance());
+        // System.out.println(peripherals.getLidarDistance());
         CommandScheduler.getInstance().run();
 
         // SmartDashboard.putNumber("Left CLimber Tics", climber.getLeftEncoderTics());
@@ -220,7 +222,7 @@ public class Robot extends TimedRobot {
                         lightRing,
                         drive,
                         1800,
-                        6,
+                        7.95,
                         0.0,
                         false,
                         -1,

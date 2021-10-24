@@ -14,7 +14,14 @@ public class SetHoodPosition extends CommandBase {
     private double target;
     private LidarLite lidar;
     private double distance;
-    private int zone; 
+    private int zone;
+    private double avgDistComplete = 0;
+
+    private int averageDone = 1;
+
+    private double averageDist = 0;
+
+    private double oldValue = 0;
 
 
     public SetHoodPosition(Hood hood, Peripherals peripherals, double target, int shootingZone) {
@@ -28,23 +35,50 @@ public class SetHoodPosition extends CommandBase {
 
     @Override
     public void initialize() {
-        this.distance = peripherals.getLidarDistance();
-        SmartDashboard.putNumber("Hood Lidar", peripherals.getLidarDistance());
-        SmartDashboard.putNumber("Zone Number", zone);
-        if(zone == 1){
-            target = (.469567313 * this.distance) + 0.967408801;
-            SmartDashboard.putNumber("InitTarget", target);
-            if(this.distance == -1) {
-                target = 6;
-            }
-        }
-        
-
+        averageDone = 0;
+        averageDist = 0;
+        avgDistComplete = 0;
+        // SmartDashboard.putNumber("Hood Lidar", this.distance);
+        // SmartDashboard.putNumber("Zone Number", zone);
     }
 
     @Override
     public void execute() {
-        hood.setHoodTarget(target);
+        if(zone == 1) {
+            if(averageDone < 20) {
+                if(oldValue == 0) { 
+                    oldValue = peripherals.getLidarDistance();
+                }
+                else {
+                    this.distance = peripherals.getLidarDistance();
+                    averageDist = (averageDist + this.distance);
+                    // avgDistComplete = averageDist * 0.0833 + (0.083 * oldValue);
+                    // oldValue = avgDistComplete;
+                    SmartDashboard.putNumber("avg", averageDist);
+                    averageDone++;
+                }
+                
+            }
+            else {
+                avgDistComplete = averageDist/20;
+                SmartDashboard.putNumber("averageDist", avgDistComplete);
+                if(zone == 1){
+                    if(avgDistComplete > 2000 || avgDistComplete < 1.5 || avgDistComplete == -1){
+                         target = 6;
+                    }
+                    target = (.2889226759 * avgDistComplete) + 4.927324066;
+                    SmartDashboard.putNumber("InitTarget", target);
+                    if(avgDistComplete == -1) {
+                        // target = 6;
+                    }
+                }
+                hood.setHoodTarget(target);
+            }
+        }
+        else {
+            hood.setHoodTarget(target);
+        }
+
     }
 
     @Override

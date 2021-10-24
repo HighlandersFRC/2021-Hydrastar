@@ -57,9 +57,9 @@ public class Autonomous extends SequentialCommandGroup {
                 // changed from 15 degrees on NavxTurn
                 new ParallelRaceGroup(
                         new DriveBackwards1(drive, peripherals, 150, 0.4, false, 19, true), new SmartIntake(magIntake, lights)),
-                new NavxTurn(peripherals, drive, -2, false),
+                new NavxTurn(peripherals, drive, -3, false),
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 190, 0.75, true, 3, true), new SmartIntake(magIntake, lights)),
+                        new DriveBackwards1(drive, peripherals, 200, 0.75, true, 3, true), new SmartIntake(magIntake, lights)),
                 new Fire(
                         magIntake,
                         peripherals,
@@ -68,8 +68,8 @@ public class Autonomous extends SequentialCommandGroup {
                         lightRing,
                         drive,
                         2700,
-                        28,
-                        -3.0,
+                        26,
+                        -7.0,
                         false,
                         -1,
                         lights,

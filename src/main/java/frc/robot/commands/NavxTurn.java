@@ -15,10 +15,11 @@ public class NavxTurn extends CommandBase {
     private Peripherals peripherals;
     private Drive drive;
     private PID pid;
-    private double kP = 0.014;
-    private double kI = 0.0;
+    private double kP = 0.015;
+    private double kI = 0.0015;
     private double kD = 0.0;
     private double target;
+    private int timeLim = 0;
 
     private boolean usePrecise = false;
 
@@ -38,6 +39,7 @@ public class NavxTurn extends CommandBase {
     @Override
     public void initialize() {
         // peripherals.zeroNavx();
+        timeLim = 0;
         finishTrue = 0;
         SmartDashboard.putBoolean("finished navxturn", false);
         pid = new PID(kP, kI, kD);
@@ -49,13 +51,14 @@ public class NavxTurn extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        timeLim++;
         System.out.println("Inside navx turn");
         pid.updatePID(peripherals.getNavxAngle());
         SmartDashboard.putNumber("navx pid output", pid.getResult());
         drive.setLeftPercent(pid.getResult());
         drive.setRightPercent(-pid.getResult());
 
-        if((Math.abs(target - peripherals.getNavxAngle()) < 1)) { 
+        if((Math.abs(target - peripherals.getNavxAngle()) < 2)) { 
             finishTrue++;
         }
         else {
@@ -74,11 +77,18 @@ public class NavxTurn extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        // if(timeLim > 100) {
+        //     return true;
+        // }
         if(usePrecise) { 
-            return(finishTrue > 7 && Math.abs(pid.getResult()) < 0.075);
+            System.out.println("Inside precise");
+            // if(timeLim > 100) {
+            //     return true;
+            // }
+            return(Math.abs(pid.getResult()) < 0.1);
         }
         else { 
-            return((Math.abs(target - peripherals.getNavxAngle()) < 1) && Math.abs(pid.getResult()) < 0.075);
+            return((Math.abs(target - peripherals.getNavxAngle()) < 2) && Math.abs(pid.getResult()) < 0.075);
         }
     }
 }
