@@ -36,7 +36,7 @@ public class VisionCamera {
                             String temp = port.readString();
                             buffer += temp;
                             stringResults.add(temp);
-                            System.out.println("Temp: " + temp);
+                            //System.out.println("Temp: " + temp);
                         }
                         debugString = buffer;
                         // Consume bytes until the '{'

@@ -12,6 +12,7 @@ import frc.robot.commands.Fire;
 import frc.robot.commands.NavxTurn;
 import frc.robot.commands.NavxTurnOneSide;
 import frc.robot.commands.SmartIntake;
+import frc.robot.subsystems.BallCount;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
@@ -32,15 +33,16 @@ public class TwoBallSnatch extends SequentialCommandGroup {
             Hood hood,
             Shooter shooter,
             LightRing lightRing,
-            Lights lights) {
+            Lights lights,
+            BallCount ballCount) {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 116, 0.35, false, 19, false), new SmartIntake(magIntake, lights)),
-                new ParallelRaceGroup(new NavxTurnOneSide(peripherals, drive, 45), new SmartIntake(magIntake, lights)),
+                        new DriveBackwards1(drive, peripherals, 116, 0.35, false, 19, false), new SmartIntake(magIntake, lights, ballCount)),
+                new ParallelRaceGroup(new NavxTurnOneSide(peripherals, drive, 45), new SmartIntake(magIntake, lights, ballCount)),
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 7, 0.35, false, 45, false), new SmartIntake(magIntake, lights)),
+                        new DriveBackwards1(drive, peripherals, 7, 0.35, false, 45, false), new SmartIntake(magIntake, lights, ballCount)),
                 new DriveBackwards1(drive, peripherals, 150, 0.7, true, 45, false));
     }
 }

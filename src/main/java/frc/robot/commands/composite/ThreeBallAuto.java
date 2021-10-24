@@ -7,6 +7,7 @@ import frc.robot.commands.DriveBackwards1;
 import frc.robot.commands.Fire;
 import frc.robot.commands.NavxTurn;
 import frc.robot.commands.SmartIntake;
+import frc.robot.subsystems.BallCount;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
@@ -27,6 +28,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
             Hood hood,
             Shooter shooter,
             LightRing lightRing,
+            BallCount ballCount,
             Lights lights) {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
@@ -44,6 +46,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                         false,
                         47,
                         lights,
+                        ballCount,
                         -1, 
                         2),
                 new DriveBackwards1(drive, peripherals, 38, 0.7, false, 0, false));

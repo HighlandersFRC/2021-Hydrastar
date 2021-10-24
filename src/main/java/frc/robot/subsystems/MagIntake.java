@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.defaultCommands.DriveDefault;
 import frc.robot.commands.defaultCommands.MagIntakeDefault;
+import frc.robot.sensors.BeamBreaks;
 
 public class MagIntake extends SubsytemBaseEnhanced {
 
@@ -42,15 +43,14 @@ public class MagIntake extends SubsytemBaseEnhanced {
 
     private final DoubleSolenoid intakePiston = new DoubleSolenoid(0,1);
 
-    private final DigitalInput beamBreak1 = new DigitalInput(Constants.BEAM_BREAK_1_ID);
-    // private final DigitalInput beamBreak2 = new DigitalInput(Constants.BEAM_BREAK_2_ID);
-    private final DigitalInput beamBreak3 = new DigitalInput(Constants.BEAM_BREAK_3_ID);
-    private final DigitalInput beamBreak4 = new DigitalInput(Constants.BEAM_BREAK_4_ID);
-    private final DigitalInput beamBreak5 = new DigitalInput(Constants.BEAM_BREAK_5_ID);
+ 
     // private final DigitalInput beamBreak6 = new DigitalInput(6);
     // private final DigitalInput beamBreak6 = new DigitalInput(Constants.BEAM_BREAK_6_ID);
+    private BeamBreaks beamBreak;
 
-    public MagIntake() {}
+    public MagIntake(BeamBreaks beamBreak) {
+        this.beamBreak = beamBreak;
+    }
 
     public void init() {
         setDefaultCommand(new MagIntakeDefault(this));
@@ -66,22 +66,9 @@ public class MagIntake extends SubsytemBaseEnhanced {
     public void teleopInit() {
     }
 
-    public boolean getBeamBreak(BeamBreakID id) {
-        switch (id) {
-            case ONE:
-                return beamBreak1.get();
-            case TWO:
-                // return beamBreak2.get();
-            case THREE:
-                return beamBreak3.get();
-            case FOUR:
-                return beamBreak4.get();
-            case FIVE:
-                 return beamBreak5.get();
-            case SIX:
-                // return beamBreak6.get();
-        }
-        return false;
+    
+    public BeamBreaks getBeamBreaks(){
+        return this.beamBreak;
     }
 
     public void setIntakePercent(double percent) {
@@ -108,16 +95,7 @@ public class MagIntake extends SubsytemBaseEnhanced {
         intakePiston.set(Value.kReverse);
     }
 
-    public void putBeamBreaksSmartDashboard() {
-        SmartDashboard.putBoolean("Beam Break 1", this.getBeamBreak(BeamBreakID.ONE));
-        SmartDashboard.putBoolean("Beam Break 2", this.getBeamBreak(BeamBreakID.TWO));
-        SmartDashboard.putBoolean("Beam Break 3", this.getBeamBreak(BeamBreakID.THREE));
-        SmartDashboard.putBoolean("Beam Break 4", this.getBeamBreak(BeamBreakID.FOUR));
-        SmartDashboard.putBoolean("Beam Break 5", this.getBeamBreak(BeamBreakID.FIVE));
-        SmartDashboard.putBoolean("Bream Break 6", this.getBeamBreak(BeamBreakID.SIX));
-        // SmartDashboard.putBoolean("Beam Break 6", this.getBeamBreak(BeamBreakID.SIX));
-    }
-
+  
     public void putIntakeCurrentSmartDashboard() {
         SmartDashboard.putNumber("Intake Current", intakeMotor.getOutputCurrent());
     }

@@ -7,20 +7,25 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
+import frc.robot.subsystems.BallCount;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.MagIntake;
 
 public class EjectMagazine extends CommandBase {
     private MagIntake magIntake;
     private Drive drive;
+    private BallCount ballCount;
 
     private int counter = 0;
     private int countsToEnd;
+    private boolean tempBoolean;
+    private double startTime;
 
     /** Creates a new EjectMagazine. */
-    public EjectMagazine(MagIntake magIntake, Drive drive, int timeToEnd) {
+    public EjectMagazine(MagIntake magIntake, Drive drive, BallCount ballCount, int timeToEnd) {
         this.magIntake = magIntake;
         this.drive = drive;
+        this.ballCount = ballCount;
         addRequirements(magIntake);
         countsToEnd = timeToEnd;
         // Use addRequirements() here to declare subsystem dependencies.
@@ -49,6 +54,17 @@ public class EjectMagazine extends CommandBase {
             drive.setLeftPercent(0);
         }
         counter++;
+
+        if (tempBoolean && !ballCount.getBeamBreaks().getBeamBreak(6)) {
+
+            ballCount.decrementBallCount();
+            tempBoolean = false;
+
+        } else if (ballCount.getBeamBreaks().getBeamBreak(6)) {
+
+            tempBoolean = true;
+            
+        }
     }
 
     // Called once the command ends or is interrupted.

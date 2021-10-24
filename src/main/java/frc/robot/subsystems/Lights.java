@@ -4,19 +4,30 @@ import edu.wpi.first.wpilibj.Spark;
 
 // import frc.robot.commands.defaultCommands.AutoLightsDefault;
 import frc.robot.commands.defaultCommands.LightsDefault;
+import frc.robot.sensors.BeamBreaks;
 
 public class Lights extends SubsytemBaseEnhanced {
     private Spark ledPWM;
     private double currentLedMode;
+    private BallCount ballCount;
+    private BeamBreaks beamBreaks;
 
-    public Lights() {
+    private boolean beamBreakTemp = true;
+
+    public Lights(BallCount ballCount) {
         ledPWM = new Spark(0);
         currentLedMode = LEDMode.BLUE.value;
+        this.ballCount = ballCount;
     }
     // setMode method uses constants from the LEDMode enum
     public void setMode(LEDMode mode) {
         currentLedMode = mode.value;
     }
+
+    public int getBallCount() {
+        return ballCount.getBallCount();
+      }
+      
 
     public enum LEDMode {
         BLUE(0.87),
@@ -28,7 +39,13 @@ public class Lights extends SubsytemBaseEnhanced {
         PURPLE(0.91),
         STROBERED(-0.11),
         RAINBOWWAVE(-0.45),
-        OFF(0.99);
+        OFF(0.99),
+        ZEROBALLS(-0.31),
+        ONEBALL(0.61),
+        TWOBALLS(0.93),
+        THREEBALLS(0.73),
+        FOURBALLS(0.57),
+        FIVEBALLS(0.67);
 
         public final double value;
 
@@ -37,26 +54,44 @@ public class Lights extends SubsytemBaseEnhanced {
         }
     }
 
+
     @Override
     public void periodic() {
-        ledPWM.set(currentLedMode);
+      ledPWM.set(currentLedMode);
+      //System.out.println("Current led mode: " + currentLedMode);
     }
-
+  
+    public void tempTrue() {
+      beamBreakTemp = true;
+    }
+  
+    public void tempFalse() {
+      beamBreakTemp = false;
+    }
+  
+    public boolean getTemp() {
+      return beamBreakTemp;
+    }
+  
+    public BeamBreaks getBeamBreaks() {
+      return this.beamBreaks;
+    }
+  
+    @Override
     public void init() {
-        setDefaultCommand(new LightsDefault(this));
+        // TODO Auto-generated method stub
+      setDefaultCommand(new LightsDefault(this));
     }
-
-    // public void autoInit() {
-    //     setDefaultCommand(new AutoLightsDefault(this));
-    // }
-
-    public void teleopInit() {
-        setDefaultCommand(new LightsDefault(this));
-    }
-
+  
     @Override
     public void autoInit() {
         // TODO Auto-generated method stub
-
+  
+    }
+  
+    @Override
+    public void teleopInit() {
+        // TODO Auto-generated method stub
+      
     }
 }

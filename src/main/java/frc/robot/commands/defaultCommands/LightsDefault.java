@@ -11,6 +11,7 @@ import frc.robot.subsystems.Lights.LEDMode;
 
 public class LightsDefault extends CommandBase {
     private Lights lights;
+    private double startTime;
 
     public LightsDefault(Lights lights) {
         this.lights = lights;
@@ -24,7 +25,21 @@ public class LightsDefault extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        lights.setMode(LEDMode.BLUE);
+        //lights.setMode(LEDMode.BLUE);
+        switch(lights.getBallCount()) {
+            case 0: lights.setMode(LEDMode.ZEROBALLS);
+              break;
+            case 1: lights.setMode(LEDMode.ONEBALL);
+              break;
+            case 2: lights.setMode(LEDMode.TWOBALLS);
+              break;
+            case 3: lights.setMode(LEDMode.THREEBALLS);
+              break;
+            case 4: lights.setMode(LEDMode.FOURBALLS);
+              break;
+            case 5: lights.setMode(LEDMode.FIVEBALLS);
+              break;
+        }
     }
 
     // Called once the command ends or is interrupted.

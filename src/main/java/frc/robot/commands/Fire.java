@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import frc.robot.subsystems.BallCount;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.LightRing;
@@ -37,7 +37,8 @@ public class Fire extends SequentialCommandGroup {
             Lights lights,
             double lidarDistance,
             int shootingZone,
-            RPMAdder rpmAdder) {
+            RPMAdder rpmAdder,
+            BallCount ballCount) {
         addRequirements(magIntake, shooter, hood);
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
@@ -46,7 +47,7 @@ public class Fire extends SequentialCommandGroup {
                         new VisionAlignment(lightRing, drive, peripherals, visionOffset, isBack, lights),
                         new SpinShooter(shooter, rpm, rpmAdder),
                         new SetHoodPosition(hood, peripherals, hoodPosition, shootingZone)),
-                new EjectMagazine(magIntake, drive, timeToEnd),
+                new EjectMagazine(magIntake, drive, ballCount, timeToEnd),
                 // new SetHoodPosition(hood, 0),
                 new CancelMagazine(magIntake));
     }
@@ -64,6 +65,7 @@ public class Fire extends SequentialCommandGroup {
             boolean isBack,
             int timeToEnd,
             Lights lights,
+            BallCount ballCount,
             double lidarDistance,
             int shootingZone) {
         addRequirements(magIntake, shooter, hood);
@@ -74,7 +76,7 @@ public class Fire extends SequentialCommandGroup {
                         new VisionAlignment(lightRing, drive, peripherals, visionOffset, isBack, lights),
                         new SpinShooter(shooter, rpm),
                         new SetHoodPosition(hood, peripherals, hoodPosition, shootingZone)),
-                new EjectMagazine(magIntake, drive, timeToEnd),
+                new EjectMagazine(magIntake, drive, ballCount, timeToEnd),
                 // new SetHoodPosition(hood, 0),
                 new CancelMagazine(magIntake));
     }
