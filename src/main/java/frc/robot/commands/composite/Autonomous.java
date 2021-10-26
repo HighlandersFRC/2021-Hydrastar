@@ -6,7 +6,7 @@ package frc.robot.commands.composite;
 
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.BeamBreakTurn;
+
 import frc.robot.commands.DriveBackwards1;
 import frc.robot.commands.Fire;
 import frc.robot.commands.NavxTurn;
@@ -54,15 +54,15 @@ public class Autonomous extends SequentialCommandGroup {
                         ballCount,
                         -1, 
                         2),
-                new DriveBackwards1(drive, peripherals, 75, 0.7, false, 0, false),
-                new NavxTurn(peripherals, drive, 6, true),
+                new DriveBackwards1(drive, peripherals, 60, 0.7, false, 0, false),
+                new NavxTurn(peripherals, drive, 4, false),
                 // new BeamBreakTurn(peripherals, drive, 0));
                 // changed from 15 degrees on NavxTurn
                 new ParallelRaceGroup(
                         new DriveBackwards1(drive, peripherals, 150, 0.4, false, 19, true), new SmartIntake(magIntake, lights, ballCount)),
                 new NavxTurn(peripherals, drive, -3, false),
                 new ParallelRaceGroup(
-                        new DriveBackwards1(drive, peripherals, 200, 0.75, true, 3, true), new SmartIntake(magIntake, lights, ballCount)),
+                        new DriveBackwards1(drive, peripherals, 200, 0.88, true, 3, true), new SmartIntake(magIntake, lights, ballCount)),
                 new Fire(
                         magIntake,
                         peripherals,
@@ -70,9 +70,9 @@ public class Autonomous extends SequentialCommandGroup {
                         hood,
                         lightRing,
                         drive,
-                        2700,
-                        26,
-                        -7.0,
+                        2000,
+                        28,
+                        -5.0,
                         false,
                         -1,
                         lights,

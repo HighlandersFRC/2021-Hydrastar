@@ -75,12 +75,12 @@ public class DriveBackwards1 extends CommandBase {
     if(isForwards) {
       drive.setLeftPercent(pid.getResult() - turnOffset);
       drive.setRightPercent(pid.getResult() + turnOffset);
-      SmartDashboard.putNumber("Distance", drive.getDriveMeters() - target);
+      // SmartDashboard.putNumber("Distance", drive.getDriveMeters() - target);
     }
     else {
       drive.setLeftPercent(-pid.getResult() + turnOffset);
       drive.setRightPercent(-pid.getResult() - turnOffset);
-      SmartDashboard.putNumber("Distance", drive.getDriveMeters() + target);
+      // SmartDashboard.putNumber("Distance", drive.getDriveMeters() + target);
     }
     SmartDashboard.putNumber("drivebackwards 1 output", pid.getResult());
   }

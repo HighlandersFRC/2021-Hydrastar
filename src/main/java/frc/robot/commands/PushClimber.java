@@ -17,12 +17,14 @@ public class PushClimber extends CommandBase {
   private Boolean rightDone = false;
   private Boolean leftDone = false;
 
+
   public PushClimber(Climber climber, double targetTics) {
     this.climber = climber;
     this.target = targetTics;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -42,6 +44,7 @@ public class PushClimber extends CommandBase {
     //     rightDone = true;
     // }
 
+    
     if(climber.getRightEncoderTics() > target) {
       rightDone = true;
     }

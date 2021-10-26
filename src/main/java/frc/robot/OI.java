@@ -68,7 +68,7 @@ public class OI {
     }
 
     public static int getPOV() {
-        return driverController.getPOV();
+        return operatorController.getPOV();
     }
 
 }

@@ -16,17 +16,17 @@ public class Peripherals extends SubsytemBaseEnhanced {
     private final AHRS ahrs = new AHRS(Port.kMXP);
 
     private final Navx navx = new Navx(ahrs);
-    private final Counter backUltraSonic = new Counter(8);
-    private final Counter ultraSonic = new Counter(3);
+   // private final Counter backUltraSonic = new Counter(8);
+    private final Counter ultraSonic = new Counter(7);
     private VisionCamera visionCam;
-    private final Counter lidarPort = new Counter(7);
+    // private final Counter lidarPort = new Counter(7);
 
-    private final LidarLite lidar = new LidarLite(lidarPort);
+    // private final LidarLite lidar = new LidarLite(lidarPort);
 
     @Override
     public void init() {
         ultraSonic.setSemiPeriodMode(true);
-        backUltraSonic.setSemiPeriodMode(true);
+        //backUltraSonic.setSemiPeriodMode(true);
         SerialPort jevois = null;
         try {
             jevois = new SerialPort(115200, SerialPort.Port.kMXP);
@@ -48,22 +48,22 @@ public class Peripherals extends SubsytemBaseEnhanced {
 
     public Peripherals() {}
 
-    public double getLidarDistance() {
-        return lidar.getDistance();
-    }
+    // public double getLidarDistance() {
+    //     return lidar.getDistance();
+    // }
 
-    public double getBackUltraSonicDist() {
-        // return 0.0;
-        return (backUltraSonic.getPeriod() * 33000) - 7;
-    }
+    // public double getBackUltraSonicDist() {
+    //     // return 0.0;
+    //    // return (backUltraSonic.getPeriod() * 33000) - 7;
+    // }
 
     public double getUltraSonicDist() {
         return (ultraSonic.getPeriod() * 37000);
     }
 
-    public double getAverageUltraSonicDist() {
-        return (((getBackUltraSonicDist()) + getUltraSonicDist())/2);
-    }
+    // public double getAverageUltraSonicDist() {
+    //     return (((getBackUltraSonicDist()) + getUltraSonicDist())/2);
+    // }
     
     public double getCamAngle() {
         visionCam.updateVision();

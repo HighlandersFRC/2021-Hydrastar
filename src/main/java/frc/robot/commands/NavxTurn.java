@@ -82,9 +82,9 @@ public class NavxTurn extends CommandBase {
         // }
         if(usePrecise) { 
             System.out.println("Inside precise");
-            // if(timeLim > 100) {
-            //     return true;
-            // }
+            if(timeLim > 100) {
+                return true;
+            }
             return(Math.abs(pid.getResult()) < 0.1);
         }
         else { 

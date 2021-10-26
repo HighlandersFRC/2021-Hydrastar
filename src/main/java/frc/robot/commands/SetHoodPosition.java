@@ -47,10 +47,10 @@ public class SetHoodPosition extends CommandBase {
         if(zone == 1) {
             if(averageDone < 20) {
                 if(oldValue == 0) { 
-                    oldValue = peripherals.getLidarDistance();
+                    oldValue = peripherals.getUltraSonicDist();
                 }
                 else {
-                    this.distance = peripherals.getLidarDistance();
+                    this.distance = peripherals.getUltraSonicDist();
                     averageDist = (averageDist + this.distance);
                     // avgDistComplete = averageDist * 0.0833 + (0.083 * oldValue);
                     // oldValue = avgDistComplete;
@@ -75,9 +75,10 @@ public class SetHoodPosition extends CommandBase {
                 hood.setHoodTarget(target);
             }
         }
-        else {
+        else{
             hood.setHoodTarget(target);
         }
+        
 
     }
 

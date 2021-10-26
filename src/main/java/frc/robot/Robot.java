@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.BeamBreakTurn;
+
 import frc.robot.commands.BringDownClimber;
 import frc.robot.commands.CancelMagazine;
 import frc.robot.commands.Fire;
@@ -27,7 +27,6 @@ import frc.robot.commands.PurePursuit;
 import frc.robot.commands.PushClimber;
 import frc.robot.commands.SetHoodPosition;
 import frc.robot.commands.SmartIntake;
-import frc.robot.commands.WallFollower;
 import frc.robot.commands.composite.Autonomous;
 import frc.robot.commands.composite.PushClimberUp;
 import frc.robot.commands.composite.ThreeBallAuto;
@@ -136,7 +135,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("shooter rpm", shooter.getShooterRPM());
         SmartDashboard.putNumber("hood position", hood.getHoodPosition());
         SmartDashboard.putNumber("Camera angle", peripherals.getCamAngle());
-        SmartDashboard.putNumber("Lidar", peripherals.getLidarDistance());
+        SmartDashboard.putNumber("UltraSonic Distance", peripherals.getUltraSonicDist());
+        //SmartDashboard.putNumber("Lidar", peripherals.getLidarDistance());
         // System.out.println(peripherals.getLidarDistance());
         CommandScheduler.getInstance().run();
 
@@ -211,13 +211,13 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        1800,
+                        1500,
                         7.95,
                         0.0,
                         false,
                         -1,
                         lights,
-                        peripherals.getLidarDistance(), 
+                        peripherals.getUltraSonicDist(), 
                         1,
                         rpmAdder,
                         ballCount));
@@ -241,7 +241,7 @@ public class Robot extends TimedRobot {
                         rpmAdder,
                         ballCount));     
                         
-        OI.driverY.whenPressed(new BeamBreakTurn(peripherals, drive, 0));
+        // OI.driverY.whenPressed(new BeamBreakTurn(peripherals, drive, 0));
         // OI.driverY.whenPressed(new BallTrackingPID(lightRing, drive, magIntake, peripherals, 0.0, false, -1, lights));
 
         OI.driverA.whenReleased(new SetHoodPosition(hood, peripherals, 0,  0));
