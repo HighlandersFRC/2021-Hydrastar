@@ -7,11 +7,16 @@ public class RPMAdder {
     public RPMAdder() {
     }
     public void increaseRPM() {
-        rpmAdder = rpmAdder + 1;
+        if(rpmAdder > 500) {
+            rpmAdder = 500;
+        }
+        else {
+            rpmAdder = rpmAdder + 10;
+        }
     }
 
     public void decreaseRPM() {
-        rpmAdder = rpmAdder - 1;
+        rpmAdder = rpmAdder - 10;
     }
 
     public double getRPMAdder() {

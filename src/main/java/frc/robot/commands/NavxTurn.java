@@ -16,7 +16,7 @@ public class NavxTurn extends CommandBase {
     private Drive drive;
     private PID pid;
     private double kP = 0.015;
-    private double kI = 0.0015;
+    private double kI = 0.001;
     private double kD = 0.0;
     private double target;
     private int timeLim = 0;
@@ -85,7 +85,7 @@ public class NavxTurn extends CommandBase {
             if(timeLim > 100) {
                 return true;
             }
-            return(Math.abs(pid.getResult()) < 0.1);
+            return(finishTrue > 10);
         }
         else { 
             return((Math.abs(target - peripherals.getNavxAngle()) < 2) && Math.abs(pid.getResult()) < 0.075);
