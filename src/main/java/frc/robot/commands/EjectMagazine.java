@@ -40,7 +40,7 @@ public class EjectMagazine extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        magIntake.setMagPercent(1, 0.75, 1);
+        magIntake.setMagPercent(1, 1, 1);
         if(OI.driverController.getBumper(Hand.kRight)) {
             drive.setLeftPercent(0.1);
             drive.setRightPercent(-0.1);

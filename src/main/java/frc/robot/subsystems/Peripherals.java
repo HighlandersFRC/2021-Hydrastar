@@ -26,14 +26,15 @@ public class Peripherals extends SubsytemBaseEnhanced {
     @Override
     public void init() {
         ultraSonic.setSemiPeriodMode(true);
+      
         //backUltraSonic.setSemiPeriodMode(true);
         SerialPort jevois = null;
         try {
             jevois = new SerialPort(115200, SerialPort.Port.kMXP);
             System.out.println("Hola om");
-            SmartDashboard.putBoolean("Got Camera", true);
+           // SmartDashboard.putBoolean("Got Camera", true);
         } catch (final Exception e) {
-            SmartDashboard.putBoolean("Got Camera", false);
+            //SmartDashboard.putBoolean("Got Camera", false);
             System.out.println("CV cam's serial port failed to connect. Reason: " + e);
         }
 
@@ -44,6 +45,7 @@ public class Peripherals extends SubsytemBaseEnhanced {
             System.err.println("TestCamera could not get angle. Reason: " + e);
         }
         zeroNavx();
+        SmartDashboard.putBoolean("Has Camera", visionCam.hasCamera());
     }
 
     public Peripherals() {}
@@ -56,6 +58,8 @@ public class Peripherals extends SubsytemBaseEnhanced {
     //     // return 0.0;
     //    // return (backUltraSonic.getPeriod() * 33000) - 7;
     // }
+
+
 
     public double getUltraSonicDist() {
         return (ultraSonic.getPeriod() * 37000);

@@ -64,12 +64,10 @@ public class SetHoodPosition extends CommandBase {
                 SmartDashboard.putNumber("averageDist", avgDistComplete);
                 if(zone == 1){
                     if(avgDistComplete < 12 || avgDistComplete == -1){
-                         target = 4;
+                         target = 6;
                     }
-                    target = (.2889226759 * avgDistComplete) + 4.927324066;
-                    SmartDashboard.putNumber("InitTarget", target);
-                    if(avgDistComplete == -1) {
-                        target = 6;
+                    else {
+                        target = (.2889226759 * avgDistComplete) + 4.927324066;
                     }
                 }
                 hood.setHoodTarget(target);

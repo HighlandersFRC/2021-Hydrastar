@@ -44,12 +44,12 @@ public class SmartIntake extends CommandBase {
         // magIntake.setMagPercent(0.5, 0.5, 0.5);
         // magIntake.setIntakePercent(-0.65);
         if (!magIntake.getBeamBreaks().getBeamBreak(1)) {
-            magIntake.setMagPercent(0.5, 0.17, 0.5);
+            magIntake.setMagPercent(0.5, 0.75, 0.5);
             magIntake.setIntakePercent(-0.70);
             lights.setMode(LEDMode.YELLOW);
         } else {
             if(OI.operatorController.getBumper(Hand.kLeft )){
-                magIntake.setMagPercent(0.5, 0.17, 0.5);
+                magIntake.setMagPercent(0.5, 0.25, 0.5);
             }
             else {
                 magIntake.setMagPercent(0, 0, 0);

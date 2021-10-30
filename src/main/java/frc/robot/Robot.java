@@ -74,7 +74,8 @@ public class Robot extends TimedRobot {
     private final Odometry odometry = new Odometry(drive, peripherals);
     Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing, lights, ballCount);
     TwoBallSnatch twoBallSteal = new TwoBallSnatch(drive, peripherals, magIntake, hood, shooter, lightRing, lights, ballCount);
-    // ThreeBallAuto threeBallAuto = new ThreeBallAuto(drive, peripherals, magIntake, hood, shooter, lightRing);
+    ThreeBallAuto threeBallAuto = new ThreeBallAuto(drive, peripherals, magIntake, hood, shooter, lightRing, ballCount,
+            lights);
     private Command m_autonomousCommand;
 
     private Trajectory autoPart1;
@@ -119,6 +120,11 @@ public class Robot extends TimedRobot {
         camera = CameraServer.getInstance().startAutomaticCapture("VisionCamera1", "/dev/video0");
         camera.setResolution(160, 120);
         camera.setFPS(10);
+
+        server = CameraServer.getInstance().addSwitchedCamera("driverVisionCameras");
+        server.setSource(camera);
+        Shuffleboard.update();
+        SmartDashboard.updateValues();
 
      
     }
@@ -165,7 +171,7 @@ public class Robot extends TimedRobot {
             autonomous.schedule();
         }
         else if(OI.isThreeBallAuto()) {
-            // threeBallAuto.schedule();
+            threeBallAuto.schedule();
         }
         else {
             autonomous.schedule();
@@ -211,7 +217,7 @@ public class Robot extends TimedRobot {
                         hood,
                         lightRing,
                         drive,
-                        1800,
+                        1600,
                         7.95,
                         0.0,
                         false,

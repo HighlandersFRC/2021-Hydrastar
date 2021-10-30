@@ -17,6 +17,7 @@ public class VisionCamera {
     private double lastParseTime;
     private double distance;
     private double angle;
+    private boolean haveCamera;
     private double ballDist;
     private double ballAngle;
     private AtomicBoolean shouldStop = new AtomicBoolean(false);
@@ -31,7 +32,7 @@ public class VisionCamera {
                     while (!shouldStop.get()) {
                         // System.out.println(port.getBytesReceived());
                         // Gets bytes from serial port
-                        // System.out.println("Port: " + port.readString());
+                         //System.out.println("Port: " + port.readString());
                         if (port.getBytesReceived() > 0) {
                             String temp = port.readString();
                             buffer += temp;
@@ -70,6 +71,16 @@ public class VisionCamera {
                 };
         Thread thread = new Thread(task);
         thread.start();
+    }
+
+    public boolean hasCamera(){
+        if(port.getBytesReceived() > 0) { 
+            haveCamera = true;
+        }
+        else {
+            haveCamera = false;
+        }
+        return haveCamera;
     }
 
     public void updateVision() {
