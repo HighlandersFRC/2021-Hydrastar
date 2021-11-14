@@ -20,9 +20,9 @@ import frc.robot.subsystems.Shooter;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ThreeBallAuto extends SequentialCommandGroup {
+public class ThreeBallForward extends SequentialCommandGroup {
     /** Creates a new Autonomous. */
-    public ThreeBallAuto(
+    public ThreeBallForward(
             Drive drive,
             Peripherals peripherals,
             MagIntake magIntake,
@@ -45,12 +45,12 @@ public class ThreeBallAuto extends SequentialCommandGroup {
                         24,
                         -9.0,
                         false,
-                        47,
+                        55,
                         lights,
                         ballCount,
                         -1, 
                         2),
-                new DriveBackwards1(drive, peripherals, 38, 0.7, false, 0, false));
+                new DriveBackwards1(drive, peripherals, 65, 0.7, true, 0, false));
                 // new NavxTurn(peripherals, drive, 12),
                 // // changed from 15 degrees on NavxTurn
                 // new ParallelRaceGroup(

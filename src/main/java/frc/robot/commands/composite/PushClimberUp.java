@@ -21,6 +21,6 @@ public class PushClimberUp extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new ParallelRaceGroup(new DisengageClimberPiston(climber), new Wait(0.25)), new ParallelRaceGroup(new BackDriveClimber(climber), new Wait(0.5)),
-    new PushClimber(climber, 200000));
+    new PushClimber(climber, 180000));
   }
 }

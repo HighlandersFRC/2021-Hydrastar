@@ -30,6 +30,7 @@ import frc.robot.commands.SmartIntake;
 import frc.robot.commands.composite.Autonomous;
 import frc.robot.commands.composite.PushClimberUp;
 import frc.robot.commands.composite.ThreeBallAuto;
+import frc.robot.commands.composite.ThreeBallForward;
 import frc.robot.commands.composite.TwoBallSnatch;
 import frc.robot.sensors.BeamBreaks;
 import frc.robot.sensors.LidarLite;
@@ -75,6 +76,8 @@ public class Robot extends TimedRobot {
     Autonomous autonomous = new Autonomous(drive, peripherals, magIntake, hood, shooter, lightRing, lights, ballCount);
     TwoBallSnatch twoBallSteal = new TwoBallSnatch(drive, peripherals, magIntake, hood, shooter, lightRing, lights, ballCount);
     ThreeBallAuto threeBallAuto = new ThreeBallAuto(drive, peripherals, magIntake, hood, shooter, lightRing, ballCount,
+            lights);
+            ThreeBallForward threeBallForward = new ThreeBallForward(drive, peripherals, magIntake, hood, shooter, lightRing, ballCount,
             lights);
     private Command m_autonomousCommand;
 
@@ -173,6 +176,9 @@ public class Robot extends TimedRobot {
         else if(OI.isThreeBallAuto()) {
             threeBallAuto.schedule();
         }
+        else if(OI.is3BallForward()){
+            threeBallForward.schedule();
+        }
         else {
             autonomous.schedule();
         }
@@ -245,7 +251,26 @@ public class Robot extends TimedRobot {
                         -1, 
                         3,
                         rpmAdder,
-                        ballCount));     
+                        ballCount));
+                        
+        OI.driverY.whenPressed(
+                new Fire(
+                        magIntake,
+                        peripherals,
+                        shooter,
+                        hood,
+                        lightRing,
+                        drive,
+                        3000,
+                        15,
+                        3.0,
+                        true,
+                        -1,
+                        lights,
+                        -1, 
+                        3,
+                        rpmAdder,
+                        ballCount));
                         
         // OI.driverY.whenPressed(new BeamBreakTurn(peripherals, drive, 0));
         // OI.driverY.whenPressed(new BallTrackingPID(lightRing, drive, magIntake, peripherals, 0.0, false, -1, lights));
@@ -259,6 +284,9 @@ public class Robot extends TimedRobot {
 
         OI.driverX.whenReleased(new SetHoodPosition(hood, peripherals, 0,  0));
         OI.driverX.whenReleased(new CancelMagazine(magIntake));
+
+        OI.driverY.whenReleased(new SetHoodPosition(hood, peripherals, 0,  0));
+        OI.driverY.whenReleased(new CancelMagazine(magIntake));
 
         OI.operatorX.whenPressed(new PushClimberUp(climber));
         OI.operatorB.whenPressed(new LeftClimberDownCurrent(climber));

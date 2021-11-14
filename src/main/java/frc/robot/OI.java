@@ -64,7 +64,11 @@ public class OI {
     }
 
     public static boolean is6BallAuto() {
-        return autoChooser.getRawButton(5);
+        return autoChooser.getRawButton(8);
+    }
+
+    public static boolean is3BallForward(){
+        return autoChooser.getRawButton(7);
     }
 
     public static int getPOV() {

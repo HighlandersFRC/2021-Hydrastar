@@ -27,7 +27,7 @@ public class LightsDefault extends CommandBase {
     public void execute() {
         //lights.setMode(LEDMode.BLUE);
         switch(lights.getBallCount()) {
-            case 0: lights.setMode(LEDMode.ZEROBALLS);
+            case 0: lights.setMode(LEDMode.GREEN);
               break;
             case 1: lights.setMode(LEDMode.ONEBALL);
               break;

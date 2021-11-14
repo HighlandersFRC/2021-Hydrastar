@@ -21,7 +21,7 @@ public class VisionAlignment extends CommandBase {
 
     private PID pid;
     private PID backPID;
-    private double kP = 0.0075;
+    private double kP = 0.01;
     private double kI = 0.0001;
     private double kD = 0.005;
     private double backP = 0.01;
